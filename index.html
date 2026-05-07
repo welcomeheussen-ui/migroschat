@@ -826,9 +826,28 @@ function fmt(text) {
   text = text.replace(/(<li>[\s\S]*?<\/li>)/g,'<ul>$1</ul>');
   return text.split(/\n\n+/).map(function(p){ return p.startsWith('<ul>')?p:'<p>'+p.replace(/\n/g,'<br>')+'</p>'; }).join('');
 }
-function scrollMsgs() {
+function scrollToBottom() {
   var m = document.getElementById('msgs');
-  requestAnimationFrame(function(){ requestAnimationFrame(function(){ m.scrollTo({top:m.scrollHeight,behavior:'smooth'}); }); });
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      m.scrollTo({ top: m.scrollHeight, behavior: 'smooth' });
+    });
+  });
+}
+
+function scrollToLatestBot() {
+  var m = document.getElementById('msgs');
+  var bots = m.querySelectorAll('.msg.bot');
+  if(!bots || bots.length === 0) return;
+
+  var lastBot = bots[bots.length - 1];
+  // Wait for layout/animation to settle before aligning the bubble to the top.
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      lastBot.style.scrollMarginTop = '12px';
+      lastBot.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 }
 function resize(el, btnId) {
   el.style.height='auto';
@@ -899,7 +918,7 @@ function pushUser(text) {
   var m=document.getElementById('msgs'), d=document.createElement('div');
   d.className='msg user';
   d.innerHTML='<div><div class="bubble">'+esc(text)+'</div><div class="msg-time">'+getTime()+'</div></div>';
-  m.appendChild(d); scrollMsgs();
+  m.appendChild(d); scrollToBottom();
   chatHistory.push({role:'user',content:text});
 }
 
@@ -955,7 +974,7 @@ function pushBot(raw) {
     slot.appendChild(ac);
   }
 
-  scrollMsgs();
+  scrollToLatestBot();
   chatHistory.push({role:'assistant',content:raw});
 }
 
@@ -963,7 +982,7 @@ function showTyping() {
   var m=document.getElementById('msgs'), d=document.createElement('div');
   d.className='typing'; d.id='typing';
   d.innerHTML='<div class="msg-av">MB</div><div class="typing-bub"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
-  m.appendChild(d); scrollMsgs();
+  m.appendChild(d); scrollToBottom();
 }
 function hideTyping(){var t=document.getElementById('typing');if(t)t.remove();}
 
