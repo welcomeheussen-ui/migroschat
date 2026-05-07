@@ -58,7 +58,8 @@
     height: 50px;
     background: var(--primary-ondefault);
     border-bottom: 1px solid var(--primary-subtle3);
-    width: 100%;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -105,6 +106,14 @@
   .page-header-menu span {
     display: block; width: 18px; height: 2px;
     background: var(--neutral-bold3); border-radius: 1px;
+  }
+
+  /* Desktop shell: keep header aligned to app width */
+  @media (min-width: 601px) {
+    .page-header {
+      width: 100%;
+      margin-left: 0;
+    }
   }
 
   /* ── Body (view host) ── */
@@ -455,17 +464,7 @@
   }
   .advisory-btn:hover { background: var(--primary-default); color: white; }
 
-  /* ── New topic + Input ── */
-  .new-strip { padding: 8px var(--spacing-s) 0; flex-shrink: 0; }
-  .new-btn {
-    width: 100%; padding: 9px;
-    border: 1.5px dashed var(--primary-subtle3);
-    border-radius: 12px; background: transparent; cursor: pointer;
-    font-family: var(--font-family); font-size: 13px; color: var(--primary-subtle4);
-    transition: all .15s; display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-  .new-btn:hover { border-color: var(--primary-default); color: var(--primary-default); }
-
+  /* ── Input ── */
   .inp-wrap { padding: 10px var(--spacing-s) 20px; flex-shrink: 0; }
   .inp-row { display: flex; gap: 8px; align-items: flex-end; }
   .inp {
@@ -646,12 +645,6 @@
         </div>
       </div>
       <div class="msgs" id="msgs"></div>
-      <div class="new-strip">
-        <button class="new-btn" id="newTopicBtn">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Anderes Thema wählen
-        </button>
-      </div>
       <div class="inp-wrap">
         <div class="inp-row">
           <textarea class="inp" id="inp" placeholder="Ihre Frage…" rows="1"></textarea>
@@ -1017,7 +1010,6 @@ function sendFromV2(){
 /* ── Init ── */
 document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('backBtn').addEventListener('click', goBack);
-  document.getElementById('newTopicBtn').addEventListener('click', restart);
 
   var inp=document.getElementById('inp'), sendBtn=document.getElementById('sendBtn');
   inp.addEventListener('input',function(){ resize(inp,'sendBtn'); });
