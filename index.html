@@ -417,13 +417,18 @@
 
   /* ── Advisory card ── */
   .advisory-card {
+    display: block;
+    width: 100%;
+    align-self: stretch;
+    box-sizing: border-box;
+    height: auto;
     margin-top: 8px;
     margin-bottom: 6px;
     background: var(--primary-subtle1);
     border: 1.5px solid var(--primary-subtle3);
     border-radius: var(--radius-l);
     padding: 16px;
-    overflow: hidden;
+    overflow: visible;
   }
   .advisory-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
   .advisory-av {
