@@ -1,0 +1,9 @@
+{
+  "name": "migo-assistant",
+  "version": "1.0.0",
+  "description": "Migo – Virtueller Assistent der Mirgos Bank",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  }
+}
