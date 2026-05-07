@@ -60,8 +60,9 @@ ANTHROPIC_API_KEY=sk-ant-...
 /
 ├── api/
 │   └── chat.js          # Serverless proxy → Anthropic API
-├── public/
-│   └── index.html       # Migo Frontend (alle Versionen hier ablegen)
+├── assets/
+│   └── migo-logo.png    # Logo Asset(s)
+├── index.html           # Migo Frontend
 ├── package.json
 ├── vercel.json
 └── README.md
