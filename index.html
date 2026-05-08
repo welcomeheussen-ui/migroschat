@@ -89,6 +89,7 @@
     height: 22px;
     display: block;
     object-fit: contain;
+    cursor: pointer;
   }
   .mb-back-btn {
     display: none;
@@ -1012,6 +1013,7 @@ function sendFromV2(){
 /* ── Init ── */
 document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('backBtn').addEventListener('click', goBack);
+  document.getElementById('pageHeaderLogo').addEventListener('click', restart);
 
   var inp=document.getElementById('inp'), sendBtn=document.getElementById('sendBtn');
   inp.addEventListener('input',function(){ resize(inp,'sendBtn'); });
