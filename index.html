@@ -908,9 +908,32 @@ function goBack() {
 }
 
 function restart() {
-  transit('v3','v1',true);
+  var v1=document.getElementById('v1');
+  var v2=document.getElementById('v2');
+  var v3=document.getElementById('v3');
+  if (v3.classList.contains('active')) {
+    transit('v3','v1',true);
+  } else if (v2.classList.contains('active')) {
+    transit('v2','v1',true);
+  } else {
+    v1.classList.add('active');
+    v2.classList.remove('active');
+    v3.classList.remove('active');
+    v1.style.transform=''; v1.style.opacity='';
+    v2.style.transform=''; v2.style.opacity='';
+    v3.style.transform=''; v3.style.opacity='';
+  }
+
+  hideTyping();
+  document.getElementById('msgs').innerHTML = '';
+  document.getElementById('inp').value = '';
+  document.getElementById('inpV2').value = '';
+  document.getElementById('sendBtn').disabled = true;
+  document.getElementById('sendBtnV2').disabled = true;
+  document.getElementById('inp').style.height = 'auto';
+  document.getElementById('inpV2').style.height = 'auto';
   document.getElementById('backBtn').classList.remove('visible');
-  chatHistory=[]; curEvKey=null;
+  chatHistory=[]; curEv=null; curEvKey=null; curQ=null; loading=false;
 }
 
 /* ── Chat ── */
