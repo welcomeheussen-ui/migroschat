@@ -427,11 +427,8 @@
   .article-card:hover .article-arr { color: var(--primary-default); }
 
   /* ── Advisory card ── */
-  #advisorySlot { flex-shrink: 0; padding: 0 var(--spacing-s); }
-  #advisorySlot:empty { display: none; }
-
   .advisory-card {
-    margin: 4px 0 6px;
+    margin: 8px 0 6px;
     background: var(--primary-subtle1);
     border: 1.5px solid var(--primary-subtle3);
     border-radius: var(--radius-l);
@@ -651,7 +648,6 @@
         </div>
       </div>
       <div class="msgs" id="msgs"></div>
-      <div id="advisorySlot"></div>
       <div class="new-strip">
         <button class="new-btn" id="newTopicBtn">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -837,9 +833,22 @@ function fmt(text) {
   text = text.replace(/(<li>[\s\S]*?<\/li>)/g,'<ul>$1</ul>');
   return text.split(/\n\n+/).map(function(p){ return p.startsWith('<ul>')?p:'<p>'+p.replace(/\n/g,'<br>')+'</p>'; }).join('');
 }
-function scrollMsgs() {
+function scrollToBottom() {
   var m = document.getElementById('msgs');
   requestAnimationFrame(function(){ requestAnimationFrame(function(){ m.scrollTo({top:m.scrollHeight,behavior:'smooth'}); }); });
+}
+function scrollToLatestBot() {
+  var m = document.getElementById('msgs');
+  var bots = m.querySelectorAll('.msg.bot');
+  var lastBot = bots[bots.length - 1];
+  if(!lastBot) return;
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      lastBot.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Keep a small top breathing room for readability.
+      m.scrollTop = Math.max(0, m.scrollTop - 12);
+    });
+  });
 }
 function resize(el, btnId) {
   el.style.height='auto';
@@ -884,7 +893,6 @@ function selectQ(q) {
   document.getElementById('ctxEv').textContent = curEv.label;
   document.getElementById('ctxQ').textContent = q;
   document.getElementById('msgs').innerHTML = '';
-  document.getElementById('advisorySlot').innerHTML = '';
   chatHistory = [];
   transit('v2','v3');
   pushUser(q); callAPI(q);
@@ -910,7 +918,7 @@ function pushUser(text) {
   var m=document.getElementById('msgs'), d=document.createElement('div');
   d.className='msg user';
   d.innerHTML='<div><div class="bubble">'+esc(text)+'</div><div class="msg-time">'+getTime()+'</div></div>';
-  m.appendChild(d); scrollMsgs();
+  m.appendChild(d); scrollToBottom();
   chatHistory.push({role:'user',content:text});
 }
 
@@ -960,13 +968,12 @@ function pushBot(raw) {
   var tl=normalize(text);
   if(ADVISORY_TRIGGERS.some(function(k){return tl.includes(normalize(k));})){
     var copy=ADVISORY_COPY[curEvKey]||ADVISORY_COPY['_default'];
-    var slot=document.getElementById('advisorySlot'); slot.innerHTML='';
     var ac=document.createElement('div'); ac.className='advisory-card';
     ac.innerHTML='<div class="advisory-header"><div class="advisory-av">👩‍💼</div><div><div class="advisory-title">Persönliche Beratung</div><div class="advisory-role">'+copy.role+'</div></div></div><div class="advisory-desc">'+copy.desc+'</div><button class="advisory-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Kostenlose Erstberatung buchen</button>';
-    slot.appendChild(ac);
+    m.appendChild(ac);
   }
 
-  scrollMsgs();
+  scrollToLatestBot();
   chatHistory.push({role:'assistant',content:raw});
 }
 
@@ -974,7 +981,7 @@ function showTyping() {
   var m=document.getElementById('msgs'), d=document.createElement('div');
   d.className='typing'; d.id='typing';
   d.innerHTML='<div class="msg-av">MB</div><div class="typing-bub"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
-  m.appendChild(d); scrollMsgs();
+  m.appendChild(d); scrollToBottom();
 }
 function hideTyping(){var t=document.getElementById('typing');if(t)t.remove();}
 
