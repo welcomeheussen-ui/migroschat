@@ -30,13 +30,16 @@
     font-display: swap;
   }
 
+  /* Farben wie chat.html (Migros Bank Design Tokens) */
   :root {
-    --pn-white: #ffffff;
-    /* Page header (wie chat.html) */
     --primary-default:    #144b3c;
     --primary-ondefault:  #ffffff;
+    --primary-subtle1:    #eff2f1;
     --primary-subtle3:    #c4d2ce;
+    --primary-subtle4:    #92a59e;
+    --primary-subtle5:    #5a8a7e;
     --neutral-bold3:      #333333;
+    --neutral-bold5:      #000000;
     --spacing-s:   16px;
     --font-family: 'Migrosbank Kievit', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
@@ -49,7 +52,7 @@
 
   body {
     font-family: var(--font-family);
-    background: var(--pn-white);
+    background: var(--primary-ondefault);
     color: var(--primary-default);
     display: flex;
     flex-direction: column;
@@ -206,13 +209,14 @@
 <main class="pn-main">
   <div class="section-heading">
     <h1>PN-Prototype 2.0</h1>
-    <p>Der Prototype basiert auf öffentlichen Daten der Migros Bank Website</p>
+    <p>Ein Experiment aus dem MB UX-Lab</p>
+    <p>Dieser Prototyp dient ausschliesslich Forschungszwecken, um das Nutzererlebnis neuer Technologien zu testen und zu verbessern.</p>
   </div>
   <ul class="pn-list">
-    <li>Dient zu Testzwecken</li>
-    <li>Wissensbasis basiert auf öffentlichen Inhalten von migrosbank.ch (Produkte, Hilfe, Ratgeber)</li>
-    <li>KI-Antworten generiert durch Claude Sonnet 4.6 von Anthropic — können Fehler enthalten</li>
-    <li>Keine echten Zugangsdaten, Konto- oder Vertragsinformationen eingeben</li>
+    <li>UX-Lab Experiment: Dies ist kein finales Produkt der Migros Bank, sondern ein Testentwurf aus unserem Design-Labor.</li>
+    <li>Datenbasis: Die Wissensbasis nutzt ausschliesslich öffentlich zugängliche Inhalte von migrosbank.ch (Produkte, Hilfe, Ratgeber).</li>
+    <li>KI-Technologie: Antworten werden durch Claude Sonnet 4.6 (Anthropic) generiert. Diese können unvollständig sein oder Fehler enthalten.</li>
+    <li>Datenschutz: Bitte geben Sie keine echten Zugangsdaten, Kontonummern oder vertrauliche Vertragsinformationen ein.</li>
   </ul>
 </main>
 
