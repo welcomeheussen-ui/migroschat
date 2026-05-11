@@ -119,11 +119,12 @@
   }
 
   .pn-main {
-    flex: 1;
-    padding: 12px var(--spacing-s) 24px;
+    flex: 0 1 auto;
+    padding: 12px var(--spacing-s) 0;
     max-width: 600px;
     width: 100%;
     margin: 0 auto;
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   }
 
   /* Section title — gleiche Specs wie chat.html */
@@ -165,12 +166,8 @@
     font-weight: 500;
   }
 
-  .pn-footer {
-    flex-shrink: 0;
-    padding: 12px var(--spacing-s) calc(16px + env(safe-area-inset-bottom, 0px));
-    max-width: 600px;
-    width: 100%;
-    margin: 0 auto;
+  .pn-cta-wrap {
+    margin-top: 24px;
   }
 
   .pn-cta {
@@ -223,11 +220,10 @@
     <li><strong>KI-Technologie:</strong> Antworten werden durch Claude Sonnet 4.6 (Anthropic) generiert. Diese können unvollständig sein oder Fehler enthalten.</li>
     <li><strong>Datenschutz:</strong> Keine echten Zugangsdaten, Kontonummern oder vertrauliche Vertragsinformationen eingeben.</li>
   </ul>
+  <div class="pn-cta-wrap">
+    <a class="pn-cta" href="chat.html">Los geht's</a>
+  </div>
 </main>
-
-<footer class="pn-footer">
-  <a class="pn-cta" href="chat.html">Los geht's</a>
-</footer>
 
 </body>
 </html>
