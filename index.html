@@ -4,25 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PN-Prototype 2.0</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Migros Bank: Kievit als lokale WOFF2 (wie chat.html) -->
+<link rel="preload" href="assets/fonts/MigrosbankKievit-Book.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/MigrosbankKievit-Bold.woff2" as="font" type="font/woff2" crossorigin>
 <style>
   @font-face {
     font-family: 'Migrosbank Kievit';
     src: url('assets/fonts/MigrosbankKievit-Book.woff2') format('woff2');
     font-weight: 400;
+    font-style: normal;
+    font-display: swap;
   }
   @font-face {
     font-family: 'Migrosbank Kievit';
     src: url('assets/fonts/MigrosbankKievit-Bold.woff2') format('woff2');
     font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Migrosbank Kievit';
+    src: url('assets/fonts/MigrosbankKievit-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
   }
 
   :root {
-    --pn-green: #1a3d34;
     --pn-white: #ffffff;
-    --pn-side: 22px;
-    --font-ui: 'Migrosbank Kievit', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     /* Page header (wie chat.html) */
     --primary-default:    #144b3c;
     --primary-ondefault:  #ffffff;
@@ -39,9 +48,9 @@
   }
 
   body {
-    font-family: var(--font-ui);
+    font-family: var(--font-family);
     background: var(--pn-white);
-    color: var(--pn-green);
+    color: var(--primary-default);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -108,36 +117,43 @@
 
   .pn-main {
     flex: 1;
-    padding: 12px var(--pn-side) 24px;
+    padding: 12px var(--spacing-s) 24px;
     max-width: 600px;
     width: 100%;
     margin: 0 auto;
   }
 
-  .pn-title {
-    font-size: clamp(1.75rem, 5vw, 2rem);
-    font-weight: 500;
-    color: var(--pn-green);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+  /* Section title — gleiche Specs wie chat.html */
+  .pn-main .section-heading {
+    padding: 20px 0 4px;
   }
-
-  .pn-lead {
-    margin-top: 16px;
+  .pn-main .section-heading h1 {
+    font-family: var(--font-family);
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--primary-default);
+    line-height: 1.31;
+    letter-spacing: -0.26px;
+  }
+  .pn-main .section-heading p {
+    font-family: var(--font-family);
     font-size: 16px;
     font-weight: 400;
-    line-height: 1.45;
-    color: var(--pn-green);
+    color: var(--primary-default);
+    line-height: 1.375;
+    letter-spacing: 0.08px;
+    margin-top: 8px;
     max-width: 36em;
   }
 
   .pn-list {
     margin-top: 20px;
     padding-left: 1.15em;
-    font-size: 15px;
+    font-family: var(--font-family);
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
-    color: var(--pn-green);
+    color: var(--primary-default);
     max-width: 36em;
   }
   .pn-list li { margin-top: 10px; }
@@ -145,7 +161,7 @@
 
   .pn-footer {
     flex-shrink: 0;
-    padding: 12px var(--pn-side) calc(16px + env(safe-area-inset-bottom, 0px));
+    padding: 12px var(--spacing-s) calc(16px + env(safe-area-inset-bottom, 0px));
     max-width: 600px;
     width: 100%;
     margin: 0 auto;
@@ -158,9 +174,9 @@
     width: 100%;
     min-height: 52px;
     padding: 14px 20px;
-    background: var(--pn-green);
-    color: var(--pn-white);
-    font-family: var(--font-ui);
+    background: var(--primary-default);
+    color: var(--primary-ondefault);
+    font-family: var(--font-family);
     font-size: 17px;
     font-weight: 500;
     text-decoration: none;
@@ -188,8 +204,10 @@
   </div>
 
 <main class="pn-main">
-  <h1 class="pn-title">PN-Prototype 2.0</h1>
-  <p class="pn-lead">Der Prototype basiert auf öffentlichen Daten der Migros Bank Website</p>
+  <div class="section-heading">
+    <h1>PN-Prototype 2.0</h1>
+    <p>Der Prototype basiert auf öffentlichen Daten der Migros Bank Website</p>
+  </div>
   <ul class="pn-list">
     <li>Dient zu Testzwecken</li>
     <li>Wissensbasis basiert auf öffentlichen Inhalten von migrosbank.ch (Produkte, Hilfe, Ratgeber)</li>
