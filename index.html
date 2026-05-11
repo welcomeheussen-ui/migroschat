@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MB Client Needs</title>
+<title>PN-Prototype 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <style>
   @font-face {
     font-family: 'Migrosbank Kievit';
@@ -16,55 +18,36 @@
     font-weight: 500;
   }
 
-  /* ── Migros Bank Design Tokens (from Figma) ── */
   :root {
+    --pn-green: #1a3d34;
+    --pn-white: #ffffff;
+    --pn-side: 22px;
+    --font-ui: 'Migrosbank Kievit', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /* Page header (wie chat.html) */
     --primary-default:    #144b3c;
     --primary-ondefault:  #ffffff;
-    --primary-subtle1:    #eff2f1;
     --primary-subtle3:    #c4d2ce;
-    --primary-subtle4:    #92a59e;
-    --primary-subtle5:    #5a8a7e;
     --neutral-bold3:      #333333;
-    --neutral-bold5:      #000000;
-    /* Spacing */
-    --spacing-xs:  8px;
     --spacing-s:   16px;
-    --spacing-m:   24px;
-
-    /* Radius */
-    --radius-s:  8px;
-    --radius-m:  12px;
-    --radius-l:  16px;
-
-    /* Typography – Migrosbank Kievit → fallback to system */
     --font-family: 'Migrosbank Kievit', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+  html, body {
+    height: 100%;
+  }
 
   body {
-    font-family: var(--font-family);
-    background: #ffffff;
-    min-height: 100vh;
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-  }
-
-  /* ── Responsive app shell ── */
-  .shell {
-    width: min(100%, 600px);
-    min-height: 100vh;
-    background: var(--primary-ondefault);
-    border-radius: 0;
-    box-shadow: none;
-    overflow: visible;
+    font-family: var(--font-ui);
+    background: var(--pn-white);
+    color: var(--pn-green);
     display: flex;
     flex-direction: column;
-    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
-  /* ── Page header ── */
   .page-header {
     height: 50px;
     background: var(--primary-ondefault);
@@ -106,414 +89,94 @@
   }
   .mb-back-btn.visible { display: flex; }
   .page-header-menu {
-    width: 24px; height: 24px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 4px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
     cursor: pointer;
   }
   .page-header-menu span {
-    display: block; width: 18px; height: 2px;
-    background: var(--neutral-bold3); border-radius: 1px;
+    display: block;
+    width: 18px;
+    height: 2px;
+    background: var(--neutral-bold3);
+    border-radius: 1px;
   }
 
-  /* ── Body (view host) ── */
-  .body {
+  .pn-main {
     flex: 1;
-    overflow: hidden;
-    position: relative;
-    background: var(--primary-ondefault);
-  }
-
-  /* ── Views ── */
-  .view {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    overflow-y: auto;
-    transform: translateX(100%);
-    opacity: 0;
-    transition: transform .3s cubic-bezier(.4,0,.2,1), opacity .25s;
-    pointer-events: none;
-    will-change: transform;
-  }
-  .view::-webkit-scrollbar { width: 0; }
-  .view.active { transform: translateX(0); opacity: 1; pointer-events: auto; }
-  .view.exit-left { transform: translateX(-40px); opacity: 0; pointer-events: none; }
-
-  /* #v2: keep footer area stable, scroll question list only */
-  #v2.view { overflow: hidden; }
-
-  /* #v3 special: no scroll itself, inner msgs scrolls */
-  #v3.view { overflow: hidden; }
-  #v3 .msgs { flex:1; min-height:0; overflow-y:auto; }
-  #v3 .msgs::-webkit-scrollbar { width: 0; }
-
-  /* ── Section title ── */
-  .section-heading {
-    padding: 20px var(--spacing-s) 4px;
-  }
-  .section-heading h1 {
-    font-size: 26px;
-    font-weight: 500;
-    color: var(--primary-default);
-    line-height: 1.31;
-    letter-spacing: -0.26px;
-  }
-  .section-heading p {
-    font-size: 16px;
-    font-weight: 400;
-    color: var(--primary-default);
-    line-height: 1.375;
-    letter-spacing: 0.08px;
-    margin-top: 8px;
-  }
-
-  /* ── Breadcrumb tag ── */
-  .breadcrumb-tag {
-    display: inline-flex;
-    width: max-content;
-    align-items: center;
-    margin: 16px var(--spacing-s) 0;
-    padding: 4px 10px;
-    background: rgba(20,75,60,0.08);
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--primary-default);
-    letter-spacing: 0.1px;
-  }
-
-  /* ── Action Button (Migros Bank pattern) ── */
-  .action-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px var(--spacing-s) 24px;
-  }
-
-  .action-btn {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 16px;
-    background: var(--primary-ondefault);
-    border: 1.5px solid var(--primary-subtle3);
-    border-radius: var(--radius-m);
-    cursor: pointer;
-    text-align: left;
-    transition: all .18s cubic-bezier(.4,0,.2,1);
+    padding: 12px var(--pn-side) 24px;
+    max-width: 600px;
     width: 100%;
+    margin: 0 auto;
   }
-  .action-btn:hover, .action-btn:active {
-    border-color: var(--primary-default);
-    background: var(--primary-subtle1);
-  }
-  .action-btn-icon {
-    width: 40px; height: 40px; flex-shrink: 0;
-    background: var(--primary-subtle1);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .action-btn-icon svg { width: 22px; height: 22px; color: var(--primary-default); }
-  .action-btn-text { flex: 1; min-width: 0; }
-  .action-btn-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--primary-default);
-    line-height: 1.4;
-    letter-spacing: 0.08px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .action-btn-sub {
-    font-size: 14px;
-    font-weight: 400;
-    color: var(--primary-subtle4);
-    line-height: 1.4;
-    letter-spacing: 0.07px;
-    margin-top: 2px;
-  }
-  .action-btn-chevron { flex-shrink: 0; color: var(--primary-subtle4); }
-  .action-btn:hover .action-btn-chevron { color: var(--primary-default); }
 
-  /* Question list (v2) */
-  .question-list {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    gap: 8px;
-    padding: 8px var(--spacing-s) 16px;
-    background: transparent;
-    margin: 8px 0;
-    border-radius: var(--radius-l);
+  .pn-title {
+    font-size: clamp(1.75rem, 5vw, 2rem);
+    font-weight: 500;
+    color: var(--pn-green);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
   }
-  .question-list::-webkit-scrollbar { width: 0; }
-  .question-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px var(--spacing-s);
-    background: var(--primary-ondefault);
-    border: 1.5px solid var(--primary-subtle3);
-    border-radius: var(--radius-m);
-    cursor: pointer;
-    text-align: left;
-    font-family: var(--font-family);
+
+  .pn-lead {
+    margin-top: 16px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--pn-green);
+    max-width: 36em;
+  }
+
+  .pn-list {
+    margin-top: 20px;
+    padding-left: 1.15em;
     font-size: 15px;
     font-weight: 400;
-    color: var(--primary-default);
-    line-height: 1.45;
-    letter-spacing: 0.07px;
-    transition: all .18s cubic-bezier(.4,0,.2,1);
-    width: 100%;
+    line-height: 1.5;
+    color: var(--pn-green);
+    max-width: 36em;
   }
-  .question-item:hover { background: var(--primary-subtle1); border-color: var(--primary-default); }
-  .q-num {
-    width: 26px; height: 26px; flex-shrink: 0;
-    background: rgba(20,75,60,0.08);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 500; color: var(--primary-default);
-  }
-  .q-label { font-size: 16px; }
+  .pn-list li { margin-top: 10px; }
+  .pn-list li:first-child { margin-top: 0; }
 
-  /* V2 free input */
-  .v2-free-input {
-    margin: 0 var(--spacing-s) 24px;
-    padding: 14px var(--spacing-s);
-    border-top: 1px solid var(--primary-subtle3);
-  }
-  .v2-free-label {
-    font-size: 12px;
-    color: var(--primary-subtle4);
-    margin-bottom: 8px;
-    letter-spacing: 0.1px;
-  }
-  .v2-inp-row { display: flex; gap: 8px; align-items: flex-end; }
-  .v2-inp-row textarea {
-    flex: 1;
-    background: var(--primary-subtle1);
-    border: 1.5px solid var(--primary-subtle3);
-    border-radius: 12px;
-    padding: 10px 14px;
-    font-family: var(--font-family);
-    font-size: 15px; color: var(--primary-default);
-    resize: none; min-height: 44px; max-height: 100px;
-    outline: none; line-height: 1.4; overflow-y: auto;
-    transition: border-color .15s;
-  }
-  .v2-inp-row textarea::placeholder { color: var(--primary-subtle4); }
-  .v2-inp-row textarea:focus { border-color: var(--primary-default); background: white; }
-
-  /* ── Chat view ── */
-  .ctx-bar {
-    background: var(--primary-default);
-    padding: 10px var(--spacing-s);
-    display: flex; align-items: center; gap: 10px;
+  .pn-footer {
     flex-shrink: 0;
-  }
-  .ctx-icon { font-size: 16px; }
-  .ctx-ev { font-size: 10px; color: rgba(255,255,255,.55); text-transform: uppercase; letter-spacing: 0.8px; }
-  .ctx-q  { font-size: 13px; color: rgba(255,255,255,.85); margin-top: 2px; line-height: 1.35; }
-
-  .msgs {
-    padding: 16px var(--spacing-s) 12px;
-    display: flex; flex-direction: column; gap: 12px;
+    padding: 12px var(--pn-side) calc(16px + env(safe-area-inset-bottom, 0px));
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
   }
 
-  /* ── Messages ── */
-  .msg { display: flex; gap: 8px; animation: msgIn .28s cubic-bezier(.34,1.1,.64,1) both; }
-  @keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
-  .msg.user { justify-content: flex-end; }
-
-  .msg-av {
-    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; margin-top: 2px;
-    background: var(--primary-default);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 500; color: white;
-    letter-spacing: -0.5px;
+  .pn-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 52px;
+    padding: 14px 20px;
+    background: var(--pn-green);
+    color: var(--pn-white);
+    font-family: var(--font-ui);
+    font-size: 17px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.15s ease, transform 0.1s ease;
   }
-
-  .bubble {
-    max-width: 82%; padding: 10px 14px;
-    border-radius: 18px; font-size: 14.5px; line-height: 1.5;
-    color: var(--primary-default);
-    font-family: var(--font-family);
-  }
-  .msg.bot .bubble {
-    background: var(--primary-subtle1);
-    border-bottom-left-radius: 5px;
-  }
-  .msg.user .bubble {
-    background: var(--primary-default);
-    color: white;
-    border-bottom-right-radius: 5px;
-  }
-  .bubble p { margin-bottom: 5px; }
-  .bubble p:last-child { margin-bottom: 0; }
-  .bubble ul { padding-left: 14px; margin: 5px 0; display:flex; flex-direction:column; gap:3px; }
-  .bubble li { font-size: 14px; }
-  .bubble strong { font-weight: 500; }
-  .msg-time { font-size: 10px; color: var(--primary-subtle4); margin-top: 3px; padding: 0 3px; }
-  .msg.user .msg-time { text-align: right; }
-
-  /* ── Suggestion chips ── */
-  .ichips {
-    display: flex; flex-wrap: wrap; gap: 7px;
-    padding: 0 0 2px 36px;
-    animation: msgIn .3s .06s cubic-bezier(.34,1.1,.64,1) both;
-  }
-  .ic {
-    padding: 7px 14px;
-    border: 1.5px solid var(--primary-subtle3);
-    border-radius: 20px;
-    font-size: 13px; color: var(--primary-default);
-    background: var(--primary-ondefault);
-    cursor: pointer; font-family: var(--font-family);
-    transition: all .15s;
-  }
-  .ic:hover { background: var(--primary-default); color: white; border-color: var(--primary-default); }
-
-  /* ── Typing indicator ── */
-  .typing { display: flex; gap: 8px; align-items: flex-end; }
-  .typing-bub {
-    background: var(--primary-subtle1);
-    border-radius: 18px; border-bottom-left-radius: 5px;
-    padding: 13px 16px; display: flex; gap: 4px; align-items: center;
-  }
-  .td { width: 5px; height: 5px; background: var(--primary-default); border-radius: 50%; opacity: .5; animation: td 1.2s ease-in-out infinite; }
-  .td:nth-child(2){animation-delay:.15s} .td:nth-child(3){animation-delay:.3s}
-  @keyframes td{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
-
-  /* ── Article cards ── */
-  .article-strip {
-    display: flex; flex-direction: column; gap: 6px;
-    padding: 2px 0 0;
-  }
-  .article-strip-label {
-    font-size: 10px; color: var(--primary-subtle4);
-    letter-spacing: 1px; text-transform: uppercase; font-weight: 500;
-    margin-bottom: 2px;
-  }
-  .article-card {
-    display: flex; align-items: flex-start; gap: 10px;
-    background: var(--primary-ondefault);
-    border: 1.5px solid var(--primary-subtle3);
-    border-radius: 12px; padding: 12px 14px;
-    text-decoration: none; cursor: pointer;
-    transition: all .15s; position: relative; overflow: hidden;
-  }
-  .article-card::before {
-    content:''; position:absolute; left:0;top:0;bottom:0; width:3px;
-    background: var(--primary-default); border-radius: 3px 0 0 3px;
-  }
-  .article-card:hover { border-color: var(--primary-default); background: var(--primary-subtle1); }
-  .article-card-body { flex: 1; min-width: 0; }
-  .article-tag {
-    font-size: 10.5px; font-weight: 500; color: var(--primary-default);
-    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px;
-    display: inline-flex; align-items: center;
-    padding: 2px 8px;
-    background: rgba(20,75,60,0.08);
-    border-radius: 20px;
-  }
-  .article-title {
-    font-size: 13px; font-weight: 500; color: var(--primary-default);
-    line-height: 1.35;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  }
-  .article-arr { color: var(--primary-subtle4); flex-shrink: 0; margin-top: 2px; }
-  .article-card:hover .article-arr { color: var(--primary-default); }
-
-  /* ── Advisory card ── */
-  .advisory-card {
-    margin: 8px 0 6px;
-    background: var(--primary-subtle1);
-    border: 1.5px solid var(--primary-subtle3);
-    border-radius: var(--radius-l);
-    padding: 16px;
-    height: auto;
-    overflow: visible;
-  }
-  .advisory-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-  .advisory-av {
-    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
-    background: var(--primary-default);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-  }
-  .advisory-title { font-size: 15px; font-weight: 500; color: var(--primary-default); }
-  .advisory-role { font-size: 12px; color: var(--primary-subtle5); margin-top: 2px; }
-  .advisory-desc { font-size: 14px; color: var(--primary-default); line-height: 1.5; margin-bottom: 14px; }
-  .advisory-btn {
-    width: 100%; padding: 12px;
-    background: transparent;
-    border: 1.5px solid var(--primary-default);
-    border-radius: var(--radius-m);
-    font-family: var(--font-family);
-    font-size: 15px; font-weight: 500; color: var(--primary-default);
-    cursor: pointer; transition: all .15s;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    flex-wrap: wrap;
-    white-space: normal;
-    line-height: 1.35;
-    text-align: center;
-  }
-  .advisory-btn:hover { background: var(--primary-default); color: white; }
-
-  /* ── New topic + Input ── */
-  .new-strip { padding: 8px var(--spacing-s) 0; flex-shrink: 0; }
-  .new-btn {
-    width: 100%; padding: 9px;
-    border: 1.5px dashed var(--primary-subtle3);
-    border-radius: 12px; background: transparent; cursor: pointer;
-    font-family: var(--font-family); font-size: 13px; color: var(--primary-subtle4);
-    transition: all .15s; display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-  .new-btn:hover { border-color: var(--primary-default); color: var(--primary-default); }
-
-  .inp-wrap { padding: 10px var(--spacing-s) 20px; flex-shrink: 0; }
-  .inp-row { display: flex; gap: 8px; align-items: flex-end; }
-  .inp {
-    flex: 1;
-    background: var(--primary-subtle1); border: 1.5px solid var(--primary-subtle3);
-    border-radius: 12px; padding: 10px 14px;
-    font-family: var(--font-family); font-size: 15px; color: var(--primary-default);
-    resize: none; min-height: 44px; max-height: 110px;
-    outline: none; line-height: 1.45; overflow-y: auto; transition: border-color .15s;
-  }
-  .inp::placeholder { color: var(--primary-subtle4); }
-  .inp:focus { border-color: var(--primary-default); background: white; }
-
-  .send-btn {
-    width: 44px; height: 44px; flex-shrink: 0;
-    background: var(--primary-default); border: none; border-radius: 12px;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    color: white; transition: all .15s;
-  }
-  .send-btn:hover:not(:disabled) { opacity: .85; }
-  .send-btn:disabled { opacity: .35; cursor: not-allowed; }
-
-  .inp-footer { margin-top: 6px; text-align: center; font-size: 10.5px; color: var(--primary-subtle4); }
-
-  /* ── Send button from v2 ── */
-  .send-btn-sm {
-    width: 40px; height: 40px; flex-shrink: 0;
-    background: var(--primary-default); border: none; border-radius: 10px;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    color: white; transition: all .15s;
-  }
-  .send-btn-sm:disabled { opacity: .35; cursor: not-allowed; }
+  .pn-cta:hover { opacity: 0.92; }
+  .pn-cta:active { transform: scale(0.99); }
 </style>
 </head>
 <body>
-<div class="shell">
 
-  <!-- Page Header -->
   <div class="page-header">
-    <button class="mb-back-btn" id="backBtn">
+    <button type="button" class="mb-back-btn" id="backBtn" aria-label="Zurück">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
     <div id="pageHeaderLogo" class="mb-logo">
@@ -524,534 +187,20 @@
     </div>
   </div>
 
-  <!-- Views -->
-  <div class="body">
+<main class="pn-main">
+  <h1 class="pn-title">PN-Prototype 2.0</h1>
+  <p class="pn-lead">Der Prototype basiert auf öffentlichen Daten der Migros Bank Website</p>
+  <ul class="pn-list">
+    <li>Dient zu Testzwecken</li>
+    <li>Wissensbasis basiert auf öffentlichen Inhalten von migrosbank.ch (Produkte, Hilfe, Ratgeber)</li>
+    <li>KI-Antworten generiert durch Claude Sonnet 4.6 von Anthropic — können Fehler enthalten</li>
+    <li>Keine echten Zugangsdaten, Konto- oder Vertragsinformationen eingeben</li>
+  </ul>
+</main>
 
-    <!-- VIEW 1: Life Events -->
-    <div class="view active" id="v1">
-      <div class="section-heading">
-        <h1>Was bewegt Sie im Leben?</h1>
-        <p>Wählen Sie Ihre Situation und wir finden die passende Lösung.</p>
-      </div>
-      <div class="action-list" id="evList">
+<footer class="pn-footer">
+  <a class="pn-cta" href="chat.html">Los geht's</a>
+</footer>
 
-        <button class="action-btn" data-key="start">
-          <div class="action-btn-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-          </div>
-          <div class="action-btn-text">
-            <div class="action-btn-title">Start ins Erwachsenenleben</div>
-            <div class="action-btn-sub">Erste Wohnung, erstes Gehalt, erste Ersparnisse</div>
-          </div>
-          <div class="action-btn-chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </button>
-
-        <button class="action-btn" data-key="family">
-          <div class="action-btn-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <div class="action-btn-text">
-            <div class="action-btn-title">Familie gründen / Heirat</div>
-            <div class="action-btn-sub">Gemeinschaftskonto, Kindersparen, Vorsorge</div>
-          </div>
-          <div class="action-btn-chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </button>
-
-        <button class="action-btn" data-key="house">
-          <div class="action-btn-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <div class="action-btn-text">
-            <div class="action-btn-title">Hauskauf / Wohneigentum</div>
-            <div class="action-btn-sub">Tragbarkeit, Hypothek, Renovation finanzieren</div>
-          </div>
-          <div class="action-btn-chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </button>
-
-        <button class="action-btn" data-key="mobility">
-          <div class="action-btn-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          </div>
-          <div class="action-btn-text">
-            <div class="action-btn-title">Grössere Anschaffungen</div>
-            <div class="action-btn-sub">Auto, Einrichtung, Privatkredit</div>
-          </div>
-          <div class="action-btn-chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </button>
-
-        <button class="action-btn" data-key="wealth">
-          <div class="action-btn-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-          </div>
-          <div class="action-btn-text">
-            <div class="action-btn-title">Vermögensaufbau & Karriere</div>
-            <div class="action-btn-sub">Anlegen, Säule 3a, Steueroptimierung</div>
-          </div>
-          <div class="action-btn-chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </button>
-
-        <button class="action-btn" data-key="retirement">
-          <div class="action-btn-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div class="action-btn-text">
-            <div class="action-btn-title">Pensionierung planen</div>
-            <div class="action-btn-sub">Frühpension, Säule 3a, Pensionskasse</div>
-          </div>
-          <div class="action-btn-chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </button>
-
-        <button class="action-btn" data-key="elderly">
-          <div class="action-btn-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/><path d="M7 22h10"/></svg>
-          </div>
-          <div class="action-btn-text">
-            <div class="action-btn-title">Hausverkauf im Alter</div>
-            <div class="action-btn-sub">Immobilie, Wohnen im Alter, Hypothek lösen</div>
-          </div>
-          <div class="action-btn-chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </button>
-
-        <button class="action-btn" data-key="inheritance">
-          <div class="action-btn-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          </div>
-          <div class="action-btn-text">
-            <div class="action-btn-title">Nachlass & Erbschaft</div>
-            <div class="action-btn-sub">Nachlassplanung, Schenkung, Vollmachten</div>
-          </div>
-          <div class="action-btn-chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
-        </button>
-      </div>
-    </div>
-
-    <!-- VIEW 2: Questions -->
-    <div class="view" id="v2">
-      <div id="v2breadcrumb" class="breadcrumb-tag"></div>
-      <div class="section-heading" style="padding-top:12px;">
-        <h1 id="v2title" style="font-size:22px;"></h1>
-        <p id="v2desc"></p>
-      </div>
-      <div class="question-list" id="qlist"></div>
-      <div class="v2-free-input">
-        <div class="v2-free-label">Oder stellen Sie Ihre eigene Frage:</div>
-        <div class="v2-inp-row">
-          <textarea id="inpV2" placeholder="Ihre Frage?…" rows="1"></textarea>
-          <button class="send-btn-sm" id="sendBtnV2" disabled>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- VIEW 3: Chat -->
-    <div class="view" id="v3">
-      <div class="ctx-bar">
-        <div class="ctx-icon" id="ctxIcon"></div>
-        <div>
-          <div class="ctx-ev" id="ctxEv"></div>
-          <div class="ctx-q" id="ctxQ"></div>
-        </div>
-      </div>
-      <div class="msgs" id="msgs"></div>
-      <div class="inp-wrap">
-        <div class="inp-row">
-          <textarea class="inp" id="inp" placeholder="Ihre Frage…" rows="1"></textarea>
-          <button class="send-btn" id="sendBtn" disabled>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </button>
-        </div>
-        <div class="inp-footer">Unser Chat ist keine individuelle Finanzberatung im regulatorischen Sinne.</div>
-      </div>
-    </div>
-
-  </div><!-- /body -->
-</div>
-
-<script>
-/* ── Data ── */
-var EVENTS = {
-  start: {
-    icon:'🎓', label:'Start ins Erwachsenenleben',
-    title:'Die erste Wohnung, das erste Gehalt.',
-    desc:'Wir begleiten Sie bei Ihren ersten wichtigen Finanzentscheidungen und helfen Ihnen, alles von Anfang an clever zu organisieren.',
-    questions:[
-      'Wie organisiere ich mein erstes eigenes Geld am einfachsten?',
-      'Was brauche ich finanziell für meine erste eigene Wohnung?',
-      'Wie baue ich mir clever ein finanzielles Polster auf?',
-      'Ich brauche eine Debit- oder Kreditkarte – was passt zu mir?',
-      'Warum sollte ich bereits heute an Vorsorge denken?',
-    ]
-  },
-  family: {
-    icon:'👨‍👩‍👧', label:'Familie gründen / Heirat',
-    title:'Gemeinsam finanzielle Weichen stellen.',
-    desc:'Eine Heirat oder ein Kind verändert alles – auch Ihre Finanzen. Wir helfen Ihnen, als Familie gut organisiert zu starten.',
-    questions:[
-      'Wie regeln wir unsere Finanzen als Paar am besten?',
-      'Welches Konto ist für Paare und Familien am sinnvollsten?',
-      'Wie spare ich gezielt für meine Kinder?',
-      'Wie optimiere ich meine Vorsorge nach der Heirat?',
-      'Wie kann ich meine Familie finanziell absichern?',
-    ]
-  },
-  house: {
-    icon:'🏡', label:'Hauskauf / Wohneigentum',
-    title:'Der grösste Kauf Ihres Lebens – gut geplant.',
-    desc:'Von der Tragbarkeit bis zur Hypothek: Wir begleiten Sie auf dem Weg ins Eigenheim.',
-    questions:[
-      'Wie viel Eigenheim kann ich mir leisten?',
-      'Wie funktioniert eine Hypothek bei der Mirgos Bank?',
-      'Was ist der Unterschied zwischen fester und variabler Hypothek?',
-      'Wie kann ich meine bestehende Hypothek optimieren?',
-      'Wie finanziere ich Renovationen oder Umbauten?',
-    ]
-  },
-  mobility: {
-    icon:'🚗', label:'Grössere Anschaffungen',
-    title:'Grössere Wünsche, klug finanziert.',
-    desc:'Ob Auto, Einrichtung oder ein besonderes Projekt – mit dem richtigen Kredit behalten Sie die Übersicht.',
-    questions:[
-      'Wie funktioniert eine Autofinanzierung bei der Mirgos Bank?',
-      'Was ist ein Privatkredit und für wen ist er geeignet?',
-      'Wie viel Kredit kann ich mir leisten?',
-      'Wie schnell erhalte ich eine Kreditentscheidung?',
-    ]
-  },
-  wealth: {
-    icon:'📈', label:'Vermögensaufbau & Karriere',
-    title:'Geld arbeiten lassen statt nur sparen.',
-    desc:'Wer frühzeitig anlegt, profitiert langfristig. Wir erklären, wie Sie systematisch Vermögen aufbauen.',
-    questions:[
-      'Wie lege ich mein erstes Geld an?',
-      'Was ist der Unterschied zwischen Sparkonto und Anlageprodukt?',
-      'Wie nutze ich die Säule 3a optimal für Steuern und Vorsorge?',
-      'Welche Anlagestrategie passt zu meiner Lebenssituation?',
-      'Wie baue ich langfristig und risikogerecht Vermögen auf?',
-    ]
-  },
-  retirement: {
-    icon:'🌅', label:'Pensionierung planen',
-    title:'Den Ruhestand heute vorbereiten.',
-    desc:'Frühpension, Säule 3a, Pensionskasse – wir erklären, was Sie wann entscheiden müssen.',
-    questions:[
-      'Wann kann ich in Pension gehen und was muss ich beachten?',
-      'Wie nutze ich meine Säule 3a noch vor der Pensionierung optimal?',
-      'Was ist bei der Frühpensionierung finanziell zu beachten?',
-      'Wie beziehe ich meine Vorsorgegelder am sinnvollsten?',
-      'Wie viel Kapital brauche ich für eine sorglose Pensionierung?',
-    ]
-  },
-  elderly: {
-    icon:'🏠', label:'Hausverkauf im Alter',
-    title:'Aus dem Eigenheim – gut vorbereitet.',
-    desc:'Der Verkauf der eigenen Immobilie ist ein grosser Schritt. Wir helfen Ihnen, die finanziellen Weichen richtig zu stellen.',
-    questions:[
-      'Was muss ich beim Verkauf meiner Immobilie finanziell beachten?',
-      'Wie löse ich meine bestehende Hypothek beim Hausverkauf?',
-      'Welche Wohnlösungen gibt es für meine nächste Lebensphase?',
-      'Wie verwalte ich den Erlös aus dem Hausverkauf sinnvoll?',
-    ]
-  },
-  inheritance: {
-    icon:'📋', label:'Nachlass & Erbschaft',
-    title:'Frühzeitig regeln, was zählt.',
-    desc:'Ein geregelter Nachlass schützt Ihre Familie. Wir erklären die ersten Schritte.',
-    questions:[
-      'Wie plane ich meinen Nachlass richtig?',
-      'Was muss ich bei Schenkungen zu Lebzeiten beachten?',
-      'Wie funktioniert eine Vorsorgevollmacht?',
-      'Was sind die ersten Schritte bei einem Erbfall?',
-      'Wie schütze ich meinen Partner finanziell im Todesfall?',
-    ]
-  }
-};
-
-/* ── Article Index ── */
-var ARTICLES = [
-  { tag:'Vorsorge', title:'3-Säulen-System in der Schweiz einfach erklärt', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/altersvorsorge-schweiz-3-saeulen.html', keywords:['3-säulen','säulen','altersvorsorge','ahv','pensionskasse','vorsorge'] },
-  { tag:'Vorsorge', title:'Die 10 wichtigsten Tipps zur Säule 3a', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/die-10-wichtigsten-tipps-zur-saeule-3a.html', keywords:['säule 3a','3a','steuern','vorsorge','einzahlen','steuervorteil'] },
-  { tag:'Vorsorge', title:'Säule 3a nachzahlen ab 2026: Das müssen Sie beachten', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/nachtraegliche-einkaeufe-in-die-saeule-3a-das-muessen-sie-beachten.html', keywords:['nachzahlen','nachzahlung','3a','einkauf','lücke'] },
-  { tag:'Vorsorge', title:'Pensionskasse: Rente oder Kapital beziehen?', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/pensionskasse-rente-oder-kapital-beziehen.html', keywords:['pensionskasse','rente','kapital','beziehen','auszahlen','bvg'] },
-  { tag:'Vorsorge', title:'Pensionierung planen: Das A und O für den Ruhestand', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/pensionierung-planen.html', keywords:['pensionierung','ruhestand','frühpension','planen','wann'] },
-  { tag:'Vorsorge', title:'AHV-Beitragslücken: Wie sie entstehen und was man tun kann', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/ahv-beitragsluecken.html', keywords:['ahv','lücke','beitragslücke','rente','beitragsjahre'] },
-  { tag:'Vorsorge', title:'10 Tipps: So sparen Sie Steuern in der Schweiz', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/steuertipps-steuerabzuege-schweiz.html', keywords:['steuern','steuer','abzug','sparen','steueroptimierung'] },
-  { tag:'Wohnen',  title:'Vorbezug Pensionskasse und Säule 3a für Wohneigentum', url:'https://www.migrosbank.ch/de/ratgeber/wohnen/vorsorgegelder-eigenheimkauf-worauf-achten.html', keywords:['vorbezug','wohneigentum','eigenheim','kaufen','haus','hypothek'] },
-  { tag:'Wohnen',  title:'Haus oder Wohnung verkaufen: Ablauf, Steuern & Hypothek', url:'https://www.migrosbank.ch/de/ratgeber/wohnen/der-eigentumsverkauf-gut-vorbereitet-zum-erfolg.html', keywords:['hausverkauf','verkaufen','wohnung','immobilie','grundstückgewinn'] },
-];
-
-var ADVISORY_COPY = {
-  retirement: { role:'Vorsorgespezialistin', desc:'Ihre Pensionierung optimal vorbereiten: Wir analysieren Ihre 3a, Pensionskasse und AHV gemeinsam.' },
-  wealth:     { role:'Anlageberaterin',      desc:'Steuern sparen, flexibel bleiben: Wir planen mit Ihnen Ihre ideale Anlagestrategie.' },
-  family:     { role:'Familienberaterin',    desc:'Finanzen als Familie neu ordnen: Wir finden die passende Lösung für Ihren Lebensabschnitt.' },
-  house:      { role:'Hypothekenspezialistin', desc:'Den Traum vom Eigenheim realisieren: Wir berechnen Tragbarkeit und Finanzierung für Sie.' },
-  inheritance:{ role:'Nachlassberaterin',    desc:'Nachlass und Vollmachten regeln: Wir begleiten Sie sorgfältig durch alle Schritte.' },
-  elderly:    { role:'Beraterin Wohnen im Alter', desc:'Den richtigen nächsten Schritt finden: Wir beraten Sie zu Hausverkauf und Wohnoptionen.' },
-  mobility:   { role:'Kreditberaterin',      desc:'Die passende Finanzierung für Ihr Vorhaben: Wir prüfen gemeinsam Ihre Möglichkeiten.' },
-  start:      { role:'Finanzberaterin',      desc:'Den besten Start ins Finanzleben: Wir zeigen Ihnen, wie Sie von Anfang an clever sparen.' },
-  _default:   { role:'Kundenberaterin',      desc:'Für komplexere Fragen stehen Ihnen unsere Spezialistinnen persönlich zur Verfügung.' }
-};
-
-var ADVISORY_TRIGGERS = ['beratungsgespräch','beratung','persönlich beraten','persönliche beratung','experten','expertin','spezialist','fachberatung','termin','kontakt','empfehle ich','empfehlen wir','vereinbaren','buchen'];
-
-var SYSTEM = `Du der virtuelle Assistent der Mirgos Bank – kompetent, transparent und vertrauenswürdig.
-
-SPRACHE: Ausschliesslich Deutsch, Schweizer Orthographie (kein ß, sondern ss). Anrede: «Sie». Kein Jargon, keine Floskeln.
-
-TON: Wie ein erfahrener Bankberater – klar, direkt, empathisch. Keine Ausrufe wie «Sehr gerne!».
-
-REGELN:
-- Nur zu Themen der Mirgos Bank antworten.
-- Keine individuelle Finanz- oder Anlageberatung im regulatorischen Sinne.
-- Bei persönlichen Kontodaten, Kontobewegungen, Sicherheitsvorfällen: direkt an Kundendienst verweisen.
-- Informationen nie erfinden. Bei Unklarheit: offen sagen und weiterleiten.
-- Empfehle bei komplexen Situationen ein Beratungsgespräch.
-
-MIRGOS BANK: Vollsortiment-Schweizer-Bank (Konten, Karten, Hypotheken, Kredite, Anlagen, Säule 3a, Pensionsplanung, Nachlassberatung). Nutze plausible typische Schweizer Bankprodukte.
-
-ANTWORTFORMAT:
-- Kurze Anfragen: 2–4 prägnante Sätze.
-- Komplexere Themen: Struktur mit Zwischentiteln oder Aufzählungen.
-- Jede Antwort mit konkretem nächsten Schritt abschliessen.
-
-FOLLOW-UP: Hänge nach jeder Antwort einen Block an:
-<suggestions>["kurze Folgefrage 1","kurze Folgefrage 2","kurze Folgefrage 3"]</suggestions>
-Max. 7 Wörter pro Vorschlag. Handlungsorientiert, spezifisch.`;
-
-/* ── State ── */
-var curEv = null, curEvKey = null, curQ = null, chatHistory = [], loading = false;
-
-/* ── Helpers ── */
-function normalize(s) {
-  return s.toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss');
-}
-function getTime() { return new Date().toLocaleTimeString('de-CH',{hour:'2-digit',minute:'2-digit'}); }
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function fmt(text) {
-  text = text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
-  text = text.replace(/^[-•]\s+(.+)$/gm,'<li>$1</li>');
-  text = text.replace(/(<li>[\s\S]*?<\/li>)/g,'<ul>$1</ul>');
-  return text.split(/\n\n+/).map(function(p){ return p.startsWith('<ul>')?p:'<p>'+p.replace(/\n/g,'<br>')+'</p>'; }).join('');
-}
-function scrollToBottom() {
-  var m = document.getElementById('msgs');
-  requestAnimationFrame(function(){ requestAnimationFrame(function(){ m.scrollTo({top:m.scrollHeight,behavior:'smooth'}); }); });
-}
-function scrollToLatestBot() {
-  var m = document.getElementById('msgs');
-  var bots = m.querySelectorAll('.msg.bot');
-  var lastBot = bots[bots.length - 1];
-  if(!lastBot) return;
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      lastBot.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // Keep a small top breathing room for readability.
-      m.scrollTop = Math.max(0, m.scrollTop - 12);
-    });
-  });
-}
-function resize(el, btnId) {
-  el.style.height='auto';
-  el.style.height=Math.min(el.scrollHeight,110)+'px';
-  document.getElementById(btnId).disabled = el.value.trim()==='';
-}
-
-/* ── Navigation ── */
-function transit(from, to, back) {
-  back = !!back;
-  var fEl = document.getElementById(from), tEl = document.getElementById(to);
-  fEl.classList.remove('active');
-  if (back) fEl.style.transform='translateX(100%)'; else fEl.classList.add('exit-left');
-  setTimeout(function(){ fEl.classList.remove('exit-left'); fEl.style.transform=''; },320);
-  tEl.style.transform = back ? 'translateX(-40px)' : 'translateX(100%)';
-  tEl.style.opacity = '0';
-  tEl.classList.add('active');
-  requestAnimationFrame(function(){ requestAnimationFrame(function(){ tEl.style.transform=''; tEl.style.opacity=''; }); });
-}
-
-function pick(key) {
-  curEv = EVENTS[key]; curEvKey = key;
-  document.getElementById('v2breadcrumb').textContent = curEv.label;
-  document.getElementById('v2title').textContent = curEv.title;
-  document.getElementById('v2desc').textContent = curEv.desc;
-  var ql = document.getElementById('qlist');
-  ql.innerHTML = '';
-  curEv.questions.forEach(function(q,i){
-    var btn = document.createElement('button');
-    btn.className = 'question-item';
-    btn.innerHTML = '<div class="q-num">'+(i+1)+'</div><span class="q-label">'+esc(q)+'</span>';
-    btn.addEventListener('click', function(){ selectQ(q); });
-    ql.appendChild(btn);
-  });
-  transit('v1','v2');
-  document.getElementById('backBtn').classList.add('visible');
-}
-
-function selectQ(q) {
-  curQ = q;
-  document.getElementById('ctxIcon').textContent = curEv.icon;
-  document.getElementById('ctxEv').textContent = curEv.label;
-  document.getElementById('ctxQ').textContent = q;
-  document.getElementById('msgs').innerHTML = '';
-  chatHistory = [];
-  transit('v2','v3');
-  pushUser(q); callAPI(q);
-}
-
-function goBack() {
-  if (document.getElementById('v3').classList.contains('active')) {
-    transit('v3','v2',true);
-  } else if (document.getElementById('v2').classList.contains('active')) {
-    transit('v2','v1',true);
-    document.getElementById('backBtn').classList.remove('visible');
-  }
-}
-
-function restart() {
-  var v1=document.getElementById('v1');
-  var v2=document.getElementById('v2');
-  var v3=document.getElementById('v3');
-  if (v3.classList.contains('active')) {
-    transit('v3','v1',true);
-  } else if (v2.classList.contains('active')) {
-    transit('v2','v1',true);
-  } else {
-    v1.classList.add('active');
-    v2.classList.remove('active');
-    v3.classList.remove('active');
-    v1.style.transform=''; v1.style.opacity='';
-    v2.style.transform=''; v2.style.opacity='';
-    v3.style.transform=''; v3.style.opacity='';
-  }
-
-  hideTyping();
-  document.getElementById('msgs').innerHTML = '';
-  document.getElementById('inp').value = '';
-  document.getElementById('inpV2').value = '';
-  document.getElementById('sendBtn').disabled = true;
-  document.getElementById('sendBtnV2').disabled = true;
-  document.getElementById('inp').style.height = 'auto';
-  document.getElementById('inpV2').style.height = 'auto';
-  document.getElementById('backBtn').classList.remove('visible');
-  chatHistory=[]; curEv=null; curEvKey=null; curQ=null; loading=false;
-}
-
-/* ── Chat ── */
-function pushUser(text) {
-  var m=document.getElementById('msgs'), d=document.createElement('div');
-  d.className='msg user';
-  d.innerHTML='<div><div class="bubble">'+esc(text)+'</div><div class="msg-time">'+getTime()+'</div></div>';
-  m.appendChild(d); scrollToBottom();
-  chatHistory.push({role:'user',content:text});
-}
-
-function pushBot(raw) {
-  var sugM=raw.match(/<suggestions>([\s\S]*?)<\/suggestions>/), sugs=[];
-  var text=raw.replace(/<suggestions>[\s\S]*?<\/suggestions>/g,'').trim();
-  if(sugM){try{sugs=JSON.parse(sugM[1]);}catch(e){}}
-
-  var m=document.getElementById('msgs'), d=document.createElement('div');
-  d.className='msg bot';
-  d.innerHTML='<div class="msg-av">MB</div><div><div class="bubble">'+fmt(text)+'</div><div class="msg-time">'+getTime()+'</div></div>';
-  m.appendChild(d);
-
-  if(sugs.length){
-    var chips=document.createElement('div'); chips.className='ichips';
-    sugs.forEach(function(s){
-      var b=document.createElement('button'); b.className='ic'; b.textContent=s;
-      b.addEventListener('click',function(){ chips.remove(); pushUser(s); callAPI(s); });
-      chips.appendChild(b);
-    });
-    m.appendChild(chips);
-  }
-
-  // Articles
-  var ctx=[curEv?curEv.label:'', curQ||'', text].join(' ');
-  var q=normalize(ctx), scored=ARTICLES.map(function(a){
-    var score=0; a.keywords.forEach(function(k){ if(q.includes(normalize(k))) score++; });
-    if(curEvKey){
-      if(['retirement','wealth','family','inheritance'].includes(curEvKey) && a.tag==='Vorsorge') score+=.5;
-      if(['house','elderly'].includes(curEvKey) && a.tag==='Wohnen') score+=.5;
-    }
-    return Object.assign({},a,{score:score});
-  }).filter(function(a){return a.score>0;}).sort(function(a,b){return b.score-a.score;}).slice(0,2);
-
-  if(scored.length){
-    var strip=document.createElement('div'); strip.className='article-strip';
-    var lbl=document.createElement('div'); lbl.className='article-strip-label'; lbl.textContent='Passende Ratgeber-Artikel'; strip.appendChild(lbl);
-    scored.forEach(function(a){
-      var card=document.createElement('a'); card.className='article-card'; card.href=a.url; card.target='_blank'; card.rel='noopener';
-      card.innerHTML='<div class="article-card-body"><div class="article-tag">'+a.tag+'</div><div class="article-title">'+esc(a.title)+'</div></div><div class="article-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>';
-      strip.appendChild(card);
-    });
-    m.appendChild(strip);
-  }
-
-  // Advisory
-  var tl=normalize(text);
-  if(ADVISORY_TRIGGERS.some(function(k){return tl.includes(normalize(k));})){
-    var copy=ADVISORY_COPY[curEvKey]||ADVISORY_COPY['_default'];
-    var ac=document.createElement('div'); ac.className='advisory-card';
-    ac.innerHTML='<div class="advisory-header"><div class="advisory-av">👩‍💼</div><div><div class="advisory-title">Persönliche Beratung</div><div class="advisory-role">'+copy.role+'</div></div></div><div class="advisory-desc">'+copy.desc+'</div><button class="advisory-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Kostenlose Erstberatung buchen</button>';
-    m.appendChild(ac);
-  }
-
-  scrollToLatestBot();
-  chatHistory.push({role:'assistant',content:raw});
-}
-
-function showTyping() {
-  var m=document.getElementById('msgs'), d=document.createElement('div');
-  d.className='typing'; d.id='typing';
-  d.innerHTML='<div class="msg-av">MB</div><div class="typing-bub"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
-  m.appendChild(d); scrollToBottom();
-}
-function hideTyping(){var t=document.getElementById('typing');if(t)t.remove();}
-
-async function callAPI(msg) {
-  loading=true; document.getElementById('sendBtn').disabled=true; showTyping();
-  try {
-    var r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:SYSTEM,messages:chatHistory})});
-    var data=await r.json(); hideTyping();
-    pushBot((data.content&&data.content[0]&&data.content[0].text)?data.content[0].text:'Ein technischer Fehler ist aufgetreten. Bitte kontaktieren Sie unseren Kundendienst.');
-  } catch(e){ hideTyping(); pushBot('Die Verbindung konnte nicht hergestellt werden. Bitte prüfen Sie Ihre Internetverbindung.'); }
-  finally { loading=false; document.getElementById('sendBtn').disabled=document.getElementById('inp').value.trim()===''; }
-}
-
-function sendMsg(){
-  var inp=document.getElementById('inp'), text=inp.value.trim();
-  if(!text||loading) return;
-  document.querySelectorAll('.ichips').forEach(function(c){c.remove();});
-  inp.value=''; inp.style.height='auto'; document.getElementById('sendBtn').disabled=true;
-  pushUser(text); callAPI(text);
-}
-
-function sendFromV2(){
-  var inp=document.getElementById('inpV2'), text=inp.value.trim();
-  if(!text) return;
-  inp.value=''; inp.style.height='auto'; document.getElementById('sendBtnV2').disabled=true;
-  selectQ(text);
-}
-
-/* ── Init ── */
-document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('backBtn').addEventListener('click', goBack);
-  document.getElementById('pageHeaderLogo').addEventListener('click', restart);
-
-  var inp=document.getElementById('inp'), sendBtn=document.getElementById('sendBtn');
-  inp.addEventListener('input',function(){ resize(inp,'sendBtn'); });
-  inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!sendBtn.disabled)sendMsg();}});
-  sendBtn.addEventListener('click',sendMsg);
-
-  var inpV2=document.getElementById('inpV2'), sendBtnV2=document.getElementById('sendBtnV2');
-  inpV2.addEventListener('input',function(){ resize(inpV2,'sendBtnV2'); });
-  inpV2.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();if(!sendBtnV2.disabled)sendFromV2();}});
-  sendBtnV2.addEventListener('click',sendFromV2);
-
-  document.querySelectorAll('.action-btn[data-key]').forEach(function(btn){
-    btn.addEventListener('click',function(){ pick(btn.dataset.key); });
-  });
-});
-</script>
 </body>
 </html>

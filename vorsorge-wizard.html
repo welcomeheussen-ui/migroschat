@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vorsorge-Assistent | Migo Prototype</title>
+<style>
+  @font-face {
+    font-family: 'Migrosbank Kievit';
+    src: url('assets/fonts/MigrosbankKievit-Book.woff2') format('woff2');
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: 'Migrosbank Kievit';
+    src: url('assets/fonts/MigrosbankKievit-Bold.woff2') format('woff2');
+    font-weight: 500;
+  }
+
+  :root {
+    --primary-default:    #144b3c;
+    --primary-ondefault:  #ffffff;
+    --primary-subtle1:    #eff2f1;
+    --primary-subtle3:    #c4d2ce;
+    --primary-subtle4:    #92a59e;
+    --primary-subtle5:    #5a8a7e;
+    --neutral-bold3:      #333333;
+    --spacing-xs:  8px;
+    --spacing-s:   16px;
+    --spacing-m:   24px;
+    --radius-s:  8px;
+    --radius-m:  12px;
+    --radius-l:  16px;
+    --font-family: 'Migrosbank Kievit', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
+  body {
+    font-family: var(--font-family);
+    background: #ffffff;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    color: var(--neutral-bold3);
+  }
+
+  .shell {
+    width: min(100%, 600px);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: var(--primary-ondefault);
+  }
+
+  .page-header {
+    height: 50px;
+    background: var(--primary-ondefault);
+    border-bottom: 1px solid var(--primary-subtle3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--spacing-s);
+    flex-shrink: 0;
+  }
+
+  .mb-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-default);
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-weight: 400;
+    padding: 4px 0;
+    text-decoration: none;
+  }
+  .mb-back:hover { color: var(--primary-subtle5); }
+
+  .mb-logo-mark {
+    width: auto;
+    height: 22px;
+    display: block;
+    object-fit: contain;
+  }
+
+  .wizard-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--spacing-s) var(--spacing-m);
+    min-height: 0;
+  }
+
+  .wizard-progress {
+    display: flex;
+    gap: 6px;
+    padding: var(--spacing-s) 0 var(--spacing-xs);
+  }
+  .wizard-progress span {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--primary-subtle3);
+    transition: background .2s;
+  }
+  .wizard-progress span.done,
+  .wizard-progress span.active {
+    background: var(--primary-default);
+  }
+
+  .step-panels { flex: 1; position: relative; min-height: 0; }
+  .step {
+    display: none;
+    flex-direction: column;
+    animation: fadeIn .28s ease both;
+  }
+  .step.active { display: flex; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .breadcrumb-tag {
+    display: inline-flex;
+    width: max-content;
+    align-items: center;
+    margin-top: var(--spacing-s);
+    padding: 4px 10px;
+    background: rgba(20,75,60,0.08);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--primary-default);
+    letter-spacing: 0.1px;
+  }
+
+  .section-heading {
+    padding: 12px 0 4px;
+  }
+  .section-heading h1 {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--primary-default);
+    line-height: 1.31;
+    letter-spacing: -0.26px;
+  }
+  .section-heading p {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--primary-default);
+    line-height: 1.375;
+    letter-spacing: 0.08px;
+    margin-top: var(--spacing-xs);
+  }
+
+  .option-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 0 20px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .option-list::-webkit-scrollbar { width: 0; }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    background: var(--primary-ondefault);
+    border: 1.5px solid var(--primary-subtle3);
+    border-radius: var(--radius-m);
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font-family);
+    transition: all .18s cubic-bezier(.4,0,.2,1);
+    width: 100%;
+  }
+  .option-btn:hover {
+    border-color: var(--primary-default);
+    background: var(--primary-subtle1);
+  }
+  .option-btn.selected {
+    border-color: var(--primary-default);
+    background: var(--primary-subtle1);
+    box-shadow: 0 0 0 1px var(--primary-default);
+  }
+  .option-btn-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    background: var(--primary-subtle1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-default);
+  }
+  .option-btn-icon svg { width: 22px; height: 22px; }
+  .option-btn-text { flex: 1; min-width: 0; }
+  .option-btn-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--primary-default);
+    line-height: 1.4;
+  }
+  .option-btn-sub {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--primary-subtle4);
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+
+  .summary-card {
+    margin-top: 12px;
+    padding: var(--spacing-s);
+    background: var(--primary-subtle1);
+    border: 1.5px solid var(--primary-subtle3);
+    border-radius: var(--radius-l);
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--primary-default);
+  }
+  .summary-card dt {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--primary-subtle5);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 12px;
+  }
+  .summary-card dt:first-child { margin-top: 0; }
+  .summary-card dd { margin: 4px 0 0; font-weight: 400; }
+
+  .footer-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: var(--spacing-s);
+    flex-shrink: 0;
+    border-top: 1px solid var(--primary-subtle3);
+    margin-top: auto;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 14px var(--spacing-s);
+    background: var(--primary-default);
+    color: var(--primary-ondefault);
+    border: none;
+    border-radius: var(--radius-m);
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  .btn-primary:hover:not(:disabled) { opacity: .9; }
+  .btn-primary:disabled { opacity: .35; cursor: not-allowed; }
+
+  .btn-secondary {
+    width: 100%;
+    padding: 12px var(--spacing-s);
+    background: transparent;
+    color: var(--primary-default);
+    border: 1.5px solid var(--primary-default);
+    border-radius: var(--radius-m);
+    font-family: var(--font-family);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .btn-secondary:hover {
+    background: var(--primary-default);
+    color: var(--primary-ondefault);
+  }
+
+  .hint {
+    font-size: 13px;
+    color: var(--primary-subtle4);
+    line-height: 1.45;
+    margin-top: var(--spacing-xs);
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="page-header">
+    <a class="mb-back" href="index.html">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Zurück
+    </a>
+    <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
+    <span style="width:72px" aria-hidden="true"></span>
+  </header>
+
+  <main class="wizard-main">
+    <div class="wizard-progress" id="progress" aria-hidden="true">
+      <span data-i="0"></span>
+      <span data-i="1"></span>
+      <span data-i="2"></span>
+      <span data-i="3"></span>
+    </div>
+
+    <div class="step-panels">
+      <!-- Step 0 -->
+      <section class="step active" data-step="0" aria-labelledby="t0">
+        <span class="breadcrumb-tag">Vorsorge</span>
+        <div class="section-heading">
+          <h1 id="t0">Ihr Vorsorge-Check in wenigen Schritten</h1>
+          <p>
+            Beantworten Sie vier kurze Fragen. Anschliessend können Sie im Chat gezielt
+            zu AHV, Pensionskasse und Säule 3a weiterfahren – passend zu Ihrer Situation.
+          </p>
+        </div>
+        <p class="hint">
+          Dieser Ablauf ist ein Prototyp zu Demonstrationszwecken und ersetzt keine persönliche Beratung.
+        </p>
+      </section>
+
+      <!-- Step 1 -->
+      <section class="step" data-step="1" aria-labelledby="t1">
+        <span class="breadcrumb-tag">Schritt 2 von 4</span>
+        <div class="section-heading">
+          <h1 id="t1">Was möchten Sie zuerst klären?</h1>
+          <p>Wählen Sie das Thema, das Ihnen am wichtigsten ist.</p>
+        </div>
+        <div class="option-list" role="listbox" aria-label="Hauptziel">
+          <button type="button" class="option-btn" data-field="goal" data-value="steuern" data-label="Steuern und Abzüge">
+            <div class="option-btn-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="option-btn-text">
+              <div class="option-btn-title">Steuern und Abzüge</div>
+              <div class="option-btn-sub">Säule 3a, Abzüge, steuerliche Spielräume</div>
+            </div>
+          </button>
+          <button type="button" class="option-btn" data-field="goal" data-value="alter" data-label="Altersvorsorge">
+            <div class="option-btn-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="option-btn-text">
+              <div class="option-btn-title">Altersvorsorge</div>
+              <div class="option-btn-sub">AHV, BVG, Kapital oder Rente</div>
+            </div>
+          </button>
+          <button type="button" class="option-btn" data-field="goal" data-value="eigenheim" data-label="Wohneigentum">
+            <div class="option-btn-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div class="option-btn-text">
+              <div class="option-btn-title">Wohneigentum</div>
+              <div class="option-btn-sub">Vorbezug PK/3a, Tragbarkeit</div>
+            </div>
+          </button>
+          <button type="button" class="option-btn" data-field="goal" data-value="unsicher" data-label="Noch unsicher">
+            <div class="option-btn-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="option-btn-text">
+              <div class="option-btn-title">Ich bin noch unsicher</div>
+              <div class="option-btn-sub">Wir starten mit einer Orientierung</div>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 2 -->
+      <section class="step" data-step="2" aria-labelledby="t2">
+        <span class="breadcrumb-tag">Schritt 3 von 4</span>
+        <div class="section-heading">
+          <h1 id="t2">In welcher Lebensphase sind Sie?</h1>
+          <p>Die Angabe hilft, typische Vorsorgefragen passend einzuordnen.</p>
+        </div>
+        <div class="option-list" role="listbox" aria-label="Lebensphase">
+          <button type="button" class="option-btn" data-field="phase" data-value="aufbau" data-label="Berufseinstieg und Aufbauphase">
+            <div class="option-btn-text">
+              <div class="option-btn-title">Berufseinstieg und Aufbauphase</div>
+              <div class="option-btn-sub">Erste Festanstellung, erste 3a, wenig BVG-Dienstjahre</div>
+            </div>
+          </button>
+          <button type="button" class="option-btn" data-field="phase" data-value="familie" data-label="Familie und Haushalt">
+            <div class="option-btn-text">
+              <div class="option-btn-title">Familie und Haushalt</div>
+              <div class="option-btn-sub">Heirat, Kinder, gemeinsame Planung</div>
+            </div>
+          </button>
+          <button type="button" class="option-btn" data-field="phase" data-value="mitte" data-label="Mitte des Berufslebens">
+            <div class="option-btn-text">
+              <div class="option-btn-title">Mitte des Berufslebens</div>
+              <div class="option-btn-sub">PK-Ansammlung, Eigenheim, höhere Sparrate</div>
+            </div>
+          </button>
+          <button type="button" class="option-btn" data-field="phase" data-value="nahe" data-label="Nähe an Pensionierung">
+            <div class="option-btn-text">
+              <div class="option-btn-title">Nähe an Pensionierung</div>
+              <div class="option-btn-sub">Auszahlungsstrategie, Kapital oder Rente</div>
+            </div>
+          </button>
+        </div>
+      </section>
+
+      <!-- Step 3 -->
+      <section class="step" data-step="3" aria-labelledby="t3">
+        <span class="breadcrumb-tag">Schritt 4 von 4</span>
+        <div class="section-heading">
+          <h1 id="t3">Zusammenfassung</h1>
+          <p>So gehen wir mit Ihren Angaben in den Chat.</p>
+        </div>
+        <dl class="summary-card" id="summaryBox">
+          <dt>Hauptziel</dt>
+          <dd id="sumGoal">—</dd>
+          <dt>Lebensphase</dt>
+          <dd id="sumPhase">—</dd>
+        </dl>
+        <p class="hint">
+          Im Chat können Sie Ihre Auswahl jederzeit präzisieren oder eine andere Frage stellen.
+        </p>
+      </section>
+    </div>
+
+    <div class="footer-actions">
+      <button type="button" class="btn-primary" id="btnNext">Weiter</button>
+      <button type="button" class="btn-secondary" id="btnBack" hidden>Zurück</button>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  var step = 0;
+  var maxStep = 3;
+  var answers = { goal: '', goalLabel: '', phase: '', phaseLabel: '' };
+
+  var steps = [].slice.call(document.querySelectorAll('.step'));
+  var segs = [].slice.call(document.querySelectorAll('.wizard-progress span'));
+  var btnNext = document.getElementById('btnNext');
+  var btnBack = document.getElementById('btnBack');
+
+  function setStep(n) {
+    step = Math.max(0, Math.min(maxStep, n));
+    steps.forEach(function (el) {
+      el.classList.toggle('active', Number(el.getAttribute('data-step')) === step);
+    });
+    segs.forEach(function (seg, i) {
+      seg.classList.remove('active', 'done');
+      if (i < step) seg.classList.add('done');
+      if (i === step) seg.classList.add('active');
+    });
+    btnBack.hidden = step === 0;
+    if (step === maxStep) {
+      btnNext.textContent = 'Zum Chat';
+      btnNext.disabled = false;
+    } else {
+      btnNext.textContent = 'Weiter';
+      btnNext.disabled = step > 0 && !canAdvanceFrom(step);
+    }
+  }
+
+  function canAdvanceFrom(s) {
+    if (s === 1) return !!answers.goal;
+    if (s === 2) return !!answers.phase;
+    return true;
+  }
+
+  function updateSummary() {
+    document.getElementById('sumGoal').textContent = answers.goalLabel || '—';
+    document.getElementById('sumPhase').textContent = answers.phaseLabel || '—';
+  }
+
+  document.querySelectorAll('.option-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var field = btn.getAttribute('data-field');
+      var list = document.querySelectorAll('.option-btn[data-field="' + field + '"]');
+      list.forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      answers[field] = btn.getAttribute('data-value');
+      answers[field + 'Label'] = btn.getAttribute('data-label');
+      if (step === 1 || step === 2) btnNext.disabled = false;
+    });
+  });
+
+  btnNext.addEventListener('click', function () {
+    if (step === maxStep) {
+      var q = new URLSearchParams();
+      q.set('wizard', 'vorsorge');
+      if (answers.goal) q.set('goal', answers.goal);
+      if (answers.phase) q.set('phase', answers.phase);
+      window.location.href = 'chat.html?' + q.toString();
+      return;
+    }
+    if (!canAdvanceFrom(step)) return;
+    setStep(step + 1);
+    if (step === maxStep) updateSummary();
+  });
+
+  btnBack.addEventListener('click', function () {
+    setStep(step - 1);
+  });
+
+  setStep(0);
+})();
+</script>
+</body>
+</html>
