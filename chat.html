@@ -1102,6 +1102,9 @@ document.addEventListener('DOMContentLoaded', function(){
     var sub = document.querySelector('#v1 .section-heading p');
     if (h1) h1.innerHTML = 'Hi ' + esc(userName) + ',<br>was bewegt Sie im Leben?';
     if (sub) sub.textContent = 'Wählen Sie Ihre Situation und wir helfen Ihnen die passende Lösung zu finden.';
+    var ph = userName + ', was beschäftigt Sie noch?';
+    document.getElementById('inp').placeholder = ph;
+    document.getElementById('inpV2').placeholder = ph;
   }
 
   var params = new URLSearchParams(window.location.search);
