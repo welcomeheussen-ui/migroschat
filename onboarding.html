@@ -54,20 +54,21 @@
     font-family: var(--font-family);
     background: #ffffff;
     color: var(--primary-default);
-    min-height: 100vh;
-    min-height: 100dvh;
+    height: 100vh;
+    height: 100dvh;
     display: flex;
     align-items: stretch;
     justify-content: center;
+    overflow: hidden;
   }
 
   .shell {
     width: min(100%, 600px);
-    min-height: 100vh;
-    min-height: 100dvh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     background: var(--primary-ondefault);
+    overflow: hidden;
   }
 
   .page-header {
@@ -118,11 +119,11 @@
   .hero {
     position: relative;
     width: 100%;
-    aspect-ratio: 390 / 759;
+    flex: 1 1 0;
+    min-height: 0;
     overflow: hidden;
     border-bottom-left-radius: var(--radius-l);
     border-bottom-right-radius: var(--radius-l);
-    flex-shrink: 0;
   }
   .hero-img {
     position: absolute;
@@ -209,7 +210,7 @@
   }
 
   .pagination-wrap {
-    margin-top: auto;
+    flex-shrink: 0;
     padding: 16px var(--spacing-s) calc(16px + env(safe-area-inset-bottom, 0px));
     display: flex;
     justify-content: center;
