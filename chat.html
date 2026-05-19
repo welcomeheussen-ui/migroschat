@@ -825,6 +825,13 @@ Max. 7 Wörter pro Vorschlag. Handlungsorientiert, spezifisch.`;
 
 /* ── State ── */
 var curEv = null, curEvKey = null, curQ = null, chatHistory = [], loading = false;
+var userName = '';
+try { userName = (sessionStorage.getItem('mb.userName') || '').trim().slice(0, 40); } catch(e){}
+
+function buildSystem(){
+  if (!userName) return SYSTEM;
+  return 'BENUTZER: Heisst ' + userName + '. Sprich ihn/sie sparsam (max. alle paar Antworten) mit Vornamen an, wenn es natürlich wirkt.\n\n' + SYSTEM;
+}
 
 /* ── Helpers ── */
 function normalize(s) {
@@ -1045,7 +1052,7 @@ function hideTyping(){var t=document.getElementById('typing');if(t)t.remove();}
 async function callAPI(msg) {
   loading=true; document.getElementById('sendBtn').disabled=true; showTyping();
   try {
-    var r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:SYSTEM,messages:chatHistory})});
+    var r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:buildSystem(),messages:chatHistory})});
     var data=await r.json(); hideTyping();
     pushBot((data.content&&data.content[0]&&data.content[0].text)?data.content[0].text:'Ein technischer Fehler ist aufgetreten. Bitte kontaktieren Sie unseren Kundendienst.');
   } catch(e){ hideTyping(); pushBot('Die Verbindung konnte nicht hergestellt werden. Bitte prüfen Sie Ihre Internetverbindung.'); }
@@ -1085,6 +1092,13 @@ document.addEventListener('DOMContentLoaded', function(){
   document.querySelectorAll('.action-btn[data-key]').forEach(function(btn){
     btn.addEventListener('click',function(){ pick(btn.dataset.key); });
   });
+
+  if (userName) {
+    var h1 = document.querySelector('#v1 .section-heading h1');
+    var sub = document.querySelector('#v1 .section-heading p');
+    if (h1) h1.innerHTML = 'Hi ' + esc(userName) + ',<br>was bewegt Sie im Leben?';
+    if (sub) sub.textContent = 'Wählen Sie Ihre Situation und wir helfen Ihnen die passende Lösung zu finden.';
+  }
 
   var params = new URLSearchParams(window.location.search);
   if (params.get('wizard') === 'vorsorge') {
