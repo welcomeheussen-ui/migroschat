@@ -833,6 +833,10 @@ function buildSystem(){
   return 'BENUTZER: Heisst ' + userName + '. Sprich ihn/sie sparsam (max. alle paar Antworten) mit Vornamen an, wenn es natürlich wirkt.\n\n' + SYSTEM;
 }
 
+function ctxEvLabel(label){
+  return userName ? ('Hi ' + userName + ' · ' + label) : label;
+}
+
 /* ── Helpers ── */
 function normalize(s) {
   return s.toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss');
@@ -902,7 +906,7 @@ function pick(key) {
 function selectQ(q) {
   curQ = q;
   document.getElementById('ctxIcon').textContent = curEv.icon;
-  document.getElementById('ctxEv').textContent = curEv.label;
+  document.getElementById('ctxEv').textContent = ctxEvLabel(curEv.label);
   document.getElementById('ctxQ').textContent = q;
   document.getElementById('msgs').innerHTML = '';
   chatHistory = [];
@@ -923,7 +927,7 @@ function openChatFromWizard(evKey, ctxLine, userMessage) {
   });
   document.getElementById('v3').classList.add('active');
   document.getElementById('ctxIcon').textContent = curEv.icon;
-  document.getElementById('ctxEv').textContent = curEv.label;
+  document.getElementById('ctxEv').textContent = ctxEvLabel(curEv.label);
   document.getElementById('ctxQ').textContent = curQ;
   document.getElementById('msgs').innerHTML = '';
   chatHistory = [];
