@@ -526,38 +526,52 @@
   .advisory-card {
     margin: 8px 0 6px;
     background: var(--primary-subtle1);
-    border: 1.5px solid var(--primary-subtle3);
     border-radius: var(--radius-l);
     padding: 16px;
-    height: auto;
-    overflow: visible;
+    display: flex; flex-direction: column; gap: 16px;
   }
-  .advisory-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .advisory-header { display: flex; align-items: center; gap: 12px; }
   .advisory-av {
-    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
-    background: var(--primary-default);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+    background: var(--primary-subtle3) center/cover no-repeat;
+    overflow: hidden;
   }
-  .advisory-title { font-size: 15px; font-weight: 500; color: var(--primary-default); }
-  .advisory-role { font-size: 12px; color: var(--primary-subtle5); margin-top: 2px; }
-  .advisory-desc { font-size: 14px; color: var(--primary-default); line-height: 1.5; margin-bottom: 14px; }
+  .advisory-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .advisory-title {
+    font-size: 14px; font-weight: 500;
+    color: var(--primary-default);
+    line-height: 1.429; letter-spacing: 0.07px;
+  }
+  .advisory-role {
+    font-size: 11px; font-weight: 400;
+    color: var(--primary-default);
+    line-height: 1.375; letter-spacing: 0.04px;
+    margin-top: 2px;
+  }
+  .advisory-desc {
+    font-size: 14px; font-weight: 400;
+    color: var(--primary-default);
+    line-height: 1.429; letter-spacing: 0.07px;
+    padding-left: 52px;
+  }
   .advisory-btn {
-    width: 100%; padding: 12px;
-    background: transparent;
-    border: 1.5px solid var(--primary-default);
-    border-radius: var(--radius-m);
+    margin-left: 52px;
+    height: 32px; padding: 4px 16px;
+    background: var(--primary-default);
+    border: none;
+    border-radius: 6px;
     font-family: var(--font-family);
-    font-size: 15px; font-weight: 500; color: var(--primary-default);
-    cursor: pointer; transition: all .15s;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    flex-wrap: wrap;
-    white-space: normal;
-    line-height: 1.35;
+    font-size: 16px; font-weight: 400;
+    color: var(--primary-ondefault);
+    cursor: pointer;
+    transition: all .15s;
+    display: flex; align-items: center; justify-content: center;
+    white-space: nowrap;
+    line-height: 1.375;
     text-align: center;
     text-decoration: none;
   }
-  .advisory-btn:hover { background: var(--primary-default); color: white; }
+  .advisory-btn:hover { background: #0e3c30; }
 
   /* ── New topic + Input ── */
   .new-strip { padding: 8px var(--spacing-s) 0; flex-shrink: 0; }
@@ -1203,12 +1217,11 @@ function pushBot(raw) {
   if(ADVISORY_TRIGGERS.some(function(k){return tl.includes(normalize(k));})){
     var copy=ADVISORY_COPY[curEvKey]||ADVISORY_COPY['_default'];
     var ac=document.createElement('div'); ac.className='advisory-card';
-    var ctaIcon='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
     var ctaUrl=ADVISORY_CTA_URLS[curEvKey];
     var ctaHtml=ctaUrl
-      ? '<a class="advisory-btn" href="'+ctaUrl+'" target="_blank" rel="noopener">'+ctaIcon+'Kostenlose Erstberatung buchen</a>'
-      : '<button class="advisory-btn">'+ctaIcon+'Kostenlose Erstberatung buchen</button>';
-    ac.innerHTML='<div class="advisory-header"><div class="advisory-av">👩‍💼</div><div><div class="advisory-title">Persönliche Beratung</div><div class="advisory-role">'+copy.role+'</div></div></div><div class="advisory-desc">'+copy.desc+'</div>'+ctaHtml;
+      ? '<a class="advisory-btn" href="'+ctaUrl+'" target="_blank" rel="noopener">Kostenlose Erstberatung buchen</a>'
+      : '<button class="advisory-btn">Kostenlose Erstberatung buchen</button>';
+    ac.innerHTML='<div class="advisory-header"><div class="advisory-av"><img src="assets/advisor.png" alt=""></div><div><div class="advisory-title">Persönliche Beratung</div><div class="advisory-role">'+copy.role+'</div></div></div><div class="advisory-desc">'+copy.desc+'</div>'+ctaHtml;
     m.appendChild(ac);
   }
 
