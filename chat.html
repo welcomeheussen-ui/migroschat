@@ -249,7 +249,7 @@
   }
   .view.active .action-btn,
   .view.active .question-item {
-    animation: itemFadeIn .85s cubic-bezier(.16,1,.3,1) both;
+    animation: itemFadeIn .95s cubic-bezier(.16,1,.3,1) both;
   }
   .view.active .action-btn:nth-child(1) { animation-delay: .10s; }
   .view.active .action-btn:nth-child(2) { animation-delay: .22s; }
@@ -470,6 +470,58 @@
     display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
 
+  /* ── Product cards (V3) ── */
+  .product-strip {
+    display: flex; flex-direction: column;
+    gap: 8px; padding: 2px 0 0;
+    margin-top: 12px;
+  }
+  .product-strip-label {
+    font-size: 12px; font-weight: 500;
+    color: var(--primary-default);
+    letter-spacing: 0.5px; line-height: 1.417;
+    margin-bottom: 2px;
+  }
+  .product-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    background: var(--primary-ondefault);
+    border: 1px solid var(--primary-subtle3);
+    border-radius: var(--radius-m);
+    text-decoration: none; cursor: pointer;
+    transition: all .18s cubic-bezier(.4,0,.2,1);
+  }
+  .product-card:hover {
+    border-color: var(--primary-default);
+    background: var(--primary-subtle1);
+  }
+  .product-card-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: var(--primary-subtle1);
+    border-radius: var(--radius-m);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--primary-default);
+  }
+  .product-card-icon svg { width: 22px; height: 22px; }
+  .product-card-body { flex: 1; min-width: 0; }
+  .product-card-title {
+    font-size: 16px; font-weight: 500;
+    color: var(--primary-default);
+    line-height: 1.4; letter-spacing: 0.08px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .product-card-sub {
+    font-size: 12px; font-weight: 400;
+    color: var(--primary-subtle4);
+    line-height: 1.417; letter-spacing: 0.06px;
+    margin-top: 2px;
+  }
+  .product-card-chevron {
+    flex-shrink: 0; color: var(--primary-subtle4);
+    display: flex; align-items: center;
+  }
+  .product-card:hover .product-card-chevron { color: var(--primary-default); }
+
   /* ── Advisory card ── */
   .advisory-card {
     margin: 8px 0 6px;
@@ -503,6 +555,7 @@
     white-space: normal;
     line-height: 1.35;
     text-align: center;
+    text-decoration: none;
   }
   .advisory-btn:hover { background: var(--primary-default); color: white; }
 
@@ -837,6 +890,57 @@ var ADVISORY_COPY = {
 
 var ADVISORY_TRIGGERS = ['beratungsgespräch','beratung','persönlich beraten','persönliche beratung','experten','expertin','spezialist','fachberatung','termin','kontakt','empfehle ich','empfehlen wir','vereinbaren','buchen'];
 
+var ADVISORY_CTA_URLS = {
+  // Wohnen
+  house:       'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=mortgage&lang=de',
+  elderly:     'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=mortgage&lang=de',
+  // Vorsorge
+  retirement:  'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=precaution&lang=de',
+  wealth:      'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=precaution&lang=de',
+  family:      'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=precaution&lang=de',
+  inheritance: 'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=precaution&lang=de',
+  start:       'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=precaution&lang=de'
+};
+
+/* ── Products (V3 product-card strip) ── */
+var PRODUCT_ICONS = {
+  bill:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v.01M18 15v.01"/></svg>',
+  coins:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v5c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 11v5c0 1.7 3.6 3 8 3s8-1.3 8-3v-5"/></svg>',
+  user:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>',
+  card:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><line x1="2.5" y1="10" x2="21.5" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>',
+  donut:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v5M21 12h-5"/></svg>',
+  chart:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="11" width="3" height="9"/><rect x="11" y="6" width="3" height="14"/><rect x="16" y="14" width="3" height="6"/></svg>',
+  pillar:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M5 8h14"/><line x1="7" y1="8" x2="7" y2="17"/><line x1="12" y1="8" x2="12" y2="17"/><line x1="17" y1="8" x2="17" y2="17"/><path d="M3 20h18"/></svg>',
+  home:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 13 15 13 15 22"/></svg>',
+  banknote: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 10v.01M18 14v.01"/></svg>',
+  car:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="6" rx="1.5"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg>'
+};
+
+var PRODUCTS = {
+  privatkonto:    { title:'Privatkonto',    sub:'Zahlungskonto',                       url:'https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten.html?konto-uebersicht=zahlen', icon:'bill' },
+  sparkonto:      { title:'Bonussparkonto', sub:'Sparkonto',                           url:'https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten.html?konto-uebersicht=sparen', icon:'coins' },
+  jugendkonto:    { title:'Jugendkonto',    sub:'Konto für Kinder & junge Erwachsene', url:'https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten.html?konto-uebersicht=kinder-%26-jugendliche', icon:'user' },
+  visa:           { title:'Visa Debitkarte',sub:'Karten',                              url:'https://www.migrosbank.ch/de/privatpersonen/konten-karten/karten.html', icon:'card' },
+  mastercardgold: { title:'Mastercard Gold',sub:'Karten',                              url:'https://www.migrosbank.ch/de/privatpersonen/konten-karten/karten.html', icon:'card' },
+  depotplus:      { title:'Depot Plus',     sub:'Anlagelösung',                        url:'https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen.html', icon:'donut' },
+  anlagefonds:    { title:'Anlagefonds',    sub:'Anlageinstrument',                    url:'https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageinstrumente.html', icon:'chart' },
+  saeule3a:       { title:'Säule 3a Konto', sub:'Vorsorgelösung',                      url:'https://www.migrosbank.ch/de/privatpersonen/vorsorgen.html', icon:'pillar' },
+  hypothek:       { title:'Hypothek',       sub:'Finanzierung Eigenheim',              url:'https://www.migrosbank.ch/de/privatpersonen/hypotheken.html', icon:'home' },
+  privatkredit:   { title:'Privatkredit',   sub:'Kredit & Leasing',                    url:'https://www.migrosbank.ch/de/privatpersonen/kredite.html', icon:'banknote' },
+  leasing:        { title:'Auto-Leasing',   sub:'Kredit & Leasing',                    url:'https://www.migrosbank.ch/de/privatpersonen/kredite.html', icon:'car' }
+};
+
+var EVENT_PRODUCTS = {
+  start:       ['privatkonto','sparkonto'],
+  family:      ['privatkonto','jugendkonto'],
+  house:       ['hypothek'],
+  mobility:    ['leasing','privatkredit'],
+  wealth:      ['depotplus','saeule3a'],
+  retirement:  ['saeule3a','depotplus'],
+  elderly:     ['hypothek','saeule3a'],
+  inheritance: ['saeule3a','depotplus']
+};
+
 var SYSTEM = `Du der virtuelle Assistent der Mirgos Bank – kompetent, transparent und vertrauenswürdig.
 
 SPRACHE: Ausschliesslich Deutsch, Schweizer Orthographie (kein ß, sondern ss). Anrede: «Sie». Kein Jargon, keine Floskeln.
@@ -1074,12 +1178,37 @@ function pushBot(raw) {
     m.appendChild(strip);
   }
 
+  // Products
+  if(curEvKey && EVENT_PRODUCTS[curEvKey]){
+    var pkeys=EVENT_PRODUCTS[curEvKey].slice(0,2);
+    if(pkeys.length){
+      var pstrip=document.createElement('div'); pstrip.className='product-strip';
+      var plbl=document.createElement('div'); plbl.className='product-strip-label';
+      plbl.textContent=pkeys.length===1?'Passendes Produkt':'Passende Produkte';
+      pstrip.appendChild(plbl);
+      pkeys.forEach(function(k){
+        var p=PRODUCTS[k]; if(!p) return;
+        var pcard=document.createElement('a');
+        pcard.className='product-card';
+        pcard.href=p.url; pcard.target='_blank'; pcard.rel='noopener';
+        pcard.innerHTML='<div class="product-card-icon">'+(PRODUCT_ICONS[p.icon]||'')+'</div><div class="product-card-body"><div class="product-card-title">'+esc(p.title)+'</div><div class="product-card-sub">'+esc(p.sub)+'</div></div><div class="product-card-chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>';
+        pstrip.appendChild(pcard);
+      });
+      m.appendChild(pstrip);
+    }
+  }
+
   // Advisory
   var tl=normalize(text);
   if(ADVISORY_TRIGGERS.some(function(k){return tl.includes(normalize(k));})){
     var copy=ADVISORY_COPY[curEvKey]||ADVISORY_COPY['_default'];
     var ac=document.createElement('div'); ac.className='advisory-card';
-    ac.innerHTML='<div class="advisory-header"><div class="advisory-av">👩‍💼</div><div><div class="advisory-title">Persönliche Beratung</div><div class="advisory-role">'+copy.role+'</div></div></div><div class="advisory-desc">'+copy.desc+'</div><button class="advisory-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Kostenlose Erstberatung buchen</button>';
+    var ctaIcon='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+    var ctaUrl=ADVISORY_CTA_URLS[curEvKey];
+    var ctaHtml=ctaUrl
+      ? '<a class="advisory-btn" href="'+ctaUrl+'" target="_blank" rel="noopener">'+ctaIcon+'Kostenlose Erstberatung buchen</a>'
+      : '<button class="advisory-btn">'+ctaIcon+'Kostenlose Erstberatung buchen</button>';
+    ac.innerHTML='<div class="advisory-header"><div class="advisory-av">👩‍💼</div><div><div class="advisory-title">Persönliche Beratung</div><div class="advisory-role">'+copy.role+'</div></div></div><div class="advisory-desc">'+copy.desc+'</div>'+ctaHtml;
     m.appendChild(ac);
   }
 
