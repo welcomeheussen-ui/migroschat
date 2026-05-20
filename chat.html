@@ -178,13 +178,14 @@
     width: max-content;
     align-items: center;
     margin: 16px var(--spacing-s) 0;
-    padding: 4px 10px;
-    background: rgba(20,75,60,0.08);
+    padding: 3px 10px;
+    background: rgba(45,143,111,0.09);
     border-radius: 20px;
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--primary-default);
-    letter-spacing: 0.1px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.417;
+    color: #2d8f6f;
+    letter-spacing: 0.5px;
   }
 
   /* ── Action Button (Migros Bank pattern) ── */
@@ -243,21 +244,21 @@
 
   /* Staggered fade-in for list items when a view becomes active */
   @keyframes itemFadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: none; }
   }
   .view.active .action-btn,
   .view.active .question-item {
-    animation: itemFadeIn .55s cubic-bezier(.22,1,.36,1) both;
+    animation: itemFadeIn .85s cubic-bezier(.16,1,.3,1) both;
   }
-  .view.active .action-btn:nth-child(1) { animation-delay: .08s; }
-  .view.active .action-btn:nth-child(2) { animation-delay: .15s; }
-  .view.active .action-btn:nth-child(3) { animation-delay: .22s; }
-  .view.active .action-btn:nth-child(4) { animation-delay: .30s; }
-  .view.active .action-btn:nth-child(5) { animation-delay: .39s; }
-  .view.active .action-btn:nth-child(6) { animation-delay: .47s; }
-  .view.active .action-btn:nth-child(7) { animation-delay: .54s; }
-  .view.active .action-btn:nth-child(8) { animation-delay: .60s; }
+  .view.active .action-btn:nth-child(1) { animation-delay: .10s; }
+  .view.active .action-btn:nth-child(2) { animation-delay: .22s; }
+  .view.active .action-btn:nth-child(3) { animation-delay: .34s; }
+  .view.active .action-btn:nth-child(4) { animation-delay: .47s; }
+  .view.active .action-btn:nth-child(5) { animation-delay: .60s; }
+  .view.active .action-btn:nth-child(6) { animation-delay: .72s; }
+  .view.active .action-btn:nth-child(7) { animation-delay: .83s; }
+  .view.active .action-btn:nth-child(8) { animation-delay: .93s; }
   @media (prefers-reduced-motion: reduce) {
     .view.active .action-btn,
     .view.active .question-item { animation: none; }
@@ -388,20 +389,25 @@
 
   /* ── Suggestion chips ── */
   .ichips {
-    display: flex; flex-wrap: wrap; gap: 7px;
+    display: flex; flex-wrap: wrap; gap: 8px;
     padding: 0 0 2px 36px;
     animation: msgIn .3s .06s cubic-bezier(.34,1.1,.64,1) both;
   }
   .ic {
-    padding: 7px 14px;
-    border: 1.5px solid var(--primary-subtle3);
-    border-radius: 20px;
-    font-size: 13px; color: var(--primary-default);
-    background: var(--primary-ondefault);
-    cursor: pointer; font-family: var(--font-family);
+    padding: 4px 12px;
+    border: 1px solid #c4e1ce;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #005a1f;
+    background: #eff7f1;
+    cursor: pointer;
+    font-family: var(--font-family);
+    white-space: nowrap;
     transition: all .15s;
   }
-  .ic:hover { background: var(--primary-default); color: white; border-color: var(--primary-default); }
+  .ic:hover { background: #c4e1ce; border-color: #005a1f; }
 
   /* ── Typing indicator ── */
   .typing { display: flex; gap: 8px; align-items: flex-end; }
@@ -425,34 +431,44 @@
     margin-bottom: 2px;
   }
   .article-card {
-    display: flex; align-items: flex-start; gap: 10px;
+    display: flex; align-items: stretch; gap: 0;
     background: var(--primary-ondefault);
-    border: 1.5px solid var(--primary-subtle3);
-    border-radius: 12px; padding: 12px 14px;
+    border: 1px solid var(--primary-subtle3);
+    border-radius: 16px;
     text-decoration: none; cursor: pointer;
-    transition: all .15s; position: relative; overflow: hidden;
-  }
-  .article-card::before {
-    content:''; position:absolute; left:0;top:0;bottom:0; width:3px;
-    background: var(--primary-default); border-radius: 3px 0 0 3px;
+    overflow: hidden;
+    min-height: 100px;
+    transition: all .18s cubic-bezier(.4,0,.2,1);
   }
   .article-card:hover { border-color: var(--primary-default); background: var(--primary-subtle1); }
-  .article-card-body { flex: 1; min-width: 0; }
+  .article-card-img {
+    width: 104px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--primary-subtle1), var(--primary-subtle3)) center/cover no-repeat;
+  }
+  .article-card-body {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column;
+    gap: 4px; align-items: flex-start;
+    justify-content: center;
+    padding: 8px 16px;
+  }
   .article-tag {
-    font-size: 10.5px; font-weight: 500; color: var(--primary-default);
-    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px;
+    font-size: 12px; font-weight: 500;
+    line-height: 1.5; letter-spacing: 0;
+    color: #4f1c68;
     display: inline-flex; align-items: center;
-    padding: 2px 8px;
-    background: rgba(20,75,60,0.08);
-    border-radius: 20px;
+    padding: 4px 12px;
+    background: #f3eff4;
+    border: 1px solid #d3c6d9;
+    border-radius: 99px;
+    white-space: nowrap;
   }
   .article-title {
-    font-size: 13px; font-weight: 500; color: var(--primary-default);
-    line-height: 1.35;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    font-size: 16px; font-weight: 500;
+    color: var(--primary-default);
+    line-height: 1.5; letter-spacing: 0;
+    display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .article-arr { color: var(--primary-subtle4); flex-shrink: 0; margin-top: 2px; }
-  .article-card:hover .article-arr { color: var(--primary-default); }
 
   /* ── Advisory card ── */
   .advisory-card {
@@ -920,8 +936,8 @@ function pick(key) {
     btn.innerHTML = '<div class="q-num">'+(i+1)+'</div><span class="q-label">'+esc(q)+'</span>';
     btn.addEventListener('click', function(){ selectQ(q); });
     // Slightly irregular stagger so the cascade feels human, not mechanical
-    var jitter = (i % 2 === 0) ? 0 : 8;
-    btn.style.animationDelay = (120 + i*70 + jitter) + 'ms';
+    var jitter = (i % 2 === 0) ? 0 : 12;
+    btn.style.animationDelay = (150 + i*115 + jitter) + 'ms';
     ql.appendChild(btn);
   });
   transit('v1','v2');
@@ -1051,7 +1067,8 @@ function pushBot(raw) {
     var lbl=document.createElement('div'); lbl.className='article-strip-label'; lbl.textContent='Passende Ratgeber-Artikel'; strip.appendChild(lbl);
     scored.forEach(function(a){
       var card=document.createElement('a'); card.className='article-card'; card.href=a.url; card.target='_blank'; card.rel='noopener';
-      card.innerHTML='<div class="article-card-body"><div class="article-tag">'+a.tag+'</div><div class="article-title">'+esc(a.title)+'</div></div><div class="article-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>';
+      var imgStyle = a.image ? ' style="background-image:url(\''+a.image+'\'); background-size:cover; background-position:center;"' : '';
+      card.innerHTML='<div class="article-card-img"'+imgStyle+'></div><div class="article-card-body"><div class="article-tag">'+a.tag+'</div><div class="article-title">'+esc(a.title)+'</div></div>';
       strip.appendChild(card);
     });
     m.appendChild(strip);
