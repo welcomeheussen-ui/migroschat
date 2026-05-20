@@ -75,38 +75,55 @@
     height: 50px;
     background: var(--primary-ondefault);
     border-bottom: 1px solid var(--primary-subtle3);
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 var(--spacing-s);
     flex-shrink: 0;
+    z-index: 9;
+    box-shadow: none;
   }
-  .mb-logo { display: flex; align-items: center; }
+  .mb-logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: inherit;
+  }
   .mb-logo-mark {
     width: auto;
     height: 22px;
     display: block;
     object-fit: contain;
-  }
-  .page-header-menu {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
     cursor: pointer;
+  }
+  .mb-back-btn {
+    display: none;
+    align-items: center;
+    gap: 6px;
     background: none;
     border: none;
-    padding: 0;
+    cursor: pointer;
+    color: var(--primary-default);
+    font-family: var(--font-family);
+    font-size: 16px;
+    font-weight: 400;
+    padding: 4px 0;
+  }
+  .mb-back-btn.visible { display: flex; }
+  .page-header-menu {
+    width: 24px; height: 24px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
   }
   .page-header-menu span {
-    display: block;
-    width: 18px;
-    height: 2px;
-    background: var(--neutral-bold3);
-    border-radius: 1px;
+    display: block; width: 18px; height: 2px;
+    background: var(--neutral-bold3); border-radius: 1px;
   }
 
   .onboarding {
@@ -260,14 +277,17 @@
 
   <div class="shell">
 
-    <header class="page-header">
-      <div class="mb-logo">
-        <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
-      </div>
-      <button type="button" class="page-header-menu" aria-label="Menü">
-        <span></span><span></span><span></span>
+    <div class="page-header">
+      <button class="mb-back-btn" id="backBtn" type="button" aria-label="Zurück">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-    </header>
+      <a class="mb-logo" href="index.html" aria-label="Zur Startseite">
+        <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
+      </a>
+      <a class="page-header-menu" href="chat.html" aria-label="Chat öffnen">
+        <span></span><span></span><span></span>
+      </a>
+    </div>
 
     <main class="onboarding">
 
