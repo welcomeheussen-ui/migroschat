@@ -241,6 +241,28 @@
   .action-btn-chevron { flex-shrink: 0; color: var(--primary-subtle4); }
   .action-btn:hover .action-btn-chevron { color: var(--primary-default); }
 
+  /* Staggered fade-in for list items when a view becomes active */
+  @keyframes itemFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .view.active .action-btn,
+  .view.active .question-item {
+    animation: itemFadeIn .55s cubic-bezier(.22,1,.36,1) both;
+  }
+  .view.active .action-btn:nth-child(1) { animation-delay: .08s; }
+  .view.active .action-btn:nth-child(2) { animation-delay: .15s; }
+  .view.active .action-btn:nth-child(3) { animation-delay: .22s; }
+  .view.active .action-btn:nth-child(4) { animation-delay: .30s; }
+  .view.active .action-btn:nth-child(5) { animation-delay: .39s; }
+  .view.active .action-btn:nth-child(6) { animation-delay: .47s; }
+  .view.active .action-btn:nth-child(7) { animation-delay: .54s; }
+  .view.active .action-btn:nth-child(8) { animation-delay: .60s; }
+  @media (prefers-reduced-motion: reduce) {
+    .view.active .action-btn,
+    .view.active .question-item { animation: none; }
+  }
+
   /* Question list (v2) */
   .question-list {
     display: flex;
@@ -897,6 +919,9 @@ function pick(key) {
     btn.className = 'question-item';
     btn.innerHTML = '<div class="q-num">'+(i+1)+'</div><span class="q-label">'+esc(q)+'</span>';
     btn.addEventListener('click', function(){ selectQ(q); });
+    // Slightly irregular stagger so the cascade feels human, not mechanical
+    var jitter = (i % 2 === 0) ? 0 : 8;
+    btn.style.animationDelay = (120 + i*70 + jitter) + 'ms';
     ql.appendChild(btn);
   });
   transit('v1','v2');
