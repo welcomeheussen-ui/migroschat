@@ -127,6 +127,20 @@
   }
   .ctx-bar .view-close-btn:hover { background: rgba(255,255,255,0.12); color: white; }
   .ctx-bar .view-close-btn svg { width: 20px; height: 20px; }
+  .page-header-menu {
+    width: 24px; height: 24px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  .page-header-menu span {
+    display: block; width: 18px; height: 2px;
+    background: var(--neutral-bold3); border-radius: 1px;
+  }
+
   /* ── Body (view host) ── */
   .body {
     flex: 1;
@@ -631,6 +645,9 @@
     <a class="mb-logo" href="index.html" aria-label="Zur Startseite">
       <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
     </a>
+    <button class="page-header-menu" type="button" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 
   <!-- Views -->

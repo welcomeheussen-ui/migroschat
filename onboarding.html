@@ -117,9 +117,10 @@
     width: 24px; height: 24px;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
     cursor: pointer;
-    text-decoration: none;
-    color: inherit;
   }
   .page-header-menu span {
     display: block; width: 18px; height: 2px;
@@ -284,9 +285,9 @@
       <a class="mb-logo" href="index.html" aria-label="Zur Startseite">
         <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
       </a>
-      <a class="page-header-menu" href="chat.html" aria-label="Chat öffnen">
+      <button class="page-header-menu" type="button" aria-label="Menü">
         <span></span><span></span><span></span>
-      </a>
+      </button>
     </div>
 
     <main class="onboarding">

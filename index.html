@@ -81,7 +81,6 @@
     text-decoration: none;
     color: inherit;
   }
-  .page-header-menu { text-decoration: none; color: inherit; }
   .mb-logo-mark {
     width: auto;
     height: 22px;
@@ -111,6 +110,9 @@
     align-items: center;
     justify-content: center;
     gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
     cursor: pointer;
   }
   .page-header-menu span {
@@ -204,9 +206,9 @@
     <a class="mb-logo" href="index.html" aria-label="Zur Startseite">
       <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
     </a>
-    <a class="page-header-menu" href="chat.html" aria-label="Chat öffnen">
+    <button class="page-header-menu" type="button" aria-label="Menü">
       <span></span><span></span><span></span>
-    </a>
+    </button>
   </div>
 
 <main class="pn-main">
