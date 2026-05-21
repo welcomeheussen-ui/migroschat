@@ -99,8 +99,8 @@
     object-fit: contain;
     cursor: pointer;
   }
-  .mb-back-btn {
-    display: none;
+  .view-back-btn {
+    display: inline-flex;
     align-items: center;
     gap: 6px;
     background: none;
@@ -108,11 +108,15 @@
     cursor: pointer;
     color: var(--primary-default);
     font-family: var(--font-family);
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 400;
-    padding: 4px 0;
+    padding: 4px 8px;
+    margin: 12px var(--spacing-s) 0;
+    border-radius: 6px;
+    transition: background .15s;
   }
-  .mb-back-btn.visible { display: flex; }
+  .view-back-btn:hover { background: var(--primary-subtle1); }
+  .view-back-btn svg { width: 20px; height: 20px; }
   .page-header-menu {
     width: 24px; height: 24px;
     display: flex; flex-direction: column;
@@ -625,9 +629,6 @@
 
   <!-- Page Header -->
   <div class="page-header">
-    <button class="mb-back-btn" id="backBtn" type="button" aria-label="Zurück">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
     <a class="mb-logo" href="index.html" aria-label="Zur Startseite">
       <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
     </a>
@@ -739,6 +740,9 @@
 
     <!-- VIEW 2: Questions -->
     <div class="view" id="v2">
+      <button class="view-back-btn" id="backBtnV2" type="button" aria-label="Zurück">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
       <div id="v2breadcrumb" class="breadcrumb-tag"></div>
       <div class="section-heading" style="padding-top:12px;">
         <h1 id="v2title" style="font-size:22px;"></h1>
@@ -758,6 +762,9 @@
 
     <!-- VIEW 3: Chat -->
     <div class="view" id="v3">
+      <button class="view-back-btn" id="backBtnV3" type="button" aria-label="Zurück">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
       <div class="ctx-bar">
         <div class="ctx-icon" id="ctxIcon"></div>
         <div>
@@ -1061,7 +1068,6 @@ function pick(key) {
     ql.appendChild(btn);
   });
   transit('v1','v2');
-  document.getElementById('backBtn').classList.add('visible');
 }
 
 function selectQ(q) {
@@ -1092,7 +1098,6 @@ function openChatFromWizard(evKey, ctxLine, userMessage) {
   document.getElementById('ctxQ').textContent = curQ;
   document.getElementById('msgs').innerHTML = '';
   chatHistory = [];
-  document.getElementById('backBtn').classList.add('visible');
   hideTyping();
   pushUser(userMessage);
   callAPI(userMessage);
@@ -1103,13 +1108,11 @@ function goBack() {
     var qlist = document.getElementById('qlist');
     if (qlist && qlist.children.length === 0) {
       transit('v3', 'v1', true);
-      document.getElementById('backBtn').classList.remove('visible');
     } else {
       transit('v3', 'v2', true);
     }
   } else if (document.getElementById('v2').classList.contains('active')) {
     transit('v2','v1',true);
-    document.getElementById('backBtn').classList.remove('visible');
   }
 }
 
@@ -1237,7 +1240,8 @@ function sendFromV2(){
 
 /* ── Init ── */
 document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('backBtn').addEventListener('click', goBack);
+  document.getElementById('backBtnV2').addEventListener('click', goBack);
+  document.getElementById('backBtnV3').addEventListener('click', goBack);
 
   var inp=document.getElementById('inp'), sendBtn=document.getElementById('sendBtn');
   inp.addEventListener('input',function(){ resize(inp,'sendBtn'); });
