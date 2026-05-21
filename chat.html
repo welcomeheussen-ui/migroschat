@@ -99,24 +99,35 @@
     object-fit: contain;
     cursor: pointer;
   }
-  .view-back-btn {
+  .view-close-btn {
+    position: absolute;
+    top: 12px;
+    right: var(--spacing-s);
+    width: 32px;
+    height: 32px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
     background: none;
     border: none;
     cursor: pointer;
     color: var(--primary-default);
-    font-family: var(--font-family);
-    font-size: 14px;
-    font-weight: 400;
-    padding: 4px 8px;
-    margin: 12px var(--spacing-s) 0;
-    border-radius: 6px;
+    border-radius: 50%;
     transition: background .15s;
+    z-index: 2;
+    flex-shrink: 0;
   }
-  .view-back-btn:hover { background: var(--primary-subtle1); }
-  .view-back-btn svg { width: 20px; height: 20px; }
+  .view-close-btn:hover { background: var(--primary-subtle1); }
+  .view-close-btn svg { width: 22px; height: 22px; }
+  .ctx-bar .view-close-btn {
+    position: static;
+    margin-left: auto;
+    color: rgba(255,255,255,0.85);
+    width: 28px;
+    height: 28px;
+  }
+  .ctx-bar .view-close-btn:hover { background: rgba(255,255,255,0.12); color: white; }
+  .ctx-bar .view-close-btn svg { width: 20px; height: 20px; }
   .page-header-menu {
     width: 24px; height: 24px;
     display: flex; flex-direction: column;
@@ -740,8 +751,8 @@
 
     <!-- VIEW 2: Questions -->
     <div class="view" id="v2">
-      <button class="view-back-btn" id="backBtnV2" type="button" aria-label="Zurück">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <button class="view-close-btn" id="closeBtnV2" type="button" aria-label="Schliessen">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
       </button>
       <div id="v2breadcrumb" class="breadcrumb-tag"></div>
       <div class="section-heading" style="padding-top:12px;">
@@ -762,15 +773,15 @@
 
     <!-- VIEW 3: Chat -->
     <div class="view" id="v3">
-      <button class="view-back-btn" id="backBtnV3" type="button" aria-label="Zurück">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
       <div class="ctx-bar">
         <div class="ctx-icon" id="ctxIcon"></div>
         <div>
           <div class="ctx-ev" id="ctxEv"></div>
           <div class="ctx-q" id="ctxQ"></div>
         </div>
+        <button class="view-close-btn" id="closeBtnV3" type="button" aria-label="Schliessen">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </button>
       </div>
       <div class="msgs" id="msgs"></div>
       <div class="inp-wrap">
@@ -1103,16 +1114,11 @@ function openChatFromWizard(evKey, ctxLine, userMessage) {
   callAPI(userMessage);
 }
 
-function goBack() {
+function closeFlow() {
   if (document.getElementById('v3').classList.contains('active')) {
-    var qlist = document.getElementById('qlist');
-    if (qlist && qlist.children.length === 0) {
-      transit('v3', 'v1', true);
-    } else {
-      transit('v3', 'v2', true);
-    }
+    transit('v3', 'v1', true);
   } else if (document.getElementById('v2').classList.contains('active')) {
-    transit('v2','v1',true);
+    transit('v2', 'v1', true);
   }
 }
 
@@ -1240,8 +1246,8 @@ function sendFromV2(){
 
 /* ── Init ── */
 document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('backBtnV2').addEventListener('click', goBack);
-  document.getElementById('backBtnV3').addEventListener('click', goBack);
+  document.getElementById('closeBtnV2').addEventListener('click', closeFlow);
+  document.getElementById('closeBtnV3').addEventListener('click', closeFlow);
 
   var inp=document.getElementById('inp'), sendBtn=document.getElementById('sendBtn');
   inp.addEventListener('input',function(){ resize(inp,'sendBtn'); });
