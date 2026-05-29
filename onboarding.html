@@ -414,8 +414,8 @@
 
         // --- GSAP setup: GSAP owns the transforms; add a gentle continuous float ---
         if (hasGsap) {
-          slides.forEach(function (slide) {
-            cardsOf(slides.indexOf(slide)).forEach(function (card, ci) {
+          slides.forEach(function (slide, si) {
+            cardsOf(si).forEach(function (card, ci) {
               var isCenter = card.classList.contains('fc-center');
               gsap.set(card, isCenter
                 ? { xPercent: -50, yPercent: -50, rotation: rotOf(card), transformOrigin: '50% 50%' }
@@ -429,6 +429,25 @@
                 });
               }
             });
+
+            // The whole cluster drifts smoothly as one — a slow bob + subtle sway/tilt,
+            // layered on top of the per-card float for an organic, weightless feel.
+            var cluster = slide.querySelector('.ob-cluster');
+            if (cluster && !reduceMotion) {
+              gsap.set(cluster, { transformOrigin: '50% 50%' });
+              gsap.to(cluster, {
+                y: 12, duration: 3.4 + si * 0.3,
+                ease: 'sine.inOut', yoyo: true, repeat: -1
+              });
+              gsap.to(cluster, {
+                x: 6, duration: 4.6 + si * 0.4,
+                ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 0.5
+              });
+              gsap.to(cluster, {
+                rotation: 1.5, duration: 5.2 + si * 0.35,
+                ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 0.8
+              });
+            }
           });
         }
 
