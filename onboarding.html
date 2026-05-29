@@ -393,18 +393,111 @@
 
     </main>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script>
       (function () {
         var carousel = document.getElementById('obCarousel');
         var dots = Array.prototype.slice.call(document.querySelectorAll('#obDots .dot'));
         if (!carousel || !dots.length) return;
 
-        var current = 0;
+        var hasGsap = typeof window.gsap !== 'undefined';
+        var slides = Array.prototype.slice.call(carousel.querySelectorAll('.ob-slide'));
+        var baseRot = { 'fc-tl': -8, 'fc-tr': 6, 'fc-bl': -10, 'fc-br': 4, 'fc-center': 0 };
+
+        function cardsOf(i) { return Array.prototype.slice.call(slides[i].querySelectorAll('.feature-card')); }
+        function rotOf(card) {
+          var k = Object.keys(baseRot).filter(function (c) { return card.classList.contains(c); })[0];
+          return k ? baseRot[k] : 0;
+        }
+
+        var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // --- GSAP setup: GSAP owns the transforms; add a gentle continuous float ---
+        if (hasGsap) {
+          slides.forEach(function (slide) {
+            cardsOf(slides.indexOf(slide)).forEach(function (card, ci) {
+              var isCenter = card.classList.contains('fc-center');
+              gsap.set(card, isCenter
+                ? { xPercent: -50, yPercent: -50, rotation: rotOf(card), transformOrigin: '50% 50%' }
+                : { rotation: rotOf(card), transformOrigin: '50% 50%' });
+              // idle float on y only (kept separate from step flourishes on scale/rotation)
+              if (!reduceMotion) {
+                gsap.to(card, {
+                  y: isCenter ? 6 : 10 + ci,
+                  duration: 2.2 + ci * 0.25,
+                  ease: 'sine.inOut', yoyo: true, repeat: -1, delay: ci * 0.18
+                });
+              }
+            });
+          });
+        }
+
+        // --- One-time page-entrance timeline: chrome flows in around the carousel ---
+        function animateEntrance() {
+          if (!hasGsap || reduceMotion) return;
+          var header = document.querySelector('.page-header');
+          var tabs = document.querySelectorAll('.mb-tab');
+          var dotEls = document.querySelectorAll('#obDots .dot');
+          var cta = document.querySelector('.ob-cta');
+          var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+          if (header) tl.from(header, { y: -24, autoAlpha: 0, duration: 0.5 }, 0);
+          if (tabs.length) tl.from(tabs, { y: -12, autoAlpha: 0, duration: 0.45, stagger: 0.08 }, 0.1);
+          if (dotEls.length) tl.from(dotEls, { scale: 0, autoAlpha: 0, duration: 0.4, stagger: 0.06, ease: 'back.out(2)' }, 0.35);
+          if (cta) tl.from(cta, { y: 28, autoAlpha: 0, duration: 0.5 }, 0.3);
+          return tl;
+        }
+
+        // --- A distinct themed flourish per step: cards, icon AND text ---
+        function animateStep(i) {
+          if (!hasGsap) return;
+          var cards = cardsOf(i);
+          var icon = slides[i].querySelector('.fc-center img');
+          var heading = slides[i].querySelector('.ob-text h1');
+          var para = slides[i].querySelector('.ob-text p');
+
+          if (reduceMotion) {
+            // Keep everything visible, no motion
+            gsap.set([icon, heading, para], { clearProps: 'all', autoAlpha: 1 });
+            return;
+          }
+
+          // Text: gentle slide-up + fade, headline leading the paragraph
+          gsap.fromTo([heading, para],
+            { y: 18, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: 0.55, ease: 'power3.out', stagger: 0.1 });
+
+          if (i === 0) {
+            // Squirrel: cards pop out from the centre, icon springs in
+            gsap.fromTo(cards, { scale: 0.7 },
+              { scale: 1, duration: 0.6, ease: 'back.out(2)', stagger: { each: 0.07, from: 'center' } });
+            gsap.fromTo(icon, { scale: 0.7, rotation: -12 },
+              { scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(2.2)' });
+          } else if (i === 1) {
+            // House: elastic settle, staggered
+            gsap.fromTo(cards, { scale: 0.6 },
+              { scale: 1, duration: 0.8, ease: 'elastic.out(1, 0.5)', stagger: 0.06 });
+            gsap.fromTo(icon, { scale: 0.6 },
+              { scale: 1, duration: 0.8, ease: 'elastic.out(1, 0.5)' });
+          } else {
+            // Lucky cat: fan in from the edges, icon bounces in
+            gsap.fromTo(cards,
+              { scale: 0.7, rotation: function (idx) { return rotOf(cards[idx]) * 0.2; } },
+              { scale: 1, rotation: function (idx) { return rotOf(cards[idx]); },
+                duration: 0.7, ease: 'power3.out', stagger: { each: 0.07, from: 'edges' } });
+            gsap.fromTo(icon, { scale: 0.45, opacity: 0.4 },
+              { scale: 1, opacity: 1, duration: 0.75, ease: 'elastic.out(1, 0.6)' });
+          }
+        }
+
+        var current = -1;
         function setActive(i) {
           if (i === current) return;
           current = i;
           dots.forEach(function (d, idx) { d.classList.toggle('active', idx === i); });
+          animateStep(i);
         }
+        animateEntrance();
+        setActive(0);
 
         // Sync dots while swiping (rAF-throttled)
         var ticking = false;
