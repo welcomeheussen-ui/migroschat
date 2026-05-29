@@ -455,14 +455,26 @@
         function animateEntrance() {
           if (!hasGsap || reduceMotion) return;
           var header = document.querySelector('.page-header');
-          var tabs = document.querySelectorAll('.mb-tab');
-          var dotEls = document.querySelectorAll('#obDots .dot');
+          var tabs = Array.prototype.slice.call(document.querySelectorAll('.mb-tab'));
+          var dotEls = Array.prototype.slice.call(document.querySelectorAll('#obDots .dot'));
           var cta = document.querySelector('.ob-cta');
+          // Every animated chrome element, so we can guarantee they end visible.
+          var all = [header].concat(tabs, dotEls, [cta]).filter(Boolean);
+
           var tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
           if (header) tl.from(header, { y: -24, autoAlpha: 0, duration: 0.5 }, 0);
           if (tabs.length) tl.from(tabs, { y: -12, autoAlpha: 0, duration: 0.45, stagger: 0.08 }, 0.1);
           if (dotEls.length) tl.from(dotEls, { scale: 0, autoAlpha: 0, duration: 0.4, stagger: 0.06, ease: 'back.out(2)' }, 0.35);
-          if (cta) tl.from(cta, { y: 28, autoAlpha: 0, duration: 0.5 }, 0.3);
+          // The CTA is the primary action — reveal it, then strip the inline props
+          // GSAP added so it can never be left stranded by an interrupted tween.
+          if (cta) tl.from(cta, { y: 28, autoAlpha: 0, duration: 0.5, clearProps: 'opacity,visibility' }, 0.3);
+
+          // Safety net: even if a tween is orphaned (interrupted load, throttled
+          // ticker, etc.), force the entrance chrome back to its natural, visible
+          // state. gsap.set is synchronous and does not depend on the ticker.
+          tl.eventCallback('onComplete', function () { gsap.set(all, { clearProps: 'transform,opacity,visibility' }); });
+          window.setTimeout(function () { gsap.set(all, { clearProps: 'transform,opacity,visibility' }); }, 1600);
+
           return tl;
         }
 
@@ -515,6 +527,8 @@
           dots.forEach(function (d, idx) { d.classList.toggle('active', idx === i); });
           animateStep(i);
         }
+        // Start on the first slide (guard against browser scroll restoration).
+        carousel.scrollLeft = 0;
         animateEntrance();
         setActive(0);
 
