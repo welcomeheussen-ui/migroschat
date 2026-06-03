@@ -101,27 +101,6 @@
     font-weight: 400;
     padding: 4px 0;
   }
-  .mb-back-btn.visible { display: flex; }
-  .page-header-menu {
-    width: 24px;
-    height: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-  .page-header-menu span {
-    display: block;
-    width: 18px;
-    height: 2px;
-    background: var(--neutral-bold3);
-    border-radius: 1px;
-  }
 
   .pn-main {
     flex: 0 1 auto;
@@ -194,22 +173,10 @@
     transition: opacity 0.15s ease, transform 0.1s ease;
   }
   .pn-cta:hover { opacity: 0.92; }
-  .pn-cta:active { transform: scale(0.99); }
+  .pn-cta:active { transform: scale(0.99); 
 </style>
 </head>
-<body>
-
-  <div>
-    <button type="button" id="backBtn" aria-label="Zurück">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <a href="index.html" aria-label="Zur Startseite">
-      <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
-    </a>
-    <button class="page-header-menu" type="button" aria-label="Menü">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
+<body>  
 
 <main class="pn-main">
   <div class="section-heading">
