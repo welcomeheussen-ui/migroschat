@@ -88,6 +88,8 @@
     display: flex;
     align-items: center;
     gap: 6px;
+    text-decoration: none;
+    color: inherit;
   }
   .mb-logo-mark {
     width: auto;
@@ -96,24 +98,42 @@
     object-fit: contain;
     cursor: pointer;
   }
-  .mb-back-btn {
-    display: none;
+  .view-close-btn {
+    position: absolute;
+    top: 12px;
+    right: var(--spacing-s);
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
     background: none;
     border: none;
     cursor: pointer;
     color: var(--primary-default);
-    font-family: var(--font-family);
-    font-size: 16px;
-    font-weight: 400;
-    padding: 4px 0;
+    border-radius: 50%;
+    transition: background .15s;
+    z-index: 2;
+    flex-shrink: 0;
   }
-  .mb-back-btn.visible { display: flex; }
+  .view-close-btn:hover { background: var(--primary-subtle1); }
+  .view-close-btn svg { width: 22px; height: 22px; }
+  .ctx-bar .view-close-btn {
+    position: static;
+    margin-left: auto;
+    color: rgba(255,255,255,0.85);
+    width: 28px;
+    height: 28px;
+  }
+  .ctx-bar .view-close-btn:hover { background: rgba(255,255,255,0.12); color: white; }
+  .ctx-bar .view-close-btn svg { width: 20px; height: 20px; }
   .page-header-menu {
     width: 24px; height: 24px;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 4px;
+    background: none;
+    border: none;
+    padding: 0;
     cursor: pointer;
   }
   .page-header-menu span {
@@ -178,13 +198,14 @@
     width: max-content;
     align-items: center;
     margin: 16px var(--spacing-s) 0;
-    padding: 4px 10px;
-    background: rgba(20,75,60,0.08);
+    padding: 3px 10px;
+    background: rgba(45,143,111,0.09);
     border-radius: 20px;
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--primary-default);
-    letter-spacing: 0.1px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.417;
+    color: #2d8f6f;
+    letter-spacing: 0.5px;
   }
 
   /* ── Action Button (Migros Bank pattern) ── */
@@ -240,6 +261,28 @@
   }
   .action-btn-chevron { flex-shrink: 0; color: var(--primary-subtle4); }
   .action-btn:hover .action-btn-chevron { color: var(--primary-default); }
+
+  /* Staggered fade-in for list items when a view becomes active */
+  @keyframes itemFadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .view.active .action-btn,
+  .view.active .question-item {
+    animation: itemFadeIn .95s cubic-bezier(.16,1,.3,1) both;
+  }
+  .view.active .action-btn:nth-child(1) { animation-delay: .10s; }
+  .view.active .action-btn:nth-child(2) { animation-delay: .22s; }
+  .view.active .action-btn:nth-child(3) { animation-delay: .34s; }
+  .view.active .action-btn:nth-child(4) { animation-delay: .47s; }
+  .view.active .action-btn:nth-child(5) { animation-delay: .60s; }
+  .view.active .action-btn:nth-child(6) { animation-delay: .72s; }
+  .view.active .action-btn:nth-child(7) { animation-delay: .83s; }
+  .view.active .action-btn:nth-child(8) { animation-delay: .93s; }
+  @media (prefers-reduced-motion: reduce) {
+    .view.active .action-btn,
+    .view.active .question-item { animation: none; }
+  }
 
   /* Question list (v2) */
   .question-list {
@@ -366,20 +409,25 @@
 
   /* ── Suggestion chips ── */
   .ichips {
-    display: flex; flex-wrap: wrap; gap: 7px;
+    display: flex; flex-wrap: wrap; gap: 8px;
     padding: 0 0 2px 36px;
     animation: msgIn .3s .06s cubic-bezier(.34,1.1,.64,1) both;
   }
   .ic {
-    padding: 7px 14px;
-    border: 1.5px solid var(--primary-subtle3);
-    border-radius: 20px;
-    font-size: 13px; color: var(--primary-default);
-    background: var(--primary-ondefault);
-    cursor: pointer; font-family: var(--font-family);
+    padding: 4px 12px;
+    border: 1px solid #c4e1ce;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #005a1f;
+    background: #eff7f1;
+    cursor: pointer;
+    font-family: var(--font-family);
+    white-space: nowrap;
     transition: all .15s;
   }
-  .ic:hover { background: var(--primary-default); color: white; border-color: var(--primary-default); }
+  .ic:hover { background: #c4e1ce; border-color: #005a1f; }
 
   /* ── Typing indicator ── */
   .typing { display: flex; gap: 8px; align-items: flex-end; }
@@ -403,70 +451,146 @@
     margin-bottom: 2px;
   }
   .article-card {
-    display: flex; align-items: flex-start; gap: 10px;
+    display: flex; align-items: stretch; gap: 0;
     background: var(--primary-ondefault);
-    border: 1.5px solid var(--primary-subtle3);
-    border-radius: 12px; padding: 12px 14px;
+    border: 1px solid var(--primary-subtle3);
+    border-radius: 16px;
     text-decoration: none; cursor: pointer;
-    transition: all .15s; position: relative; overflow: hidden;
-  }
-  .article-card::before {
-    content:''; position:absolute; left:0;top:0;bottom:0; width:3px;
-    background: var(--primary-default); border-radius: 3px 0 0 3px;
+    overflow: hidden;
+    min-height: 100px;
+    transition: all .18s cubic-bezier(.4,0,.2,1);
   }
   .article-card:hover { border-color: var(--primary-default); background: var(--primary-subtle1); }
-  .article-card-body { flex: 1; min-width: 0; }
+  .article-card-img {
+    width: 104px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--primary-subtle1), var(--primary-subtle3)) center/cover no-repeat;
+  }
+  .article-card-body {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column;
+    gap: 4px; align-items: flex-start;
+    justify-content: center;
+    padding: 8px 16px;
+  }
   .article-tag {
-    font-size: 10.5px; font-weight: 500; color: var(--primary-default);
-    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px;
+    font-size: 12px; font-weight: 500;
+    line-height: 1.5; letter-spacing: 0;
+    color: #4f1c68;
     display: inline-flex; align-items: center;
-    padding: 2px 8px;
-    background: rgba(20,75,60,0.08);
-    border-radius: 20px;
+    padding: 4px 12px;
+    background: #f3eff4;
+    border: 1px solid #d3c6d9;
+    border-radius: 99px;
+    white-space: nowrap;
   }
   .article-title {
-    font-size: 13px; font-weight: 500; color: var(--primary-default);
-    line-height: 1.35;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    font-size: 16px; font-weight: 500;
+    color: var(--primary-default);
+    line-height: 1.5; letter-spacing: 0;
+    display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
-  .article-arr { color: var(--primary-subtle4); flex-shrink: 0; margin-top: 2px; }
-  .article-card:hover .article-arr { color: var(--primary-default); }
+
+  /* ── Product cards (V3) ── */
+  .product-strip {
+    display: flex; flex-direction: column;
+    gap: 8px; padding: 2px 0 0;
+    margin-top: 12px;
+  }
+  .product-strip-label {
+    font-size: 10px; color: var(--primary-subtle4);
+    letter-spacing: 1px; text-transform: uppercase; font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .product-card {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    background: var(--primary-ondefault);
+    border: 1px solid var(--primary-subtle3);
+    border-radius: var(--radius-m);
+    text-decoration: none; cursor: pointer;
+    transition: all .18s cubic-bezier(.4,0,.2,1);
+  }
+  .product-card:hover {
+    border-color: var(--primary-default);
+    background: var(--primary-subtle1);
+  }
+  .product-card-icon {
+    width: 40px; height: 40px; flex-shrink: 0;
+    background: var(--primary-subtle1);
+    border-radius: var(--radius-m);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--primary-default);
+  }
+  .product-card-icon svg { width: 22px; height: 22px; }
+  .product-card-body { flex: 1; min-width: 0; }
+  .product-card-title {
+    font-size: 16px; font-weight: 500;
+    color: var(--primary-default);
+    line-height: 1.4; letter-spacing: 0.08px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .product-card-sub {
+    font-size: 12px; font-weight: 400;
+    color: var(--primary-subtle4);
+    line-height: 1.417; letter-spacing: 0.06px;
+    margin-top: 2px;
+  }
+  .product-card-chevron {
+    flex-shrink: 0; color: var(--primary-subtle4);
+    display: flex; align-items: center;
+  }
+  .product-card:hover .product-card-chevron { color: var(--primary-default); }
 
   /* ── Advisory card ── */
   .advisory-card {
     margin: 8px 0 6px;
     background: var(--primary-subtle1);
-    border: 1.5px solid var(--primary-subtle3);
     border-radius: var(--radius-l);
     padding: 16px;
-    height: auto;
-    overflow: visible;
+    display: flex; flex-direction: column; gap: 16px;
   }
-  .advisory-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .advisory-header { display: flex; align-items: center; gap: 12px; }
   .advisory-av {
-    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
-    background: var(--primary-default);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+    background: var(--primary-subtle3) center/cover no-repeat;
+    overflow: hidden;
   }
-  .advisory-title { font-size: 15px; font-weight: 500; color: var(--primary-default); }
-  .advisory-role { font-size: 12px; color: var(--primary-subtle5); margin-top: 2px; }
-  .advisory-desc { font-size: 14px; color: var(--primary-default); line-height: 1.5; margin-bottom: 14px; }
+  .advisory-av img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .advisory-title {
+    font-size: 14px; font-weight: 500;
+    color: var(--primary-default);
+    line-height: 1.429; letter-spacing: 0.07px;
+  }
+  .advisory-role {
+    font-size: 11px; font-weight: 400;
+    color: var(--primary-default);
+    line-height: 1.375; letter-spacing: 0.04px;
+    margin-top: 2px;
+  }
+  .advisory-desc {
+    font-size: 14px; font-weight: 400;
+    color: var(--primary-default);
+    line-height: 1.429; letter-spacing: 0.07px;
+    padding-left: 52px;
+  }
   .advisory-btn {
-    width: 100%; padding: 12px;
-    background: transparent;
-    border: 1.5px solid var(--primary-default);
-    border-radius: var(--radius-m);
+    margin-left: 52px;
+    height: 32px; padding: 4px 16px;
+    background: var(--primary-default);
+    border: none;
+    border-radius: 6px;
     font-family: var(--font-family);
-    font-size: 15px; font-weight: 500; color: var(--primary-default);
-    cursor: pointer; transition: all .15s;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    flex-wrap: wrap;
-    white-space: normal;
-    line-height: 1.35;
+    font-size: 16px; font-weight: 400;
+    color: var(--primary-ondefault);
+    cursor: pointer;
+    transition: all .15s;
+    display: flex; align-items: center; justify-content: center;
+    white-space: nowrap;
+    line-height: 1.375;
     text-align: center;
+    text-decoration: none;
   }
-  .advisory-btn:hover { background: var(--primary-default); color: white; }
+  .advisory-btn:hover { background: #0e3c30; }
 
   /* ── New topic + Input ── */
   .new-strip { padding: 8px var(--spacing-s) 0; flex-shrink: 0; }
@@ -518,15 +642,12 @@
 
   <!-- Page Header -->
   <div class="page-header">
-    <button class="mb-back-btn" id="backBtn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <div id="pageHeaderLogo" class="mb-logo">
+    <a class="mb-logo" href="index.html" aria-label="Zur Startseite">
       <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
-    </div>
-    <div id="pageHeaderMenu" class="page-header-menu">
+    </a>
+    <button class="page-header-menu" type="button" aria-label="Menü">
       <span></span><span></span><span></span>
-    </div>
+    </button>
   </div>
 
   <!-- Views -->
@@ -632,6 +753,9 @@
 
     <!-- VIEW 2: Questions -->
     <div class="view" id="v2">
+      <button class="view-close-btn" id="closeBtnV2" type="button" aria-label="Schliessen">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+      </button>
       <div id="v2breadcrumb" class="breadcrumb-tag"></div>
       <div class="section-heading" style="padding-top:12px;">
         <h1 id="v2title" style="font-size:22px;"></h1>
@@ -657,6 +781,9 @@
           <div class="ctx-ev" id="ctxEv"></div>
           <div class="ctx-q" id="ctxQ"></div>
         </div>
+        <button class="view-close-btn" id="closeBtnV3" type="button" aria-label="Schliessen">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </button>
       </div>
       <div class="msgs" id="msgs"></div>
       <div class="inp-wrap">
@@ -774,30 +901,81 @@ var EVENTS = {
 
 /* ── Article Index ── */
 var ARTICLES = [
-  { tag:'Vorsorge', title:'3-Säulen-System in der Schweiz einfach erklärt', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/altersvorsorge-schweiz-3-saeulen.html', keywords:['3-säulen','säulen','altersvorsorge','ahv','pensionskasse','vorsorge'] },
-  { tag:'Vorsorge', title:'Die 10 wichtigsten Tipps zur Säule 3a', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/die-10-wichtigsten-tipps-zur-saeule-3a.html', keywords:['säule 3a','3a','steuern','vorsorge','einzahlen','steuervorteil'] },
-  { tag:'Vorsorge', title:'Säule 3a nachzahlen ab 2026: Das müssen Sie beachten', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/nachtraegliche-einkaeufe-in-die-saeule-3a-das-muessen-sie-beachten.html', keywords:['nachzahlen','nachzahlung','3a','einkauf','lücke'] },
-  { tag:'Vorsorge', title:'Pensionskasse: Rente oder Kapital beziehen?', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/pensionskasse-rente-oder-kapital-beziehen.html', keywords:['pensionskasse','rente','kapital','beziehen','auszahlen','bvg'] },
-  { tag:'Vorsorge', title:'Pensionierung planen: Das A und O für den Ruhestand', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/pensionierung-planen.html', keywords:['pensionierung','ruhestand','frühpension','planen','wann'] },
-  { tag:'Vorsorge', title:'AHV-Beitragslücken: Wie sie entstehen und was man tun kann', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/ahv-beitragsluecken.html', keywords:['ahv','lücke','beitragslücke','rente','beitragsjahre'] },
-  { tag:'Vorsorge', title:'10 Tipps: So sparen Sie Steuern in der Schweiz', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/steuertipps-steuerabzuege-schweiz.html', keywords:['steuern','steuer','abzug','sparen','steueroptimierung'] },
-  { tag:'Wohnen',  title:'Vorbezug Pensionskasse und Säule 3a für Wohneigentum', url:'https://www.migrosbank.ch/de/ratgeber/wohnen/vorsorgegelder-eigenheimkauf-worauf-achten.html', keywords:['vorbezug','wohneigentum','eigenheim','kaufen','haus','hypothek'] },
-  { tag:'Wohnen',  title:'Haus oder Wohnung verkaufen: Ablauf, Steuern & Hypothek', url:'https://www.migrosbank.ch/de/ratgeber/wohnen/der-eigentumsverkauf-gut-vorbereitet-zum-erfolg.html', keywords:['hausverkauf','verkaufen','wohnung','immobilie','grundstückgewinn'] },
+  { tag:'Vorsorge', title:'3-Säulen-System in der Schweiz einfach erklärt', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/altersvorsorge-schweiz-3-saeulen.html', image:'https://www.migrosbank.ch/de/dam/jcr:e898c5c3-0351-4505-8854-3ab4b4fc5a8c/GettyImages-847793376.jpg', keywords:['3-säulen','drei-säulen','säulen','säulen-system','altersvorsorge','altersversicherung','ahv','pensionskasse','vorsorge'] },
+  { tag:'Vorsorge', title:'Die 10 wichtigsten Tipps zur Säule 3a', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/die-10-wichtigsten-tipps-zur-saeule-3a.html', image:'https://www.migrosbank.ch/de/dam/jcr:d349edd8-066e-4165-9cf1-801c99b9826b/gettyimages-871242830-e1715449622778.jpg', keywords:['säule 3a','3a','tipps','steuern','steuervorteil','einzahlen','vorsorge','ahv','pensionskasse','lebensstandard'] },
+  { tag:'Vorsorge', title:'Säule 3a nachzahlen ab 2026: Das müssen Sie beachten', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/nachtraegliche-einkaeufe-in-die-saeule-3a-das-muessen-sie-beachten.html', image:'https://www.migrosbank.ch/de/dam/jcr:b7a43c40-b65a-43bd-892a-dd98a41f3b27/GettyImages-2222510409.jpg', keywords:['nachzahlen','nachzahlung','nachträglich','säule 3a','3a','einkauf','einkäufe','lücke','beitragslücke','steuern','2026'] },
+  { tag:'Vorsorge', title:'Pensionskasse: Rente oder Kapital beziehen?', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/pensionskasse-rente-oder-kapital-beziehen.html', image:'https://www.migrosbank.ch/de/dam/jcr:3ec2fb76-4fb3-42b3-a6de-a8ddef584abd/gettyimages-1321505434-e1719034851867.jpg', keywords:['pensionskasse','rente','kapital','kapitalbezug','rentenbezug','beziehen','bezug','auszahlen','pensionierung','bvg'] },
+  { tag:'Vorsorge', title:'Pensionierung planen: Das A und O für den Ruhestand', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/pensionsplanung.html', image:'https://www.migrosbank.ch/de/dam/jcr:fd1a407f-5a0f-43a9-aa92-7f15b4ab1f54/GettyImages-814996066.jpg', keywords:['pensionierung','pensionsplanung','ruhestand','frühpension','planen','planung','wann','vorbereitung','rente'] },
+  { tag:'Vorsorge', title:'AHV-Beitragslücken: Wie sie entstehen und was man tun kann', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/ahv-beitragsluecken.html', image:'https://www.migrosbank.ch/de/dam/jcr:643a8364-f707-40b2-83fb-f5919ee987d9/GettyImages-1702489430.jpg', keywords:['ahv','lücke','lücken','beitragslücke','beitragslücken','rente','rentenkürzung','beitragsjahre','schliessen'] },
+  { tag:'Vorsorge', title:'10 Tipps: So sparen Sie Steuern in der Schweiz', url:'https://www.migrosbank.ch/de/ratgeber/vorsorgen/steuertipps-steuerabzuege-schweiz.html', image:'https://www.migrosbank.ch/de/dam/jcr:6964c608-ccb3-46f0-abd5-aa8db324aed8/GettyImages-1064577244.jpg', keywords:['steuern','steuer','steuertipps','steuerabzüge','steueroptimierung','abzug','abziehen','sparen','tipps'] },
+  { tag:'Wohnen',  title:'Vorbezug Pensionskasse und Säule 3a für Wohneigentum', url:'https://www.migrosbank.ch/de/ratgeber/wohnen/vorsorgegelder-eigenheimkauf-worauf-achten.html', image:'https://www.migrosbank.ch/de/dam/jcr:2c71cf7f-2e79-4d54-b3cd-968db8c7f123/titelbild_vorsorgegelder-wohneigentum-1290x560.jpg', keywords:['vorbezug','wohneigentum','eigenheim','eigenheimkauf','vorsorgegelder','verpfändung','pensionskasse','säule 3a','kaufen','haus','hypothek'] },
+  { tag:'Wohnen',  title:'Haus oder Wohnung verkaufen: Ablauf, Steuern & Hypothek', url:'https://www.migrosbank.ch/de/ratgeber/wohnen/der-eigentumsverkauf-gut-vorbereitet-zum-erfolg.html', image:'https://www.migrosbank.ch/de/dam/jcr:eed83a94-ba3d-42c7-bc1e-6b1d5732e9e8/GettyImages-2188950033.jpg', keywords:['hausverkauf','eigentumsverkauf','verkauf','verkaufen','wohnung','immobilie','grundstückgewinn','grundstückgewinnsteuer','vorfälligkeitsentschädigung','zwischenfinanzierung','hypothek'] },
 ];
 
 var ADVISORY_COPY = {
   retirement: { role:'Vorsorgespezialistin', desc:'Ihre Pensionierung optimal vorbereiten: Wir analysieren Ihre 3a, Pensionskasse und AHV gemeinsam.' },
   wealth:     { role:'Anlageberaterin',      desc:'Steuern sparen, flexibel bleiben: Wir planen mit Ihnen Ihre ideale Anlagestrategie.' },
-  family:     { role:'Familienberaterin',    desc:'Finanzen als Familie neu ordnen: Wir finden die passende Lösung für Ihren Lebensabschnitt.' },
+  family:     { role:'Kundenberaterin',    desc:'Finanzen als Familie neu ordnen: Wir finden die passende Lösung für Ihren Lebensabschnitt.' },
   house:      { role:'Hypothekenspezialistin', desc:'Den Traum vom Eigenheim realisieren: Wir berechnen Tragbarkeit und Finanzierung für Sie.' },
   inheritance:{ role:'Nachlassberaterin',    desc:'Nachlass und Vollmachten regeln: Wir begleiten Sie sorgfältig durch alle Schritte.' },
-  elderly:    { role:'Beraterin Wohnen im Alter', desc:'Den richtigen nächsten Schritt finden: Wir beraten Sie zu Hausverkauf und Wohnoptionen.' },
+  elderly:    { role:'Kundenberaterin', desc:'Den richtigen nächsten Schritt finden: Wir beraten Sie zu Hausverkauf und Wohnoptionen.' },
   mobility:   { role:'Kreditberaterin',      desc:'Die passende Finanzierung für Ihr Vorhaben: Wir prüfen gemeinsam Ihre Möglichkeiten.' },
   start:      { role:'Finanzberaterin',      desc:'Den besten Start ins Finanzleben: Wir zeigen Ihnen, wie Sie von Anfang an clever sparen.' },
   _default:   { role:'Kundenberaterin',      desc:'Für komplexere Fragen stehen Ihnen unsere Spezialistinnen persönlich zur Verfügung.' }
 };
 
 var ADVISORY_TRIGGERS = ['beratungsgespräch','beratung','persönlich beraten','persönliche beratung','experten','expertin','spezialist','fachberatung','termin','kontakt','empfehle ich','empfehlen wir','vereinbaren','buchen'];
+
+var ADVISORY_CTA_URLS = {
+  // Wohnen
+  house:       'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=mortgage&lang=de',
+  elderly:     'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=mortgage&lang=de',
+  // Vorsorge
+  retirement:  'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=precaution&lang=de',
+  wealth:      'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=precaution&lang=de',
+  family:      'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=precaution&lang=de',
+  inheritance: 'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=precaution&lang=de',
+  start:       'https://www.migrosbank.ch/cx/i/e/l/otv?seg=pc&prod=precaution&lang=de'
+};
+
+/* ── Products (V3 product-card strip) ── */
+var PRODUCT_ICONS = {
+  bill:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9v.01M18 15v.01"/></svg>',
+  coins:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v5c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 11v5c0 1.7 3.6 3 8 3s8-1.3 8-3v-5"/></svg>',
+  user:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v2"/></svg>',
+  card:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><line x1="2.5" y1="10" x2="21.5" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>',
+  donut:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v5M21 12h-5"/></svg>',
+  chart:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="20" x2="20" y2="20"/><rect x="6" y="11" width="3" height="9"/><rect x="11" y="6" width="3" height="14"/><rect x="16" y="14" width="3" height="6"/></svg>',
+  pillar:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M5 8h14"/><line x1="7" y1="8" x2="7" y2="17"/><line x1="12" y1="8" x2="12" y2="17"/><line x1="17" y1="8" x2="17" y2="17"/><path d="M3 20h18"/></svg>',
+  home:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 13 15 13 15 22"/></svg>',
+  banknote: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 10v.01M18 14v.01"/></svg>',
+  car:      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11"/><rect x="3" y="11" width="18" height="6" rx="1.5"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/></svg>'
+};
+
+var PRODUCTS = {
+  privatkonto:    { title:'Privatkonto',    sub:'Zahlungskonto',                       url:'https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten.html?konto-uebersicht=zahlen', icon:'bill' },
+  sparkonto:      { title:'Bonussparkonto', sub:'Sparkonto',                           url:'https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten.html?konto-uebersicht=sparen', icon:'coins' },
+  jugendkonto:    { title:'Jugendkonto',    sub:'Konto für Kinder & junge Erwachsene', url:'https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten.html?konto-uebersicht=kinder-%26-jugendliche', icon:'user' },
+  visa:           { title:'Visa Debitkarte',sub:'Karten',                              url:'https://www.migrosbank.ch/de/privatpersonen/konten-karten/karten.html', icon:'card' },
+  mastercardgold: { title:'Mastercard Gold',sub:'Karten',                              url:'https://www.migrosbank.ch/de/privatpersonen/konten-karten/karten.html', icon:'card' },
+  depotplus:      { title:'Depot Plus',     sub:'Anlagelösung',                        url:'https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen.html', icon:'donut' },
+  anlagefonds:    { title:'Anlagefonds',    sub:'Anlageinstrument',                    url:'https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageinstrumente.html', icon:'chart' },
+  saeule3a:       { title:'Säule 3a Konto', sub:'Vorsorgelösung',                      url:'https://www.migrosbank.ch/de/privatpersonen/vorsorgen.html', icon:'pillar' },
+  hypothek:       { title:'Hypothek',       sub:'Finanzierung Eigenheim',              url:'https://www.migrosbank.ch/de/privatpersonen/hypotheken.html', icon:'home' },
+  privatkredit:   { title:'Privatkredit',   sub:'Kredit & Leasing',                    url:'https://www.migrosbank.ch/de/privatpersonen/kredite.html', icon:'banknote' },
+  leasing:        { title:'Auto-Leasing',   sub:'Kredit & Leasing',                    url:'https://www.migrosbank.ch/de/privatpersonen/kredite.html', icon:'car' }
+};
+
+var EVENT_PRODUCTS = {
+  start:       ['privatkonto','sparkonto'],
+  family:      ['privatkonto','jugendkonto'],
+  house:       ['hypothek'],
+  mobility:    ['leasing','privatkredit'],
+  wealth:      ['depotplus','saeule3a'],
+  retirement:  ['saeule3a','depotplus'],
+  elderly:     ['hypothek','saeule3a'],
+  inheritance: ['saeule3a','depotplus']
+};
 
 var SYSTEM = `Du der virtuelle Assistent der Mirgos Bank – kompetent, transparent und vertrauenswürdig.
 
@@ -897,10 +1075,12 @@ function pick(key) {
     btn.className = 'question-item';
     btn.innerHTML = '<div class="q-num">'+(i+1)+'</div><span class="q-label">'+esc(q)+'</span>';
     btn.addEventListener('click', function(){ selectQ(q); });
+    // Slightly irregular stagger so the cascade feels human, not mechanical
+    var jitter = (i % 2 === 0) ? 0 : 12;
+    btn.style.animationDelay = (150 + i*115 + jitter) + 'ms';
     ql.appendChild(btn);
   });
   transit('v1','v2');
-  document.getElementById('backBtn').classList.add('visible');
 }
 
 function selectQ(q) {
@@ -931,54 +1111,17 @@ function openChatFromWizard(evKey, ctxLine, userMessage) {
   document.getElementById('ctxQ').textContent = curQ;
   document.getElementById('msgs').innerHTML = '';
   chatHistory = [];
-  document.getElementById('backBtn').classList.add('visible');
   hideTyping();
   pushUser(userMessage);
   callAPI(userMessage);
 }
 
-function goBack() {
+function closeFlow() {
   if (document.getElementById('v3').classList.contains('active')) {
-    var qlist = document.getElementById('qlist');
-    if (qlist && qlist.children.length === 0) {
-      transit('v3', 'v1', true);
-      document.getElementById('backBtn').classList.remove('visible');
-    } else {
-      transit('v3', 'v2', true);
-    }
+    transit('v3', 'v1', true);
   } else if (document.getElementById('v2').classList.contains('active')) {
-    transit('v2','v1',true);
-    document.getElementById('backBtn').classList.remove('visible');
+    transit('v2', 'v1', true);
   }
-}
-
-function restart() {
-  var v1=document.getElementById('v1');
-  var v2=document.getElementById('v2');
-  var v3=document.getElementById('v3');
-  if (v3.classList.contains('active')) {
-    transit('v3','v1',true);
-  } else if (v2.classList.contains('active')) {
-    transit('v2','v1',true);
-  } else {
-    v1.classList.add('active');
-    v2.classList.remove('active');
-    v3.classList.remove('active');
-    v1.style.transform=''; v1.style.opacity='';
-    v2.style.transform=''; v2.style.opacity='';
-    v3.style.transform=''; v3.style.opacity='';
-  }
-
-  hideTyping();
-  document.getElementById('msgs').innerHTML = '';
-  document.getElementById('inp').value = '';
-  document.getElementById('inpV2').value = '';
-  document.getElementById('sendBtn').disabled = true;
-  document.getElementById('sendBtnV2').disabled = true;
-  document.getElementById('inp').style.height = 'auto';
-  document.getElementById('inpV2').style.height = 'auto';
-  document.getElementById('backBtn').classList.remove('visible');
-  chatHistory=[]; curEv=null; curEvKey=null; curQ=null; loading=false;
 }
 
 /* ── Chat ── */
@@ -1015,7 +1158,7 @@ function pushBot(raw) {
   var q=normalize(ctx), scored=ARTICLES.map(function(a){
     var score=0; a.keywords.forEach(function(k){ if(q.includes(normalize(k))) score++; });
     if(curEvKey){
-      if(['retirement','wealth','family','inheritance'].includes(curEvKey) && a.tag==='Vorsorge') score+=.5;
+      if(['retirement','wealth','family','inheritance','start'].includes(curEvKey) && a.tag==='Vorsorge') score+=.5;
       if(['house','elderly'].includes(curEvKey) && a.tag==='Wohnen') score+=.5;
     }
     return Object.assign({},a,{score:score});
@@ -1026,10 +1169,31 @@ function pushBot(raw) {
     var lbl=document.createElement('div'); lbl.className='article-strip-label'; lbl.textContent='Passende Ratgeber-Artikel'; strip.appendChild(lbl);
     scored.forEach(function(a){
       var card=document.createElement('a'); card.className='article-card'; card.href=a.url; card.target='_blank'; card.rel='noopener';
-      card.innerHTML='<div class="article-card-body"><div class="article-tag">'+a.tag+'</div><div class="article-title">'+esc(a.title)+'</div></div><div class="article-arr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>';
+      var imgStyle = a.image ? ' style="background-image:url(\''+a.image+'\'); background-size:cover; background-position:center;"' : '';
+      card.innerHTML='<div class="article-card-img"'+imgStyle+'></div><div class="article-card-body"><div class="article-tag">'+a.tag+'</div><div class="article-title">'+esc(a.title)+'</div></div>';
       strip.appendChild(card);
     });
     m.appendChild(strip);
+  }
+
+  // Products
+  if(curEvKey && EVENT_PRODUCTS[curEvKey]){
+    var pkeys=EVENT_PRODUCTS[curEvKey].slice(0,2);
+    if(pkeys.length){
+      var pstrip=document.createElement('div'); pstrip.className='product-strip';
+      var plbl=document.createElement('div'); plbl.className='product-strip-label';
+      plbl.textContent=pkeys.length===1?'Passendes Produkt':'Passende Produkte';
+      pstrip.appendChild(plbl);
+      pkeys.forEach(function(k){
+        var p=PRODUCTS[k]; if(!p) return;
+        var pcard=document.createElement('a');
+        pcard.className='product-card';
+        pcard.href=p.url; pcard.target='_blank'; pcard.rel='noopener';
+        pcard.innerHTML='<div class="product-card-icon">'+(PRODUCT_ICONS[p.icon]||'')+'</div><div class="product-card-body"><div class="product-card-title">'+esc(p.title)+'</div><div class="product-card-sub">'+esc(p.sub)+'</div></div><div class="product-card-chevron"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>';
+        pstrip.appendChild(pcard);
+      });
+      m.appendChild(pstrip);
+    }
   }
 
   // Advisory
@@ -1037,7 +1201,11 @@ function pushBot(raw) {
   if(ADVISORY_TRIGGERS.some(function(k){return tl.includes(normalize(k));})){
     var copy=ADVISORY_COPY[curEvKey]||ADVISORY_COPY['_default'];
     var ac=document.createElement('div'); ac.className='advisory-card';
-    ac.innerHTML='<div class="advisory-header"><div class="advisory-av">👩‍💼</div><div><div class="advisory-title">Persönliche Beratung</div><div class="advisory-role">'+copy.role+'</div></div></div><div class="advisory-desc">'+copy.desc+'</div><button class="advisory-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Kostenlose Erstberatung buchen</button>';
+    var ctaUrl=ADVISORY_CTA_URLS[curEvKey];
+    var ctaHtml=ctaUrl
+      ? '<a class="advisory-btn" href="'+ctaUrl+'" target="_blank" rel="noopener">Kostenlose Erstberatung buchen</a>'
+      : '<button class="advisory-btn">Kostenlose Erstberatung buchen</button>';
+    ac.innerHTML='<div class="advisory-header"><div class="advisory-av"><img src="assets/advisor.png" alt=""></div><div><div class="advisory-title">Persönliche Beratung</div><div class="advisory-role">'+copy.role+'</div></div></div><div class="advisory-desc">'+copy.desc+'</div>'+ctaHtml;
     m.appendChild(ac);
   }
 
@@ -1080,8 +1248,8 @@ function sendFromV2(){
 
 /* ── Init ── */
 document.addEventListener('DOMContentLoaded', function(){
-  document.getElementById('backBtn').addEventListener('click', goBack);
-  document.getElementById('pageHeaderLogo').addEventListener('click', restart);
+  document.getElementById('closeBtnV2').addEventListener('click', closeFlow);
+  document.getElementById('closeBtnV3').addEventListener('click', closeFlow);
 
   var inp=document.getElementById('inp'), sendBtn=document.getElementById('sendBtn');
   inp.addEventListener('input',function(){ resize(inp,'sendBtn'); });
