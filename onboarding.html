@@ -72,48 +72,38 @@
     overflow: visible;
   }
 
-  .page-header {
-    height: 50px;
+  /* ── Page header (mb-header — compact, shared with home.html) ── */
+  .mb-header {
     background: var(--primary-ondefault);
     border-bottom: 1px solid var(--primary-subtle3);
     width: 100vw;
     margin-left: calc(50% - 50vw);
+    flex-shrink: 0;
+    z-index: 9;
+  }
+  .mb-header-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-s);
+  }
+  .mb-header-top {
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 var(--spacing-s);
-    flex-shrink: 0;
-    z-index: 9;
-    box-shadow: none;
   }
   .mb-logo {
     display: flex;
     align-items: center;
-    gap: 6px;
     text-decoration: none;
     color: inherit;
   }
-  .mb-logo-mark {
-    width: auto;
+  .mb-logo img {
+    width: 147px;
     height: 22px;
     display: block;
     object-fit: contain;
-    cursor: pointer;
   }
-  .mb-back-btn {
-    display: none;
-    align-items: center;
-    gap: 6px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--primary-default);
-    font-family: var(--font-family);
-    font-size: 16px;
-    font-weight: 400;
-    padding: 4px 0;
-  }
-  .mb-back-btn.visible { display: flex; }
   .page-header-menu {
     width: 24px; height: 24px;
     display: flex; flex-direction: column;
@@ -315,17 +305,18 @@
 
   <div class="shell">
 
-    <div class="page-header">
-      <button class="mb-back-btn" id="backBtn" type="button" aria-label="Zurück">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <a class="mb-logo" href="index.html" aria-label="Zur Startseite">
-        <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
-      </a>
-      <button class="page-header-menu" type="button" aria-label="Menü">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
+    <header class="mb-header">
+      <div class="mb-header-inner">
+        <div class="mb-header-top">
+          <a class="mb-logo" href="index.html" aria-label="Migros Bank Startseite">
+            <img src="assets/migrosbank-logo.svg" alt="Migros Bank">
+          </a>
+          <button class="page-header-menu" type="button" aria-label="Menü">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
 
     <main class="onboarding">
 
@@ -454,7 +445,7 @@
         // --- One-time page-entrance timeline: chrome flows in around the carousel ---
         function animateEntrance() {
           if (!hasGsap || reduceMotion) return;
-          var header = document.querySelector('.page-header');
+          var header = document.querySelector('.mb-header');
           var tabs = Array.prototype.slice.call(document.querySelectorAll('.mb-tab'));
           var dotEls = Array.prototype.slice.call(document.querySelectorAll('#obDots .dot'));
           var cta = document.querySelector('.ob-cta');

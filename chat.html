@@ -69,34 +69,37 @@
     position: relative;
   }
 
-  /* ── Page header ── */
-  .page-header {
-    height: 50px;
+  /* ── Page header (mb-header — compact, shared with home.html) ── */
+  .mb-header {
     background: var(--primary-ondefault);
     border-bottom: 1px solid var(--primary-subtle3);
     width: 100vw;
     margin-left: calc(50% - 50vw);
+    flex-shrink: 0;
+    z-index: 9;
+  }
+  .mb-header-inner {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-s);
+  }
+  .mb-header-top {
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 var(--spacing-s);
-    flex-shrink: 0;
-    z-index: 9;
-    box-shadow: none;
   }
   .mb-logo {
     display: flex;
     align-items: center;
-    gap: 6px;
     text-decoration: none;
     color: inherit;
   }
-  .mb-logo-mark {
-    width: auto;
+  .mb-logo img {
+    width: 147px;
     height: 22px;
     display: block;
     object-fit: contain;
-    cursor: pointer;
   }
   .view-close-btn {
     position: absolute;
@@ -641,14 +644,18 @@
 <div class="shell">
 
   <!-- Page Header -->
-  <div class="page-header">
-    <a class="mb-logo" href="index.html" aria-label="Zur Startseite">
-      <img class="mb-logo-mark" src="assets/migo-logo.png" alt="Migros Bank">
-    </a>
-    <button class="page-header-menu" type="button" aria-label="Menü">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
+  <header class="mb-header">
+    <div class="mb-header-inner">
+      <div class="mb-header-top">
+        <a class="mb-logo" href="index.html" aria-label="Migros Bank Startseite">
+          <img src="assets/migrosbank-logo.svg" alt="Migros Bank">
+        </a>
+        <button class="page-header-menu" type="button" aria-label="Menü">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
 
   <!-- Views -->
   <div class="body">
