@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "mcp__chrome-devtools__list_console_messages"
+      "mcp__chrome-devtools__list_console_messages",
+      "mcp__chrome-devtools__resize_page",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__claude_ai_Figma__get_design_context",
+      "Bash(python3 - /Users/uxdesigner04/.claude/projects/-Users-uxdesigner04-Documents-Test-Dev-migo-vercel/e4141dbd-2ffe-47ce-acdd-a65a37435a53/tool-results/mcp-claude_ai_Figma-get_design_context-1780487807821.txt /Users/uxdesigner04/.claude/projects/-Users-uxdesigner04-Documents-Test-Dev-migo-vercel/e4141dbd-2ffe-47ce-acdd-a65a37435a53/tool-results/toolu_01GHeNkLdTWcfiNxHzErRiGq.json)",
+      "Bash(python3 - /Users/uxdesigner04/.claude/projects/-Users-uxdesigner04-Documents-Test-Dev-migo-vercel/e4141dbd-2ffe-47ce-acdd-a65a37435a53/tool-results/mcp-claude_ai_Figma-get_design_context-1780487807821.txt)",
+      "mcp__claude_ai_Figma__get_screenshot",
+      "Bash(python3 - /Users/uxdesigner04/.claude/projects/-Users-uxdesigner04-Documents-Test-Dev-migo-vercel/e4141dbd-2ffe-47ce-acdd-a65a37435a53/tool-results/mcp-claude_ai_Figma-get_design_context-1780486679198.txt)",
+      "Bash(python3 .build_overview.py)",
+      "mcp__chrome-devtools__click",
+      "mcp__chrome-devtools__evaluate_script"
     ]
   }
 }

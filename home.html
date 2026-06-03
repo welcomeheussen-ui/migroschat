@@ -84,7 +84,7 @@
     gap: var(--spacing-m);
   }
   .mb-logo { display: flex; align-items: center; text-decoration: none; }
-  .mb-logo img { height: 30px; width: auto; display: block; }
+  .mb-logo img { width: 201px; height: 30px; display: block; object-fit: contain; }
 
   .mb-meta-nav {
     display: flex;
@@ -174,7 +174,7 @@
     cursor: pointer;
     white-space: nowrap;
   }
-  .mb-btn-secondary svg { width: 24px; height: 24px; flex-shrink: 0; }
+  .mb-btn-secondary img { width: 24px; height: 24px; flex-shrink: 0; display: block; }
 
   .mb-btn-login {
     display: flex;
@@ -228,7 +228,7 @@
       height: 56px;
       align-items: center;
     }
-    .mb-logo img { height: 22px; }
+    .mb-logo img { width: 147px; height: 22px; }
     .mb-meta-nav,
     .mb-header-bottom { display: none; }
     .page-header-menu { display: flex; }
@@ -259,6 +259,56 @@
     letter-spacing: 0.08px;
     margin-top: 8px;
     max-width: 36em;
+  }
+
+  /* ───────────────── Produkt- & Service-Welt overview ───────────────── */
+  .ov { background: var(--primary-subtle1); width: 100%; flex-shrink: 0; }
+  .ov-inner { max-width: 1440px; margin: 0 auto; padding: 48px clamp(16px, 5vw, 155px) 56px; }
+  .ov-head { display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; }
+  .ov-title { font-size: clamp(24px, 3vw, 34px); font-weight: 500; line-height: 1.3; color: var(--primary-default); }
+  .ov-tabs { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 4px; padding: 4px; background: #fff; border-radius: var(--radius-s); }
+  .ov-tab { appearance: none; border: none; background: none; cursor: pointer; font-family: inherit; font-size: clamp(15px, 1.6vw, 18px); font-weight: 500; color: var(--tertiary-darkgreen); padding: 12px 24px; border-radius: var(--radius-xs); white-space: nowrap; transition: background .15s ease, color .15s ease; }
+  .ov-tab:hover { color: var(--primary-default); }
+  .ov-tab.is-active { background: var(--primary-default); color: #fff; }
+
+  .ov-panel { margin-top: 40px; }
+  .ov-panel[hidden] { display: none; }
+
+  .ov-grid { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: clamp(32px, 6vw, 85px); row-gap: 56px; }
+  .ov-card { display: flex; flex-direction: column; }
+  .ov-card-media { position: relative; display: block; border-radius: var(--radius-xs); overflow: hidden; aspect-ratio: 320 / 240; }
+  .ov-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ov-card-media::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,0.3) 75%, rgba(0,0,0,0.5) 100%); }
+  .ov-card-title { position: absolute; left: 16px; bottom: 12px; z-index: 1; color: #fff; font-size: clamp(20px, 2.2vw, 28px); font-weight: 500; line-height: 1.25; padding-right: 16px; }
+  .ov-card-media--illu { aspect-ratio: auto; background: var(--primary-subtle1); }
+  .ov-card-media--illu::after { content: none; }
+  .ov-card-media--illu img { height: auto; object-fit: contain; }
+
+  .ov-links { list-style: none; margin: 8px 0 0; padding: 0; }
+  .ov-links a { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 8px 0; color: var(--primary-default); font-size: clamp(16px, 1.4vw, 18px); font-weight: 500; line-height: 1.4; text-decoration: none; }
+  .ov-links a span { text-decoration: underline; text-underline-offset: 3px; }
+  .ov-links a:hover { color: var(--primary-subtle5); }
+  .ov-arrow { flex-shrink: 0; width: 24px; height: 24px; margin-top: 1px; }
+
+  .ov-tools { margin-top: 72px; }
+  .ov-tools-head { text-align: center; margin-bottom: 40px; }
+  .ov-tools-head h3 { font-size: clamp(22px, 2.6vw, 28px); font-weight: 500; color: var(--primary-default); }
+  .ov-tools-head p { margin-top: 8px; font-size: clamp(15px, 1.6vw, 18px); color: var(--primary-default); }
+  .ov-tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); column-gap: clamp(24px, 4vw, 64px); row-gap: 16px; align-items: start; }
+  .ov-tools-col { display: flex; flex-direction: column; gap: 32px; }
+  .ov-tool-cat > h4 { font-size: clamp(18px, 2vw, 24px); font-weight: 500; color: var(--primary-default); margin-bottom: 8px; }
+  .ov-tool { display: flex; align-items: flex-start; gap: 16px; padding: 16px; margin-top: 8px; border-radius: var(--radius-s); background: #fff; text-decoration: none; color: inherit; transition: box-shadow .15s ease; }
+  .ov-tool:hover { box-shadow: 0 2px 14px rgba(20,75,60,0.10); }
+  .ov-tool-icon { flex-shrink: 0; width: 32px; height: 32px; color: var(--primary-default); margin-top: 2px; }
+  .ov-tool-body { flex: 1; min-width: 0; }
+  .ov-tool-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: clamp(16px, 1.6vw, 18px); font-weight: 500; color: var(--primary-default); }
+  .ov-tool-desc { margin-top: 4px; font-size: 14px; line-height: 1.4; color: var(--tertiary-darkgreen); }
+  .ov-tool .ov-arrow { width: 20px; height: 20px; }
+
+  @media (max-width: 1100px) { .ov-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px) {
+    .ov-grid { grid-template-columns: 1fr; }
+    .ov-tools-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -299,12 +349,7 @@
             <img src="assets/icon-search.svg" alt="">
           </button>
           <button class="mb-btn-secondary" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <rect x="3" y="3" width="7" height="7" rx="1"/>
-              <rect x="14" y="3" width="7" height="7" rx="1"/>
-              <rect x="3" y="14" width="7" height="7" rx="1"/>
-              <rect x="14" y="14" width="7" height="7" rx="1"/>
-            </svg>
+            <img src="assets/Maps-Search Streamline Ultimate.svg" alt="">
             Alle Produkte
           </button>
           <a class="mb-btn-login" href="#">E-Banking Login</a>
@@ -313,12 +358,476 @@
     </div>
   </header>
 
-  <main class="pn-main">
-    <div class="section-heading">
-      <h1>Willkommen bei der Migros Bank</h1>
-      <p>Diese Seite zeigt die neue responsive Kopfnavigation. Verkleinern Sie das Fenster, um die mobile Ansicht (Logo + Menü) zu sehen.</p>
+  <section class="ov">
+    <div class="ov-inner">
+      <div class="ov-head">
+        <h2 class="ov-title">Unsere Produkt- und Service-Welt.<br>Schnell finden, was Sie brauchen.</h2>
+        <div class="ov-tabs" role="tablist">
+          <button class="ov-tab is-active" data-tab="alle" type="button">Alle Produkte</button>
+          <button class="ov-tab" data-tab="online" type="button">Produkte online eröffnen</button>
+          <button class="ov-tab" data-tab="services" type="button">Services</button>
+        </div>
+      </div>
+
+      <div class="ov-panel" data-tab="alle">
+    <div class="ov-grid">
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-zahlungskonten.png" alt="">
+          <span class="ov-card-title">Zahlungskonten</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/privatkonto.html" target="_blank" rel="noopener"><span>Privatkonto (CHF oder EUR)</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/kontokorrent.html" target="_blank" rel="noopener"><span>Kontokorrent (CHF oder Fremdwährungen)</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-sparkonten.png" alt="">
+          <span class="ov-card-title">Sparkonten</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/sparkonto.html" target="_blank" rel="noopener"><span>Sparkonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/anlagesparkonto.html" target="_blank" rel="noopener"><span>Anlagesparkonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/bonus-sparkonto.html" target="_blank" rel="noopener"><span>Bonus-Sparkonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/mietzinsdepot.html" target="_blank" rel="noopener"><span>Mietkautionskonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-kinder.png" alt="">
+          <span class="ov-card-title">Angebote für Kinder und bis 25 Jährige</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/privatkonto-free25.html" target="_blank" rel="noopener"><span>Jugendkonto Free 25</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/sparkonto-free25.html" target="_blank" rel="noopener"><span>Jugendsparkonto Free25</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/geschenksparkonto.html" target="_blank" rel="noopener"><span>Geschenksparkonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/jugendsparkonto.html" target="_blank" rel="noopener"><span>Kinderkonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen/fondssparplan-free25.html" target="_blank" rel="noopener"><span>Fondssparplan Free25</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-karten.png" alt="">
+          <span class="ov-card-title">Karten</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/karten/visa-debit.html" target="_blank" rel="noopener"><span>Visa Debitkarte</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/karten/visa-free.html" target="_blank" rel="noopener"><span>Kreditkarte Visa free</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/karten/goldkreditkarte.html" target="_blank" rel="noopener"><span>Visa und Mastercard Gold</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/karten/prepaidkarte.html" target="_blank" rel="noopener"><span>Prepaidkarte Travel</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-anlageloesungen.png" alt="">
+          <span class="ov-card-title">Anlagelösungen</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen/fondssparplan.html" target="_blank" rel="noopener"><span>Fondssparplan</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen/digitale-vermoegensverwaltung-focus.html?topics=kein-schwerpunkt" target="_blank" rel="noopener"><span>Digitale Vermögensverwaltung Focus</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen/impact-investing-inspire.html" target="_blank" rel="noopener"><span>Impact Investing Inspire</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen/vermoegensverwaltung.html" target="_blank" rel="noopener"><span>Vermögensverwaltung</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen/persoenliche-anlageberatung.html" target="_blank" rel="noopener"><span>Persönliche Anlageberatung</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen/wertschriftendepot.html" target="_blank" rel="noopener"><span>Wertschriftendepot</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-anlageinstrumente.png" alt="">
+          <span class="ov-card-title">Anlageinstrumente</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageinstrumente/anlagefonds.html" target="_blank" rel="noopener"><span>Migros Bank Fonds</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageinstrumente/strukturierte-produkte.html" target="_blank" rel="noopener"><span>Strukturierte Produkte</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageinstrumente/kassenobligationen.html" target="_blank" rel="noopener"><span>Kassenobligation</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageinstrumente/festgeld.html" target="_blank" rel="noopener"><span>Festgeld</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageinstrumente/edelmetalle-metallkonto.html" target="_blank" rel="noopener"><span>Edelmetalle und Metallkonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageinstrumente/lombardkredit.html" target="_blank" rel="noopener"><span>Lombardkredit</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageinstrumente/equality-tracker.html" target="_blank" rel="noopener"><span>Equality-Tracker</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-vorsorge.png" alt="">
+          <span class="ov-card-title">Vorsorge</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/saeule-3a/3a-konto.html" target="_blank" rel="noopener"><span>Vorsorgekonto 3a</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/saeule-3a/digitale-vorsorge-mi-futuro.html" target="_blank" rel="noopener"><span>3a Depot MiFuturo</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/saeule-3a/3a-konto.html#Investing3a" target="_blank" rel="noopener"><span>3a Depot</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/freizuegigkeitskonto.html" target="_blank" rel="noopener"><span>Freizügigkeitskonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/freizuegigkeitskonto.html" target="_blank" rel="noopener"><span>Freizügigkeitsdepot</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgeberatung.html" target="_blank" rel="noopener"><span>Vorsorge- &amp; Finanzplanung</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgefonds.html" target="_blank" rel="noopener"><span>Vorsorgefonds</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-kredit-leasing.png" alt="">
+          <span class="ov-card-title">Kredit &amp; Leasing</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/kredite/privatkredit.html" target="_blank" rel="noopener"><span>Privatkredit</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/kredite/auto-leasing.html" target="_blank" rel="noopener"><span>Auto-Leasing</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-hypotheken.png" alt="">
+          <span class="ov-card-title">Hypotheken</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekarmodelle/festhypothek.html" target="_blank" rel="noopener"><span>Festhypothek</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekarmodelle/saron-hypothek.html" target="_blank" rel="noopener"><span>SARON-Hypothek</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekarmodelle/variable-hypothek.html" target="_blank" rel="noopener"><span>Variable Hypothek</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekarmodelle/hypolimite.html" target="_blank" rel="noopener"><span>Hypolimite</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekarmodelle/baukredit.html" target="_blank" rel="noopener"><span>Baukredit</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
     </div>
-  </main>
+      </div>
+
+      <div class="ov-panel" data-tab="online" hidden>
+    <div class="ov-grid">
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-zahlungskonten.png" alt="">
+          <span class="ov-card-title">Zahlungskonten</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/privatkonto.html" target="_blank" rel="noopener"><span>Privatkonto (CHF oder EUR)</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/kontokorrent.html" target="_blank" rel="noopener"><span>Kontokorrent (CHF oder Fremdwährungen)</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-sparkonten.png" alt="">
+          <span class="ov-card-title">Sparkonten</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/sparkonto.html" target="_blank" rel="noopener"><span>Sparkonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/anlagesparkonto.html" target="_blank" rel="noopener"><span>Anlagesparkonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/bonus-sparkonto.html" target="_blank" rel="noopener"><span>Bonus-Sparkonto</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-kinder.png" alt="">
+          <span class="ov-card-title">Angebote für Kinder und bis 25 Jährige</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/privatkonto-free25.html" target="_blank" rel="noopener"><span>Jugendkonto Free 25</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/sparkonto-free25.html" target="_blank" rel="noopener"><span>Jugendsparkonto Free25</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen/fondssparplan-free25.html" target="_blank" rel="noopener"><span>Fondssparplan Free25</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-karten.png" alt="">
+          <span class="ov-card-title">Karten</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/karten/visa-debit.html" target="_blank" rel="noopener"><span>Visa Debitkarte</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-anlageloesungen.png" alt="">
+          <span class="ov-card-title">Anlagelösungen</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen/fondssparplan.html" target="_blank" rel="noopener"><span>Fondssparplan</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/anlegen/anlageloesungen/wertschriftendepot.html" target="_blank" rel="noopener"><span>Wertschriftendepot</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-vorsorge.png" alt="">
+          <span class="ov-card-title">Vorsorge</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/saeule-3a/3a-konto.html" target="_blank" rel="noopener"><span>Vorsorgekonto 3a</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/saeule-3a/digitale-vorsorge-mi-futuro.html" target="_blank" rel="noopener"><span>3a Depot MiFuturo</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-kredit-leasing.png" alt="">
+          <span class="ov-card-title">Kredit &amp; Leasing</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/kredite/privatkredit.html" target="_blank" rel="noopener"><span>Privatkredit</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/kredite/auto-leasing.html" target="_blank" rel="noopener"><span>Auto-Leasing</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media">
+          <img src="assets/ov-hypotheken.png" alt="">
+          <span class="ov-card-title">Hypotheken</span>
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekarmodelle/festhypothek.html" target="_blank" rel="noopener"><span>Festhypothek</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekarmodelle/saron-hypothek.html" target="_blank" rel="noopener"><span>SARON-Hypothek</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekarmodelle/variable-hypothek.html" target="_blank" rel="noopener"><span>Variable Hypothek</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekarmodelle/hypolimite.html" target="_blank" rel="noopener"><span>Hypolimite</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekarmodelle/baukredit.html" target="_blank" rel="noopener"><span>Baukredit</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+    </div>
+    <section class="ov-tools">
+      <div class="ov-tools-head">
+        <h3>Planungstools</h3>
+        <p>Berechnen Sie Ihre Optionen und erhalten Sie volle Transparenz über Ihre Finanzen</p>
+      </div>
+      <div class="ov-tools-grid">
+        <div class="ov-tools-col">
+      <div class="ov-tool-cat">
+        <h4>Budget &amp; Ziele</h4>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgerechner/online-budgetrechner.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Haushaltsbudget planen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Berechnen Sie hier Ihr persönliches Sparpotenzial</p>
+          </span>
+        </a>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/sparen/rechner-sparen.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Sparziel berechnen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Sehen Sie, wie Ihr Erspartes mit Zinseszins wächst</p>
+          </span>
+        </a>
+      </div>
+      <div class="ov-tool-cat">
+        <h4>Steuern</h4>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgerechner/steuerrechner.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Steuerbelastung berechnen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </span>
+        </a>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgerechner/saeule-3a-rechner.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Säule-3a-Vorteil prüfen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Wieviel Steuern kann ich sparen?</p>
+          </span>
+        </a>
+      </div>
+        </div>
+        <div class="ov-tools-col">
+      <div class="ov-tool-cat">
+        <h4>Wohnen</h4>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekenrechner/tragbarkeitsrechner.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Tragbarkeit prüfen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Finden Sie heraus, ob Sie sich Ihr Wunschobjekt leisten können</p>
+          </span>
+        </a>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekenrechner/miete-kauf-vergleich.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Mieten vs. Kaufen vergleichen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Berechnen Sie, ob ein Eigenheim günstiger wäre als Ihre jetzige Miete</p>
+          </span>
+        </a>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekenrechner/amortisation.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Amortisation planen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Berechnen Sie, wie Sie Ihre Hypothek clever und steueroptimiert zurückzahlen können</p>
+          </span>
+        </a>
+      </div>
+      <div class="ov-tool-cat">
+        <h4>Vorsorge</h4>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgerechner/pensionskasseneinkauf-rechner.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">PK-Einkauf berechnen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Finden Sie heraus, ob sich ein freiwilliger Einkauf in Ihre Pensionskasse für Sie lohnt</p>
+          </span>
+        </a>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgerechner/steuerrechner-kapitalbezug.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Kapitalauszahlung kalkulieren<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Erfahren Sie, wie Sie beim Bezug Ihrer Vorsorgegelder Steuern sparen können.</p>
+          </span>
+        </a>
+      </div>
+        </div>
+      </div>
+    </section>
+      </div>
+
+      <div class="ov-panel" data-tab="services" hidden>
+    <div class="ov-grid">
+      <article class="ov-card">
+        <div class="ov-card-media ov-card-media--illu">
+          <img src="assets/ov-svc-persoenliche-daten.png" alt="Persönliche Daten">
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/hilfe/persoenliche-daten/wie-aendere-ich-meine-adresse-im-e-banking.html" target="_blank" rel="noopener"><span>Adresse im E-Banking ändern</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/persoenliche-daten/wie-verwalte-ich-meine-kontaktdaten-im-e-banking.html" target="_blank" rel="noopener"><span>Kontaktdaten im E-Banking ändern</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/persoenliche-daten/wie-kann-ich-eine-neue-vollmacht-erteilen.html" target="_blank" rel="noopener"><span>Vollmacht erteilen</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/persoenliche-daten/wie-gehe-ich-bei-einem-todesfall-vor-inland.html" target="_blank" rel="noopener"><span>Todesfall melden</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media ov-card-media--illu">
+          <img src="assets/ov-svc-ebanking.png" alt="E-Banking">
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/cx/i/e/l/ebanking-aktivieren/#/activation-request?lang=de" target="_blank" rel="noopener"><span>E-Banking erstmalig aktivieren</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/cx/i/e/l/ebanking-aktivieren/#/activation-request?lang=de" target="_blank" rel="noopener"><span>Aktivierungscode bestellen</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/neues-ebanking/wie-setze-ich-mein-e-banking-passwort-zurueck.html" target="_blank" rel="noopener"><span>Passwort zurücksetzen</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/neues-ebanking/wie-aktiviere-ich-ein-neues-geraet-f-rs-ebanking-wizard.html" target="_blank" rel="noopener"><span>Neues/weiteres Gerät aktivieren</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/neues-ebanking/wie-lade-ich-meine-bankdokumente-aus-dem-e-banking-herunter.html" target="_blank" rel="noopener"><span>Kontoauszüge herunterladen</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media ov-card-media--illu">
+          <img src="assets/ov-svc-konten.png" alt="Konten">
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/hilfe/neues-ebanking/wie-erstelle-ich-einen-kontoauszug-online.html" target="_blank" rel="noopener"><span>Kontoauszug im E-Banking herunterladen</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/neues-ebanking/wie-aktiviere-ich-benachrichtigungen-zum-kontostand-mobile.html" target="_blank" rel="noopener"><span>Benachrichtigung für Kontostand und -bewegungen einrichten</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/konten/moechten-sie-ihr-konto-saldieren.html" target="_blank" rel="noopener"><span>Konto saldieren</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media ov-card-media--illu">
+          <img src="assets/ov-svc-karten.png" alt="Karten">
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://www.migrosbank.ch/de/hilfe/karten/wie-sperre-ich-meine-visa-debit-kreditkarte.html" target="_blank" rel="noopener"><span>Karte sperren (one App)</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/karten.html" target="_blank" rel="noopener"><span>Neue Karte bestellen</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/karten/wie-bestelle-ich-eine-ersatzkarte-fuer-meine-visa-debit-kreditkarte.html" target="_blank" rel="noopener"><span>Ersatzkarte bestellen (one App)</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/karten/wo-sehe-ich-die-pin-meiner-visa-debit-kreditkarte.html" target="_blank" rel="noopener"><span>PIN anzeigen (one App)</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/karten/wie-passe-ich-die-einsatzregionen-meiner-visa-debit-kreditkarte-an.html" target="_blank" rel="noopener"><span>Einsatzregion anpassen (one App)</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+      <article class="ov-card">
+        <div class="ov-card-media ov-card-media--illu">
+          <img src="assets/ov-svc-zahlen.png" alt="Zahlen">
+        </div>
+      <ul class="ov-links">
+        <li><a href="https://magnolia-author-website.apps.oscp.mbmain.migrosbank.ch/de/privatpersonen/konten-karten/zahlen/bargeld-bestellen.html" target="_blank" rel="noopener"><span>Fremdwährung bestellen</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://magnolia-author-website.apps.oscp.mbmain.migrosbank.ch/de/standorte.html/filter:markets-migrosbank_atm/center:46.8182,8.2275/zoom:8/" target="_blank" rel="noopener"><span>Bargeld abheben</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/zahlungen/wie-richte-ich-ein-lastschriftverfahren-lsv-ein.html" target="_blank" rel="noopener"><span>LSV einrichten</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/zahlungen/wie-loesche-ich-eine-bestehende-lsv-belastungsermaechtigung.html" target="_blank" rel="noopener"><span>LSV löschen</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/neues-ebanking/wie-aktiviere-ich-ebill.html" target="_blank" rel="noopener"><span>E-Bill einrichten</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+        <li><a href="https://www.migrosbank.ch/de/hilfe/neues-ebanking/wie-aendere-ich-das-belastungskonto-fuer-ebill.html" target="_blank" rel="noopener"><span>E-Bill Konto ändern</span><svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></li>
+      </ul>
+      </article>
+    </div>
+    <section class="ov-tools">
+      <div class="ov-tools-head">
+        <h3>Planungstools</h3>
+        <p>Berechnen Sie Ihre Optionen und erhalten Sie volle Transparenz über Ihre Finanzen</p>
+      </div>
+      <div class="ov-tools-grid">
+        <div class="ov-tools-col">
+      <div class="ov-tool-cat">
+        <h4>Budget &amp; Ziele</h4>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgerechner/online-budgetrechner.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Haushaltsbudget planen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Berechnen Sie hier Ihr persönliches Sparpotenzial</p>
+          </span>
+        </a>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/konten-karten/konten/sparen/rechner-sparen.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Sparziel berechnen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Sehen Sie, wie Ihr Erspartes mit Zinseszins wächst</p>
+          </span>
+        </a>
+      </div>
+      <div class="ov-tool-cat">
+        <h4>Steuern</h4>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgerechner/steuerrechner.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Steuerbelastung berechnen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+          </span>
+        </a>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgerechner/saeule-3a-rechner.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Säule-3a-Vorteil prüfen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Wieviel Steuern kann ich sparen?</p>
+          </span>
+        </a>
+      </div>
+        </div>
+        <div class="ov-tools-col">
+      <div class="ov-tool-cat">
+        <h4>Wohnen</h4>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekenrechner/tragbarkeitsrechner.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Tragbarkeit prüfen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Finden Sie heraus, ob Sie sich Ihr Wunschobjekt leisten können</p>
+          </span>
+        </a>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekenrechner/miete-kauf-vergleich.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Mieten vs. Kaufen vergleichen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Berechnen Sie, ob ein Eigenheim günstiger wäre als Ihre jetzige Miete</p>
+          </span>
+        </a>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/hypotheken/hypothekenrechner/amortisation.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Amortisation planen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Berechnen Sie, wie Sie Ihre Hypothek clever und steueroptimiert zurückzahlen können</p>
+          </span>
+        </a>
+      </div>
+      <div class="ov-tool-cat">
+        <h4>Vorsorge</h4>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgerechner/pensionskasseneinkauf-rechner.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">PK-Einkauf berechnen<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Finden Sie heraus, ob sich ein freiwilliger Einkauf in Ihre Pensionskasse für Sie lohnt</p>
+          </span>
+        </a>
+        <a class="ov-tool" href="https://www.migrosbank.ch/de/privatpersonen/vorsorgen/vorsorgerechner/steuerrechner-kapitalbezug.html" target="_blank" rel="noopener">
+          <svg class="ov-tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="8.01" y2="10"/><line x1="12" y1="10" x2="12.01" y2="10"/><line x1="16" y1="10" x2="16.01" y2="10"/><line x1="8" y1="14" x2="8.01" y2="14"/><line x1="12" y1="14" x2="12.01" y2="14"/><line x1="16" y1="13" x2="16" y2="18"/><line x1="8" y1="18" x2="13" y2="18"/></svg>
+          <span class="ov-tool-body">
+            <span class="ov-tool-title">Kapitalauszahlung kalkulieren<svg class="ov-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
+            <p class="ov-tool-desc">Erfahren Sie, wie Sie beim Bezug Ihrer Vorsorgegelder Steuern sparen können.</p>
+          </span>
+        </a>
+      </div>
+        </div>
+      </div>
+    </section>
+      </div>
+    </div>
+  </section>
+
+
+  <script>
+    document.querySelectorAll('.ov-tab').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var tab = btn.dataset.tab;
+        document.querySelectorAll('.ov-tab').forEach(function (b) {
+          b.classList.toggle('is-active', b === btn);
+        });
+        document.querySelectorAll('.ov-panel').forEach(function (p) {
+          p.hidden = (p.dataset.tab !== tab);
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
