@@ -15,7 +15,9 @@
       "Bash(python3 - /Users/uxdesigner04/.claude/projects/-Users-uxdesigner04-Documents-Test-Dev-migo-vercel/e4141dbd-2ffe-47ce-acdd-a65a37435a53/tool-results/mcp-claude_ai_Figma-get_metadata-1780486338847.txt)",
       "Bash(curl -s -o icon-ai-spark.svg \"https://www.figma.com/api/mcp/asset/c941e525-616a-4688-8b08-1ab9eb7ff3f8\")",
       "Bash(curl -s -o icon-ai-spark.svg \"https://www.figma.com/api/mcp/asset/e932b6ce-ed03-4625-9b26-7be9e808ef89\")",
-      "mcp__chrome-devtools__select_page"
+      "mcp__chrome-devtools__select_page",
+      "Bash(sed -n '269,272p' home.html)",
+      "Bash(sed -n '133,155p' onboarding.html)"
     ]
   }
 }
