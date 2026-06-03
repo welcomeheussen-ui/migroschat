@@ -36,10 +36,14 @@
     --primary-subtle3:    #c4d2ce;
     --primary-subtle4:    #92a59e;
     --primary-subtle5:    #5a8a7e;
+    --tertiary-darkgreen: #6b7a6c;
+    --accent1:            #4f1c68;
+    --accent1-pink:       #d9007e;
     --neutral-bold3:      #333333;
     --spacing-xs:  8px;
     --spacing-s:   16px;
     --spacing-m:   24px;
+    --spacing-l:   32px;
     --radius-xs: 6px;
     --radius-s:  8px;
     --radius-m:  12px;
@@ -72,50 +76,44 @@
     overflow: visible;
   }
 
-  /* ── Page header (mb-header — compact, shared with home.html) ── */
+  /* ── Page header (mb-header — responsive mega-nav, shared with home.html) ── */
   .mb-header {
     background: var(--primary-ondefault);
-    border-bottom: 1px solid var(--primary-subtle3);
+    box-shadow: 0 4px 50px rgba(79, 31, 104, 0.1);
     width: 100vw;
     margin-left: calc(50% - 50vw);
     flex-shrink: 0;
     z-index: 9;
   }
-  .mb-header-inner {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-s);
-  }
-  .mb-header-top {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .mb-logo {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-  }
-  .mb-logo img {
-    width: 147px;
-    height: 22px;
-    display: block;
-    object-fit: contain;
-  }
-  .page-header-menu {
-    width: 24px; height: 24px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 4px;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-  }
-  .page-header-menu span {
-    display: block; width: 18px; height: 2px;
-    background: var(--neutral-bold3); border-radius: 1px;
+  .mb-header-inner { max-width: 1920px; margin: 0 auto; padding: 0 40px; }
+  .mb-header-top { height: 45px; display: flex; align-items: flex-end; justify-content: space-between; gap: var(--spacing-m); }
+  .mb-logo { display: flex; align-items: center; text-decoration: none; color: inherit; }
+  .mb-logo img { width: 201px; height: 30px; display: block; object-fit: contain; }
+  .mb-meta-nav { display: flex; align-items: flex-end; gap: var(--spacing-m); }
+  .mb-meta-link { font-size: 14px; font-weight: 500; line-height: 1.5; color: var(--tertiary-darkgreen); text-decoration: none; padding-bottom: 2px; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .mb-meta-link:hover { color: var(--primary-default); }
+  .mb-meta-link.is-active { color: var(--primary-default); border-bottom-color: var(--primary-default); }
+  .mb-header-bottom { height: 75px; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-m); }
+  .mb-main-nav { display: flex; align-items: stretch; gap: var(--spacing-l); height: 75px; }
+  .mb-main-link { display: flex; align-items: flex-start; height: 75px; padding-top: 24px; font-size: 18px; font-weight: 500; line-height: 1.5; color: var(--tertiary-darkgreen); text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .mb-main-link:hover { color: var(--primary-default); }
+  .mb-main-link.is-active { color: var(--primary-default); border-bottom-color: var(--primary-default); }
+  .mb-header-actions { display: flex; align-items: center; gap: 12px; }
+  .mb-icon-btn { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--primary-subtle1); border: 2px solid var(--primary-subtle1); border-radius: var(--radius-s); cursor: pointer; }
+  .mb-icon-btn img { width: 22px; height: 22px; display: block; }
+  .mb-btn-secondary { display: flex; align-items: center; gap: var(--spacing-xs); height: 48px; padding: 0 var(--spacing-m); background: var(--primary-subtle1); border: none; border-radius: var(--radius-xs); color: var(--primary-default); font-family: inherit; font-size: 16px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  .mb-btn-secondary img { width: 24px; height: 24px; flex-shrink: 0; display: block; }
+  .mb-btn-login { display: flex; align-items: center; justify-content: center; width: 200px; height: 48px; border-radius: var(--radius-xs); background: linear-gradient(18deg, var(--accent1-pink) 3%, var(--accent1) 90%); color: #fff; font-size: 16px; font-weight: 500; text-decoration: none; white-space: nowrap; transition: opacity 0.15s ease; }
+  .mb-btn-login:hover { opacity: 0.92; }
+  .page-header-menu { width: 24px; height: 24px; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 4px; background: none; border: none; padding: 0; cursor: pointer; }
+  .page-header-menu span { display: block; width: 18px; height: 2px; background: var(--neutral-bold3); border-radius: 1px; }
+  @media (max-width: 1200px) {
+    .mb-header { box-shadow: none; border-bottom: 1px solid var(--primary-subtle3); }
+    .mb-header-inner { padding: 0 var(--spacing-s); }
+    .mb-header-top { height: 56px; align-items: center; }
+    .mb-logo img { width: 147px; height: 22px; }
+    .mb-meta-nav, .mb-header-bottom { display: none; }
+    .page-header-menu { display: flex; }
   }
 
   .onboarding {
@@ -307,20 +305,51 @@
 
     <header class="mb-header">
       <div class="mb-header-inner">
+        <!-- Top row: logo + meta links -->
         <div class="mb-header-top">
           <a class="mb-logo" href="index.html" aria-label="Migros Bank Startseite">
             <img src="assets/migrosbank-logo.svg" alt="Migros Bank">
           </a>
+          <nav class="mb-meta-nav" aria-label="Sekundärnavigation">
+            <a class="mb-meta-link is-active" href="#">Privatpersonen</a>
+            <a class="mb-meta-link" href="#">Firmen</a>
+            <a class="mb-meta-link" href="#">Ratgeber</a>
+            <a class="mb-meta-link" href="#">Über uns</a>
+            <a class="mb-meta-link" href="#">Hilfe</a>
+            <a class="mb-meta-link" href="#">Kontakt</a>
+          </nav>
           <button class="page-header-menu" type="button" aria-label="Menü">
             <span></span><span></span><span></span>
           </button>
+        </div>
+
+        <!-- Bottom row: main nav + actions -->
+        <div class="mb-header-bottom">
+          <nav class="mb-main-nav" aria-label="Hauptnavigation">
+            <a class="mb-main-link is-active" href="#">Konten &amp; Karten</a>
+            <a class="mb-main-link" href="#">Hypotheken</a>
+            <a class="mb-main-link" href="#">Kredite</a>
+            <a class="mb-main-link" href="#">Anlegen</a>
+            <a class="mb-main-link" href="#">Vorsorgen</a>
+            <a class="mb-main-link" href="#">E-Banking</a>
+          </nav>
+          <div class="mb-header-actions">
+            <button class="mb-icon-btn" type="button" aria-label="Suche">
+              <img src="assets/icon-search.svg" alt="">
+            </button>
+            <button class="mb-btn-secondary" type="button">
+              <img src="assets/Maps-Search Streamline Ultimate.svg" alt="">
+              Alle Produkte
+            </button>
+            <a class="mb-btn-login" href="#">E-Banking Login</a>
+          </div>
         </div>
       </div>
     </header>
 
     <main class="onboarding">
 
-      <div class="ob-top">
+      <div>
         <div class="mb-tabs" role="tablist" aria-label="Kategorie">
           <span class="mb-tab" role="tab">Produkte</span>
           <span class="mb-tab" role="tab">Services</span>
