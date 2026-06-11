@@ -861,5 +861,52 @@
     });
   </script>
 
+  <!-- GSAP (https://gsap.com) — animated hover for the teaser button -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      if (typeof gsap === 'undefined') return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      document.querySelectorAll('.ov-teaser-btn').forEach(function (btn) {
+        var icon = btn.querySelector('svg');
+
+        // Continuous gradient-border flow — paused until hover (seamless 0%↔200% loop)
+        var flow = gsap.to(btn, {
+          '--ov-flow': '200%',
+          duration: 3,
+          ease: 'none',
+          repeat: -1,
+          paused: true
+        });
+
+        // Reversible lift + scale + deeper shadow
+        var hover = gsap.timeline({ paused: true }).to(btn, {
+          y: -3,
+          scale: 1.03,
+          boxShadow: '0 12px 26px 0 rgba(238, 117, 12, 0.30)',
+          duration: 0.4,
+          ease: 'power3.out'
+        });
+
+        function enter() {
+          hover.play();
+          flow.play();
+          gsap.to(icon, { rotation: '+=360', scale: 1.15, duration: 0.6, ease: 'back.out(2)' });
+        }
+        function leave() {
+          hover.reverse();
+          flow.pause();
+          gsap.to(icon, { scale: 1, duration: 0.3, ease: 'power2.out' });
+        }
+
+        btn.addEventListener('mouseenter', enter);
+        btn.addEventListener('mouseleave', leave);
+        btn.addEventListener('focus', enter);
+        btn.addEventListener('blur', leave);
+      });
+    })();
+  </script>
+
 </body>
 </html>
