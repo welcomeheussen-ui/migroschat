@@ -155,6 +155,12 @@
   }
 
   /* ---- Swipeable carousel ---- */
+  .ob-stage {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+  }
   .ob-carousel {
     flex: 1;
     min-height: 0;
@@ -166,6 +172,36 @@
     scrollbar-width: none;
   }
   .ob-carousel::-webkit-scrollbar { display: none; }
+
+  /* ---- Tour arrows: shown on bigger breakpoints (mouse / no-swipe) ---- */
+  .ob-arrow { display: none; }
+  @media (min-width: 768px) {
+    .ob-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      padding: 0;
+      border-radius: 50%;
+      border: 1.5px solid var(--primary-subtle2);
+      background: #fff;
+      color: var(--primary-default);
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      transition: background .15s ease, border-color .15s ease, box-shadow .15s ease, opacity .15s ease;
+    }
+    .ob-arrow--prev { left: clamp(8px, 3vw, 40px); }
+    .ob-arrow--next { right: clamp(8px, 3vw, 40px); }
+    .ob-arrow:hover { background: var(--primary-subtle1); border-color: var(--primary-subtle3); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12); }
+    .ob-arrow:focus-visible { outline: 2px solid var(--primary-default); outline-offset: 2px; }
+    .ob-arrow:disabled { opacity: .3; cursor: default; pointer-events: none; box-shadow: none; }
+  }
+  .ob-arrow svg { width: 24px; height: 24px; display: block; }
 
   .ob-slide {
     flex: 0 0 100%;
@@ -349,6 +385,10 @@
 
     <main class="onboarding">
 
+      <div class="ob-stage">
+      <button class="ob-arrow ob-arrow--prev" id="obPrev" type="button" aria-label="Vorheriger Schritt" aria-controls="obCarousel">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
       <div class="ob-carousel" id="obCarousel">
         <section class="ob-slide" aria-roledescription="slide" aria-label="1 von 3">
           <div class="ob-cluster" aria-hidden="true">
@@ -387,10 +427,14 @@
             <span class="feature-card fc-center"><img src="assets/ob-icon-cat.png" alt=""></span>
           </div>
           <div class="ob-text">
-            <h1>Finanzen müssen<br>nicht kompliziert sein.</h1>
-            <p>Wählen Sie Ihre Situation und wir<br>finden die passende Lösung.</p>
+            <h1>Eine neue Art, Ihre Finanzen zu verstehen..</h1>
+            <p>Stellen Sie Fragen, vergleichen Sie Optionen, finden Sie Ihre Lösung.</p>
           </div>
         </section>
+      </div>
+      <button class="ob-arrow ob-arrow--next" id="obNext" type="button" aria-label="Nächster Schritt" aria-controls="obCarousel">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
       </div>
 
       <div class="ob-dots" id="obDots" role="tablist" aria-label="Schritt">
@@ -414,6 +458,8 @@
 
         var hasGsap = typeof window.gsap !== 'undefined';
         var slides = Array.prototype.slice.call(carousel.querySelectorAll('.ob-slide'));
+        var prevBtn = document.getElementById('obPrev');
+        var nextBtn = document.getElementById('obNext');
         var baseRot = { 'fc-tl': -8, 'fc-tr': 6, 'fc-bl': -10, 'fc-br': 4, 'fc-center': 0 };
 
         function cardsOf(i) { return Array.prototype.slice.call(slides[i].querySelectorAll('.feature-card')); }
@@ -537,6 +583,8 @@
           if (i === current) return;
           current = i;
           dots.forEach(function (d, idx) { d.classList.toggle('active', idx === i); });
+          if (prevBtn) prevBtn.disabled = (i <= 0);
+          if (nextBtn) nextBtn.disabled = (i >= dots.length - 1);
           animateStep(i);
         }
         // Start on the first slide (guard against browser scroll restoration).
@@ -564,6 +612,10 @@
         dots.forEach(function (d) {
           d.addEventListener('click', function () { goTo(Number(d.getAttribute('data-i'))); });
         });
+
+        // Prev / next arrows (desktop tour navigation)
+        if (prevBtn) prevBtn.addEventListener('click', function () { goTo(Math.max(0, current - 1)); });
+        if (nextBtn) nextBtn.addEventListener('click', function () { goTo(Math.min(dots.length - 1, current + 1)); });
 
         // Arrow-key navigation
         document.addEventListener('keydown', function (e) {
